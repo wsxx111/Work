@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+        <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>   
+   <div class="container">
+         <div class="forMore">
+            <a href="http://aui.github.io/artTemplate/" target="_blank">教程</a>
+        </div>  
+       <p>template.js 一款 JavaScript 模板引擎，简单，好用。提供一套模板语法，用户可以写一个模板区块，每次根据传入的数据，生成对应数据产生的HTML片段，渲染不同的效果。</p>    
+       <h3>简介</h3>      
+       <p>主要的用途就是，在写好的模板上，放进数据，生成含有数据的html代码。一个超快的前端模板引擎。使用一个type="text/html"的script标签存放模板</p>
+       <pre><code>
+            &lt;script id="test" type="text/html"&gt;
+            &lt;h1>{{title}}&lt;/h1&gt;
+            &lt;ul&gt;
+                {{each list as value i}}
+                    &lt;li&gt;索引 {{i + 1}} ：{{value}}&lt;/li&gt;
+                {{/each}}
+            &lt;/ul&gt;
+            &lt;/script&gt;
+
+           var data = {
+                title: '标签',
+                list: ['文艺', '博客', '摄影', '电影', '民谣', '旅行', '吉他']
+            };
+           var html = template('test', data);
+           document.getElementById('content').innerHTML = html;
+            </code></pre>
+       <h3>模板语法</h3>
+       <p>
+           有两个版本的模板语法可以选择。简洁语法 和 原生语法
+       </p>
+       <pre><code>
+        {{if admin}}
+            {{include 'admin_content'}}
+            {{each list}}
+                &lt;div>{{$index}}. {{$value.user}}&lt;/div&gt;
+            {{/each}}
+        {{/if}}
+
+        <%if (admin){%>
+            <%include('admin_content')%>
+            <%for (var i=0;i&lt;list.length;i++) {%>
+                &lt;div&gt;&lt;%=i%&gt;. &lt;%=list[i].user%>&lt;/div&gt;
+            <%}%>
+        <%}%>
+            </code></pre>
+       <h3>方法</h3>
+       <p>
+           template(id, data)<br />根据 id 渲染模板。内部会根据document.getElementById(id)查找模板。如果没有 data 参数，那么将返回一渲染函数。
+       </p>
+       <p>
+           template.compile(source, options)<br />将返回一个渲染函数
+       </p>
+       <pre><code>
+             var source = '&lt;ul&gt;'
+              '{{each list as value i}}'
+                  '&lt;li&gt;索引 {{i + 1}} ：{{value}}&lt;/li&gt;'
+              '{{/each}}'
+              '&lt;/ul&gt;';
+
+            var render = template.compile(source);
+            var html = render({
+                list: ['摄影', '电影', '民谣', '旅行', '吉他']
+            });
+            
+            document.getElementById('content').innerHTML = html;
+            </code></pre>
+       <p>
+           template.render(source, options)<br />将返回渲染结果。
+       </p>
+       <p>
+           template.helper(name, callback)<br />添加辅助方法。
+       </p>
+       <p>
+           template.config(name, value)<br />更改引擎的默认配置。
+       </p>
+       <pre><code>
+        字段          类型              默认值           说明
+       openTag          String 	    '{{' 	    逻辑语法开始标签
+       closeTag         String 	    "}}" 	    逻辑语法结束标签
+       escape           Boolean      true 	    是否编码输出 HTML 字符
+       cache            Boolean      true 	    是否开启缓存（依赖 options 的 filename 字段）
+       compress       Boolean 	  false     是否压缩 HTML 多余空白字符
+            </code></pre>
+       <h3>使用预编译</h3>
+       <p>
+           include可嵌套子模板。
+       </p>
+       <pre><code>
+           //将id为list的模板包含进来         
+              {{include 'list'}}         
+            </code></pre>
+       <h3>转义</h3>
+       <pre><code>
+           //只需要加上“＃”号，模板默认就不转义啦。
+           &lt;div id="content"&gt;&lt;/div&gt;
+            &lt;script id="test" type="text/html"&gt;
+            	&lt;p&gt;不转义：{{#value}}&lt;/p&gt;
+            	&lt;p&gt;默认转义： {{value}}&lt;/p&gt;
+            &lt;/script&gt;
+
+           var data = {
+             value: '&lt;span style="color:#F00">hello world!&lt;/span&gt;'
+              };
+            var html = template('test', data);
+            document.getElementById('content').innerHTML = html;
+            </code></pre>
+       <p>在页面上打印你的数据。</p>
+       <pre><code>
+           &lt;script id="test" type="text/html"&gt;
+            {{print a b c}}
+            &lt;/script&gt;
+
+
+            var html = '';
+            var data = {
+            	a: 'hello',
+            	b: '--world',
+            	c: '--!!!'
+            };
+            html = template('test', data);
+            document.write(html);
+            </code></pre>
+       <h3>另一个更快的 doT.js模板引擎</h3>
+       <p>模板是 ：text/x-dot-template类型脚本</p>
+       <h5>使用方法：</h5>
+       <p>插值  {{=}}</p>
+       <pre><code>
+        &lt;div id="interpolation"&lt;/div&gt;
+
+
+        &lt;script id="interpolationtmpl" type="text/x-dot-template"&gt;
+           &lt;div&gt;Hi {{=it.name}}! &lt;/div&gt;
+           &lt;div&gt;{{=it.age || ''}}&lt;/div&gt;
+        &lt;/script&gt;
+
+
+        &lt;script type="text/javascript"&gt;                          
+           var dataInter = { "name": "Jake", "age": 31 };
+           var interText = doT.template($("#interpolationtmpl").text());
+           $("#interpolation").html(interText(dataInter));
+        &lt;/script&gt;
+            </code></pre>
+       <p>
+           for evaluation for in 循环  {{}} 赋值
+       </p>
+       <pre><code>
+           &lt;div id="evaluation"&gt;&lt;/div&gt;
+
+           &lt;script id="evaluationtmpl" type="text/x-dot-template"&gt;
+              {{ for(var prop in it) { }}
+                 &lt;div&gt;KEY:{{= prop }}---VALUE:{{= it[prop] }}&lt;/div&gt;
+              {{ } }}
+           &lt;/script&gt;
+            </code></pre>
+       <p>for array iteration 数组   {{~ }}数组遍历</p>
+       <pre><code>
+           &lt;div id="arrays">&lt;/div&gt;
+
+
+        &lt;script id="arraystmpl" type="text/x-dot-template"&gt;                        
+          {{~it.array:value:index}}
+             &lt;div&gt;{{= index+1 }}{{= value }}!&lt;/div&gt;
+          {{~}}
+        &lt;/script&gt;
+
+        &lt;script type="text/javascript"&gt;       
+           var dataArr = {"array":["banana","apple","orange"]};
+           var arrText = doT.template($("#arraystmpl").text());
+           $("#arrays").html(arrText(dataArr));
+         &lt;/script&gt;
+            </code></pre>
+
+       <p>
+         for conditionals 条件  {{? }}
+       </p>
+       <pre><code>
+           // {{? }} if
+           // {{?? }} else if
+           // {{??}} else
+        &lt;div id="condition">&lt;/div&gt;
+
+        &lt;script id="conditiontmpl" type="text/x-dot-template"&gt;                        
+            {{? !it.name }}
+            &lt;div&gt;Oh, I love your name, {{=it.name}}!&lt;/div&gt;
+            {{?? !it.age === 0}}
+            &lt;div&gt;Guess nobody named you yet!&lt;/div&gt;
+            {{??}}
+            You are {{=it.age}} and still dont have a name?
+            {{?}}
+        &lt;/script&gt;
+
+            </code></pre>
+       <p>编码 {{!it.uri}}</p>
+      <pre><code>
+        &lt;script id="interpolationtmpl" type="text/x-dot-template"&gt;                        
+           Visit {{!it.uri}} {{!it.html}}
+        &lt;/script&gt;
+           </code></pre>
+       <p>{{#}} 自定义编译</p>
+       <pre><code>
+        &lt;div id="part">&lt;/div&gt;
+
+
+       &lt;script id="parttmpl" type="text/x-dot-template"&gt;                        
+       {{##def.snippet:
+         &lt;div&gt;{{=it.name}}&lt;/div&gt;{{#def.joke}}
+       #}}
+       {{#def.snippet}}
+       {{=it.html}}
+        &lt;/script&gt;
+
+        var dataPart = {"name":"Jake","age":31,"html":"&lt;div style='background: #f00; height: 30px; line-height: 30px;'>html元素&lt;/div&gt;"};
+        var defPart = {"joke":"&lt;div&gt;{{=it.name}} who?&lt;/div&gt;"};
+        var partText = doT.template($("#parttmpl").text(), undefined, defPart);
+        $("#part").html(partText(dataPart));
+            </code></pre>
+   </div>
+</body></html>
+<!--<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>-->
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="/WebUI/Resource/Javascript/plugins/artTemplate/template.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+

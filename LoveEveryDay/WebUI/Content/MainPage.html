@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            background-color: #e7eff4;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .nav_left {
+            display: inline-block;
+            position: fixed;
+            top: 40px;
+            left: 10px;
+            height: 100%;
+        }
+
+            .nav_left li {
+                margin: 20px;
+                border: 1px solid #808080;
+            }
+
+                .nav_left li a {
+                    width: 100%;
+                    height: 100%;
+                    height: 40px;
+                    line-height: 30px;
+                    color: white;
+                    font-size: 14px;
+                    text-decoration: none;
+                    padding: 6px 40px;
+                }
+
+        .nav_right {
+            margin: 20px 20px 60px 200px;
+            border: 1px solid #808080;
+            border-radius: 5px;
+        }
+
+            .nav_right h2 {
+                color: white;
+                font-size: 15px;
+                padding: 10px;
+            }
+
+        h2.top {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .red-t {
+            background-color: red;
+        }
+
+            .red-t + div li {
+                /*box-shadow: 0px 0px 1px #db4646;*/
+            }
+
+                .red-t + div li:hover {
+                    background-color: #d08080;
+                }
+
+        .blue-t {
+            background-color: blue;
+        }
+
+            .blue-t + div li {
+                /*box-shadow: 0px 0px 1px #2571ea;*/
+            }
+
+                .blue-t + div li:hover {
+                    background-color: #1c92ad;
+                }
+
+        .green-t {
+            background-color: green;
+        }
+
+            .green-t + div li {
+                /*box-shadow: 0px 0px 1px #1ab907;*/
+            }
+
+                .green-t + div li:hover {
+                    background-color: #72ee84;
+                }
+
+        .blueplus-t {
+            background-color: #1c92ad;
+        }
+
+            .blueplus-t + div li {
+                /*box-shadow: 0px 0px 1px #77dce6;*/
+            }
+
+                .blueplus-t + div li:hover {
+                    background-color: #77dce6;
+                }
+
+        .orang-t {
+            background-color: orange;
+        }
+
+            .orang-t + div li {
+                /*box-shadow: 0px 0px 1px #ef7213;*/
+            }
+
+                .orang-t + div li:hover {
+                    background-color: #f79d5a;
+                }
+
+        .zi-t {
+            background-color: #830df8;
+        }
+
+            .zi-t + div li {
+                /*box-shadow: 0px 0px 1px #b484f2;*/
+            }
+
+                .zi-t + div li:hover {
+                    background-color: #a284d4;
+                }
+
+        .nav_right ul {
+            padding: 15px;
+            overflow:auto;
+        }
+
+        .nav_right li {
+            margin: 15px;
+            display: inline-block;
+        }
+
+
+
+        .nav_right a {
+            position: relative;
+            color: black;
+            height: 40px;
+            line-height: 40px;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 10px 40px;
+        }
+
+        .nav_right img {
+            height: 20px;
+            position: relative;
+            top: 5px;
+            left: -10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav_left">
+        <ul>
+            <li class="red-t"><a href="#qdwz">前端网站</a></li>
+            <li class="blue-t"><a href="#ltjl">论坛交流</a></li>
+            <li class="green-t"><a href="#gjwz">工具网站</a></li>
+            <li class="orang-t"><a href="#ymxz">源码下载</a></li>
+            <li class="zi-t"><a href="#ktwz">课堂网站</a></li>
+            <li class="blueplus-t"><a href="#tczn">跳槽指南</a></li>
+        </ul>
+    </div>
+    <div class="nav_right">
+        <div id="qdwz">
+            <h2 class="top red-t">前端网站</h2>
+            <div>
+                <ul>
+                    <li><a href="http://www.qdfuns.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/qianduanwang-ic.jpg" />前端网</a></li>
+                    <li><a href=" http://www.css88.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/webqian-ic.jpg" />Web前端开发</a></li>
+                    <li><a href="http://www.webhek.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/web-haike.jpg" />web骇客</a></li>
+                    <li><a href="http://www.yyyweb.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/qianduanli-ic.jpg" />前端里</a></li>
+                    <li><a href="http://www.daqianduan.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/daqianduan-ic.png" />大前端</a></li>
+                    <li><a href="http://www.w3cplus.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/wscplus-ic.jpg" />W3CPlus</a></li>
+                    <li><a href="http://www.jquery123.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/js-css-ic.jpg" />js-css代码网</a></li>
+                    <li><a href="http://www.htmleaf.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/j-family.jpg" />jQuery之家</a></li>
+                    <li><a href="http://www.xueh5.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/xueh5-ic.jpg" />学h5</a></li>
+
+                    <li><a href="http://www.jq22.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/j-plugin-ic.jpg" />jQuery插件库</a></li>
+                    <li><a href="http://www.lanrenzhijia.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/lazy-ic.jpg" />懒人之家</a></li>
+                    <li><a href="http://www.jqshare.com/index.html" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/jqshare-ic.jpg" />jQuery分享网</a></li>
+                    <li><a href="http://www.aseoe.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/aisiziyuan-ic.jpg" />爱思资源网</a></li>
+
+
+                    <li><a href="http://www.jb51.net/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/jiaoben-ic.jpg" />脚本之家</a></li>
+                    <li><a href="http://www.divcss5.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/divcss-ic.jpg" />divcss5</a></li>
+                    <li><a href="http://v3.bootcss.com/components/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/bootstrap-ic.jpg" />Bootstrap教程</a></li>
+                    <li><a href="http://www.jquery123.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/jquery-ic.jpg" />jQuery中文文档</a></li>
+                    <li><a href="http://www.bootcss.com/p/zeptojs/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/zepto-ic.jpg" />zepto.js教程</a></li>
+                    <li><a href="http://www.css88.com/book/css/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/cssshouc-ic.jpg" />Css手册</a></li>
+                    <li><a href="http://www.w3school.com.cn/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/w3cschool-ic.jpg" />w3cSchool</a></li>
+                    <li><a href="http://www.runoob.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/runoob.ic.jpg" />菜鸟教程</a></li>
+                     <li><a href="http://web.jobbole.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/bolezaixian.ic.jpg" />伯乐在线</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+        <div id="ltjl">
+            <h2 class="blue-t">论坛交流</h2>
+            <div>
+                <ul>
+                    <li><a href="https://www.cnblogs.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/bokey-ic.jpg" />博客园</a></li>
+                    <li><a href=" https://github.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/github-ic.jpg" />GitHub</a></li>
+                    <li><a href="https://xituqu.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/xt-ic.jpg" />稀土区</a></li>
+                    <li><a href="https://www.zhihu.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/zhihu-ic.jpg" />知乎</a></li>
+                    <li><a href="http://lib.csdn.net/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/csdn-ic.jpg" />csdn知识库</a></li>
+                    <li><a href="http://bbs.51cto.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/genshuixue-ic.jpg" />51CTO论坛</a></li>
+                    <li><a href="http://www.iteye.com/forums" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/iteye-ic.jpg" />ITEye论坛</a></li>
+                    <li><a href="http://www.open-open.com/code/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/shendu-ic.jpg" />深度开源</a></li>
+                    <li><a href="https://www.oschina.net/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/openchina-ic.jpg" />开源中国</a></li>
+                    <li><a href="http://www.codeceo.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/manong-ic.jpg" />码农网</a></li>
+                    <li><a href="https://juejin.im/welcome" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/juejin-ic.jpg" />掘金网</a></li>
+                    <li><a href="https://www.diycode.cc/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/diycode-ic.jpg" />DiyCode</a></li>
+
+                    <li><a href="https://segmentfault.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/segmentfault-ic.jpg" />segmentfault</a></li>
+                    <li><a href="http://www.jianshu.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/jianshu-ic.jpg" />简书</a></li>
+                    <li><a href="http://coolshell.cn/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/kuke-ic.jpg" />酷壳</a></li>
+                    <li><a href="http://www.itdos.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/itds-ic.jpg" />IT大师</a></li>
+                    <li><a href="http://www.genshuixue.com" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/genshuixue-ic.jpg" />跟谁学</a></li>
+                    <li><a href="http://www.itpub.net/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/itpub-ic.jpg" />ITPub</a></li>
+
+
+                    <li><a href="http://www.51pcode.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/51pcode-ic.jpg" />51pcode</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div id="gjwz">
+            <h2 class="green-t">工具网站</h2>
+            <div>
+                <ul>
+                    <li><a href="http://fanyi.baidu.com/?aldtype=16047#auto/zh" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/baidufanyi-ic.jpg" />百度翻译</a></li>
+                    <li><a href="http://tool.oschina.net/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/zaixiangongj-ic.jpg" />在线工具</a></li>
+                    <li><a href="http://tool.lu/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/ttool-ic.jpg" />在线工具</a></li>
+                    <li><a href="http://www1.freep.cn/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/free-ic.jpg" />免费图片上传1</a></li>
+                    <li><a href="http://www.tietuku.com/upload" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/tietuku-ic.jpg" />免费图片上传2</a></li>
+                    <li><a href="http://1990tu.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/free-ic.jpg" />免费图片上传3</a></li>
+                    <li><a href="http://www.iconfont.cn/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/iconfont-ic.jpg" />图标查询</a></li>
+                    <li><a href="https://tinypng.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/tinypng-ic.jpg" />图片压缩</a></li>
+                    <li><a href="http://cli.im/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/erweima-ic.jpg" />生二维码</a></li>
+                    <li><a href="http://cdn.code.baidu.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/baiduziyuan-ic.jpg" />百度静态资源公共库</a></li>
+                    <li><a href="data:text/html,<html%20contenteditable>" target="_blank">记事本</a></li>
+                     <li><a href="http://zaixianwangyebianji.51240.com/" target="_blank">在线网页编辑器</a></li>
+
+                </ul>
+            </div>
+        </div>
+        <div id="ymxz">
+            <h2 class="orang-t">源码下载</h2>
+            <div>
+                <ul>
+                    <li><a href="http://www.51aspx.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/51aspx-ic.jpg" />51aspx</a></li>
+                    <li><a href="http://down.admin5.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/a5-ic.jpg" />a5源码</a></li>
+                    <li><a href="http://down.cnzz.cn/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/yuanma-ic.jpg" />源码下载</a></li>
+                    <li><a href="http://down.chinaz.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/chinaz-ic.jpg" />站长之家</a></li>
+                    <li><a href="http://www.codesky.net/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/ymtk-ic.jpg" />源码天空</a></li>
+                    <li><a href="http://www.mycodes.net/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/ymzj-ic.jpg" />源码之家</a></li>
+                    <li><a href="http://www.asp300.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/asp300-ic.jpg" />Asp300</a></li>
+                    <li><a href="http://www.qqhao123.com/yuanma/" style="color: red; font-weight: bold;" target="_blank">更多>></a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="ktwz">
+            <h2 class="zi-t">课堂网站</h2>
+            <div>
+                <ul>
+                    <li><a href="https://ke.qq.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/tenxunketang-ic.jpg" />腾讯课堂</a></li>
+                    <li><a href="http://www.miaov.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/miaowei-ic.jpg" />妙微课堂</a></li>
+
+                    <li><a href="http://study.163.com/category/it" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/wyykt-ic.jpg" />网易云课堂</a></li>
+                    <li><a href="http://www.chuanke.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/baiduchuangke-ic.jpg" />百度传课</a></li>
+                    <li><a href="http://www.imooc.com/course/landingpagephp?from=phpkecheng" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/muke-ic.jpg" />慕课网</a></li>
+                    <li><a href="http://www.jikexueyuan.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/jkxy-ic.jpg" />极客学院</a></li>
+                    <li><a href="http://www.maiziedu.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/mzxy-ic.jpg" />麦子学院</a></li>
+                    <li><a href="http://mooc.guokr.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/moocxy-ic.jpg" />MOOC学院</a></li>
+
+                    <li><a href="http://edu.51cto.com/course/courseList/id-all.html?wwwdh2" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/51ctoxy-ic.jpg" />51cto学院</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="tczn">
+            <h2 class="blueplus-t">跳槽指南</h2>
+            <div>
+                <ul>
+                    <li><a href="http://www.bosszhipin.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/boss-ic.jpg" />Boss直播</a></li>
+                    <li><a href="http://www.lagou.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/lagou-ic.jpg" />拉勾网</a></li>
+                    <li><a href="https://www.nowcoder.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/niuke-ic.jpg" />牛客网</a></li>
+                    <li><a href="http://www.zhaopin.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/zhilian-ic.jpg" />智联招聘</a></li>
+                    <li><a href="http://www.51job.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/qcwy-ic.jpg" />前程无忧</a></li>
+                    <li><a href="https://www.liepin.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/liepin-ic.jpg" />猎聘网</a></li>
+                    <li><a href="http://www.neitui.me/?name=neitui&handle=index" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/neitui-ic.jpg" />内推网</a></li>
+                    <li><a href="http://www.kanzhun.com/" target="_blank">
+                        <img alt="" src="/WebUI/Resource/Images/MainPage/kanzhun-ic.jpg" />看准网</a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <h2 style="background-color: #2571ea;">其他</h2>
+            <div>
+                <ul>
+                    <li><a href="http://www.uisdc.com/" target="_blank">优设</a></li>
+                    <li><a href="http://runjs.cn/" target="_blank">RunJS</a></li>
+                    <li><a href="http://www.365mini.com/" target="_blank">codeplayer</a></li>
+                    <li><a href="http://vdisk.weibo.com/share/hot?log_target=navigation_hot_file" target="_blank">微盘</a></li>
+                    <li><a href="http://www.anyv.net/index.php/" target="_blank">微信大全</a></li>
+                    <li><a href="http://123.w3cschool.cn/wxxcx" target="_blank">微信小程序</a></li>
+                    <li><a href="http://music.163.com/</span></li>" target="_blank">网易音乐</a></li>
+                    <li><a href="http://www.css88.com/jqapi-1.9/" target="_blank">jQuery首先看</a></li>
+                    <li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank">git教程</a></li>
+                    <li><a href="http://www.cnblogs.com/Wayou/p/things_you_dont_know_about_frontend.html" target="_blank">前端冷知识集锦</a></li>
+                    <li><a href="http://blog.csdn.net/kun5706947/article/details/52596766" target="_blank">WebPack入门</a></li>
+                    <li><a href="https://sanwen8.cn/p/2ddcbVD.html" target="_blank">RESTful API</a></li>
+                    <li><a href="http://web.jobbole.com/91321/" target="_blank">WebSocket</a></li>                
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+
+<script>
+   
+</script>
+

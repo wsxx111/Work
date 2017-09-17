@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <style type="text/css">
+        .txtHeader {
+                background-color: #f7db8c;
+                border: 1px solid #333232;
+                border-radius: 4px;
+                line-height: 45px;
+                height: 45px;
+                text-align: center;
+                font-size: 28px;
+                margin: 0 10px;
+            }
+    </style>
+    <title></title>
+</head>
+<body>
+    <div class="container">
+         <div class="txtHeader">
+                CSS居中总结
+            </div>
+        <ul>
+            <li>
+                <p><em>&lt;center&gt;</em>不建议用了</p>
+            </li>
+            <li>
+                <p><em>text-align:center</em>在父容器里水平居中 inline 文字，或 inline 元素</p>
+            </li>
+            <li>
+                <p><em>vertical-align:middle</em>垂直居中 inline 文字，inline 元素，配合 display:table ，display:table-cell，有奇效。</p>
+            </li>
+            <li>
+                <p><em>line-height</em>与 height 联手，垂直居中文字</p>
+            </li>
+            <li>
+                <p><em>margin:auto</em></p>
+                <pre><code>
+            #ex2_content { 
+            margin:0px auto;           
+            display:table; }
+             </code></pre>
+            </li>
+            <li>
+                <p><em>translate(-50%,-50%)</em>用 position 加 translate,translate(-50%,-50%) 比较奇特，百分比计算不是以父元素为基准，而是以自己为基准。</p>
+                <pre><code>
+            #ex3_content { 
+            left:50%; 
+            top:50%; 
+            transform:translate(-50%,-50%); 
+            -webkit-transform:translate(-50%,-50%);            
+            position:absolute; }
+             </code></pre>
+                <p>这个技巧相当嚣张，同样适用于没固定大小的内容，min-width，max-height，overflow:scroll 等</p>
+            </li>
+            <li>
+                <p><em>绝对定位居中</em>父容器元素：position: relative</p>
+                <pre><code>
+        .Absolute-Center {
+          width: 50%;  
+          height: 50%;    
+          overflow: auto;
+          //下面这几行与居中有关   
+          margin: auto;
+          position: absolute;
+          top: 0; left: 0; bottom: 0; right: 0;
+        }
+             </code></pre>
+                <p>高度必须定义，建议加 overflow: auto，防止内容溢出（针对子容器里面内容的）。</p>
+            </li>
+            <li>
+                <p><em>视口居中</em>父容器元素 position: relative</p>
+                <pre><code>
+         //模态框
+        .Absolute-Center.is-Fixed {
+          width: 50%;
+          height: 50%;
+          min-width: 400px;
+          max-width: 500px;
+          overflow: auto;
+        
+          margin: auto;
+          position: fixed;
+          top: 0; left: 0; bottom: 0; right: 0;
+          z-index: 999;
+        }
+             </code></pre>
+                <p>只要 margin: auto; 在，内容块将垂直居中，top, left, bottom, right 可以设置偏移。</p>
+            </li>
+            <li>
+                <p><em>负 margin</em>确切知道宽高，负 margin 是宽和高的一半。</p>
+                <pre><code>
+        .is-Negative {
+                width: 300px;
+                height: 200px;
+                padding: 20px;
+                position: absolute;
+                top: 50%; left: 50%;
+                margin-left: -170px; /* (width + padding)/2 */
+                margin-top: -120px; /* (height + padding)/2 */
+        }
+             </code></pre>
+            </li>
+            <li>
+                <p><em>Table-Cell</em></p>
+            </li>
+            <li>
+                <p><em>FlexBox</em></p>
+                <pre><code>
+        .Pos-Container.is-Flexbox {
+          display: -webkit-box;
+          display: -moz-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-align: center;
+             -moz-box-align: center;
+             -ms-flex-align: center;
+          -webkit-align-items: center;
+                  align-items: center;
+          -webkit-box-pack: center;
+             -moz-box-pack: center;
+             -ms-flex-pack: center;
+          -webkit-justify-content: center;
+                  justify-content: center;
+        }
+             </code></pre>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></&lr;script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>
+

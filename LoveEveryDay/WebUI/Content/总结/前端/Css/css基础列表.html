@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title></title>
+    <!--<link href="/WebUI/Resource/Css/PageListStyle.css" rel="stylesheet" />-->
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgcore.lhgdialog.min.js"></script>
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgdialog.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #eeeeee;
+        }
+
+        .wrap {
+            margin: 30px;
+            padding: 10px;
+        }
+
+            .wrap a {
+                color: #413939;
+                display: inline-block;
+                line-height: 36px;
+                border: 1px solid #39059b;
+                background-color: transparent;
+                padding: 20px 40px;
+                margin: 10px;
+                box-shadow: rgba(0,0,0,.8) 0px 0px 4px;
+                font-weight: bold;
+            }
+
+                .wrap a:hover {
+                    background: #394a82;
+                    color: #fbf2f2;
+                }
+                 .wrap a.special:hover {
+                    background-color: #b9941d;
+                    color: #fbf2f2;
+                }    
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <a href="/WebUI/Content/总结/前端/Css/Detail/媒体查询详解.html">媒体查询</a>
+        <a href="/WebUI/Content/总结/前端/Css/Detail/css语法和规则关键字.html">css语法和规则关键字</a>
+        <a href="/WebUI/Content/总结/前端/Css/Detail/Css选择符.html">Css选择符</a>
+        <a href="/WebUI/Content/总结/前端/Css/Detail/Css动画/index.html">Css动画讲解</a>
+        <a href="/WebUI/Content/总结/前端/Css/Detail/Css-3D讲解/index.html">Css-3D讲解</a>
+        <a href="/WebUI/Content/总结/前端/Css/Detail/Css渐变讲解/index.html">Css渐变讲解</a>
+        <a href="/WebUI/Content/总结/前端/Css/Detail/Css图形/index.html">Css图标</a>
+        <a href="/WebUI/Content/总结/前端/Css/Detail/其他零碎.html">其他零碎</a>
+        <a class="special" href="http://www.uisdc.com/best-css3-animation-library" target="_blank">Css效果库推荐</a>
+    </div>
+    <iframe width="100%" height="700px" src="http://www.zi-han.net/css3/"></iframe>
+    <iframe width="100%" height="700px" src="http://csswarp.eleqtriq.com/"></iframe>
+    <iframe width="100%" height="700px" src="http://www.themeshock.com/css-drop-shadow/"></iframe>
+</body>
+</html>
+<script type="text/javascript">
+    window.onload = function () {
+
+        var objs = document.getElementsByTagName("a");
+        for (var i = 0; i < objs.length; i++) {
+
+            (function (i) {
+                var obj = objs[i];
+                obj.onclick = function () {
+                    var url = obj.getAttribute("data-url");
+                    if (!url) {
+                        return;
+                    }
+                    var tit = obj.text;
+                    var dg = $.dialog({
+                        id: tit,
+                        init: function () {
+                            this.max();
+                        },
+                        min: false,
+                        title: tit,
+                        content: url,
+                        width: 40,
+                        height: 0,
+                        iconTitle: false,
+                        cover: true,   //开启遮罩层
+                        btnBar: false
+                    });
+                }
+            })(i);
+
+        }
+    }
+
+</script>

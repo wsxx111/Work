@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="forMore">
+            <a href="http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_inheritance.html" target="_blank">Js封装</a>
+        </div>
+        <h3>原型</h3>
+        <p>在JavaScript中，每个对象都保持着一块隐藏的状态: 一个对另一个对象的引用，也被称作原型</p>
+        <p>Js中对象的属性分为两种存在形态，一种在实例中，一种在原型中</p>
+        <ul>
+            <li><em>①不存在于实例，不存在于原型</em></li>
+            <li><em>②存在于实例，不存在于原型</em></li>
+            <li><em>③不存在于实例，存在于原型</em></li>
+            <li><em>④存在于实例，存在于原型</em></li>
+        </ul>
+        <p><em>hasOwnPrototype()</em>接受一个字符串格式的属性名称,存在实例中的会返回true，否则返回false</p>
+       <pre><code>
+        function People() { this.age = 12 }
+        People.prototype.name = "wk";
+
+        var p1 = new People();
+        console.log(p1.hasOwnProperty("age")); //true
+        console.log(p1.hasOwnProperty("name")); //false
+        p1.name = "newwk";
+        console.log(p1.hasOwnProperty("name"));//true
+            </code></pre>
+        <p><em>in操作符</em>无论属性是存在实例本身中，还是原型中都会返回true，否则返回false</p>
+        <p>
+            <em>!object.hasOwnProperty(name) && (name in object)</em>表示只存在于原型中
+        </p>
+        <p>当使用对象的方法或属性时，对象会在一步一步通过__proto__向上寻找，找到最近的则是最终的获取到的方法或属性。</p>
+        <p>Object.prototype没有__proto__，是原型链的顶峰</p>
+        <p>对象通常继承的constructor均指代它们的构造函数，而构造函数是类的“公共标识”。即constructor可用来判断对象所属的类。</p>
+        <p>用instanceof也可判断对象的类，但是有自身的缺陷</p>
+        <pre><code>
+        function Xxx()
+        {
+            this.name = '';
+        }
+        Xxx.prototype.add = function () { };
+
+        var a = new Xxx();
+        console.log(Xxx.prototype);
+        console.log(Object.getPrototypeOf(a));  
+        //Object.getPrototypeOf 函数才是查看对象原型的推荐方法       
+             </code></pre>
+        <p>prototype只不过是一个包含constructor属性的Object对象,其中constructor属性是指向当前function的一个指针</p>
+        <p>自定义类最常见的方式 构造函数模式加混合模式</p>
+        <pre><code>
+        function MMy() {
+            this.name = name;
+        }
+
+        var m = new MMy();
+             </code></pre>
+        <p>
+            创建好MMy后，MMy除了name属性外，还有一个prototype属性，这个属性指向的是一个对象
+        </p>
+        <p>它创建的实例m对象除了有属性name外也有一个隐藏的属性__proto__，这个__proto__和MMy.prototype指向同一个对象</p>
+        <p>应该说m.__proto__指向的是MMy.prototype指向的对象,这个对象有一个constructor属性，还有__proto__属性等</p>
+        <p>此时的constructor指向function MMy()，__proto__指向的是Object;</p>
+
+        <pre><code>
+        MMy.prototype =
+            {
+                //不加这句的话，p.__proto__,即MMy.prototype指向的是Object，加上就变成MMy了
+                constructor: MMy,   
+                sayname: function () {
+                    console.log('123');
+                }
+            }
+             </code></pre>
+        <pre><code>
+        function MMx()
+        {
+            this.age = 34;
+        }
+
+        MMy.prototype = new MMx();
+             </code></pre>
+        <p>当新显示的加MMy.prototype={}，显然改变了原来的MMy.prototype，覆盖了，MMy.prototype现在是一个新的对象，所以这时MMy.prototype指向的是Object，这时候实例化对象m也会指向Object,所以显示的把MMy.prototype的constructor纠正过来</p>
+        <pre><code>
+        var m = new MMy();
+        MMy.prototype.constructor = MMy;
+
+        console.log(MMy.prototype); //是MMy本身
+        console.log(m.constructor); //是MMy本身
+             </code></pre>
+        <p>
+             m每个对象都有一个_proto_属性，查找toString()方法时，首先会从MMy方法中查找,发现没有，然后从m._proto_属性中，因为m._prototype=MMy.prototype,而MMy.prototype只有一个属性.所以也没找到toString()方法，然后沿着Person.prototype._proto__找到了Object,在这里我们就找到了toString()方法。
+        </p>
+        <p>js引擎查找过程是先从本函数查找，如果找到就return，找不到继续通过__proto__往上找,而prototype属性是通过__proto__找到的</p>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>

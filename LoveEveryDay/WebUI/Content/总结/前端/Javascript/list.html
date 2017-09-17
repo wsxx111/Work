@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title></title>
+    <!--<link href="/WebUI/Resource/Css/PageListStyle.css" rel="stylesheet" />-->
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgcore.lhgdialog.min.js"></script>
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgdialog.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #eeeeee;
+        }
+
+        .wrap {
+            margin: 30px;
+            padding: 10px;
+        }
+
+            .wrap a {
+                color: #413939;
+                display: inline-block;
+                line-height: 36px;
+                border: 1px solid #39059b;
+                background-color: transparent;
+                padding: 20px 40px;
+                margin: 10px;
+                box-shadow: rgba(0,0,0,.8) 0px 0px 4px;
+                font-weight: bold;
+            }
+
+                .wrap a:hover {
+                    background: #394a82;
+                    color: #fbf2f2;
+                }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/面向对象.html">面向对象</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/Call_Apply_Bind.html">Call_Apply_Bind</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/Function函数.html">Function函数</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/Json解析.html">Json解析</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/Js闭包.html">Js闭包</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/Js继承.html">Js继承</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/Js封装.html">Js封装</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/this解析.html">this解析</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/原型解析.html">原型解析</a>
+        <a href="javascript:void(0);" data-url="url:/WebUI/Content/总结/前端/Javascript/Detail/Object.defineProperty.html">Object.defineProperty</a>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    window.onload = function () {
+        var objs = document.getElementsByTagName("a");
+        for (var i = 0; i < objs.length; i++) {
+
+            (function (i) {
+                var obj = objs[i];
+                obj.onclick = function () {
+                    var url = obj.getAttribute("data-url");
+                    if (!url) {
+                        return;
+                    }
+                    var tit = obj.text;
+                    var dg = $.dialog({
+                        id: tit,
+                        init: function () {
+                            this.max();
+                        },
+                        min: false,
+                        title: tit,
+                        content: url,
+                        width: 40,
+                        height: 0,
+                        iconTitle: false,
+                        cover: true,   //开启遮罩层
+                        btnBar: false
+                    });
+                }
+            })(i);
+
+        }
+    }
+
+</script>

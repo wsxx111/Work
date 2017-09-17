@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+     <div class="sideMenu">
+        <input type='checkbox' id='sideToggle' />
+        <div class="cover-white"></div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#smsfs">什么是反射</a></li>               
+                <li><a href="#fswhy">为什么要使用反射</a></li>
+                <li><a href="#fsspace">C#反射相关的命名空间</a></li>
+                <li><a href="#fscxj"></a>加载程序集</li>
+                <li><a href="#fssl">通过反射创建类型的实例</a></li>
+                <li><a href="#fsff">通过反射调用类的方法</a></li>
+                <li><a href="#fscy">查看类中成员</a></li>
+                <li><a href="#fsgz">查看类的构造函数</a></li>
+                <li><a href="#fssx">查看类中属性</a></li>
+                <li><a href="#fszd">查看类中字段</a></li>
+                <li><a href="#fsjk">反射实现的接口</a></li>                
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar"></div>
+            <ul>
+               <li><a href="#">顶部</a></li>
+                <li><a href="#smsfs">什么是反射</a></li>
+                <li><a href="#fswhy">为什么要使用反射</a></li>
+                <li><a href="#fsspace">C#反射相关的命名空间</a></li>
+                <li><a href="#fscxj"></a>加载程序集</li>
+                <li><a href="#fssl">通过反射创建类型的实例</a></li>
+                <li><a href="#fsff">通过反射调用类的方法</a></li>
+                <li><a href="#fscy">查看类中成员</a></li>
+                <li><a href="#fsgz">查看类的构造函数</a></li>
+                <li><a href="#fssx">查看类中属性</a></li>
+                <li><a href="#fszd">查看类中字段</a></li>
+                <li><a href="#fsjk">反射实现的接口</a></li>   
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <h3 id="smsfs">什么是反射</h3>
+        <p>通过 System.Reflection 命名空间中的类以及 System.Type，您可以获取有关已加载的程序集和在其中定义的类型（如类、接口和值类型）的信息。 您也可以使用反射在运行时创建类型实例，以及调用和访问这些实例。这是来自微软官方的MSDN定义</p>
+        <p> 简单说反射是.Net中获取运行时类型信息的方式。.Net的应用程序由几个部分：‘程序集(Assembly)’、‘模块(Module)’、‘类型(class)’组成，而反射提供一种编程的方式，让程序员可以在程序运行期获得这几个组成部分的相关信息，例如：</p>
+        <ul>
+            <li>Assembly类可以获得正在运行的装配件信息，也可以动态的加载装配件，以及在装配件中查找类型信息，并创建该类型的实例。</li>
+            <li>Type类可以获得对象的类型信息，此信息包含对象的所有要素：方法、构造器、属性等等，通过Type类可以得到这些要素的信息，并且调用之。</li>
+            <li>MethodInfo包含方法的信息，通过这个类可以得到方法的名称、参数、返回值等，并且可以调用之。</li>
+            <li>诸如此类，还有FieldInfo、EventInfo等等，这些类都包含在System.Reflection命名空间下。</li>
+        </ul>
+        <p>对于我们初学者来说，反射就是通过某种事物去反射另一种事物；我们小时候进行喜欢用镜子对着墙上照，会出现一个个小光圈，这就是很典型的反射例子，我们把它理解成计算机里的反射就是我用某中对象去反射我无法直接获取到的东西</p>
+        <h4>反射的作用</h4>
+        <p>可以使用反射动态地创建类型的实例，将类型绑定到现有对象，或从现 有对象中获取类型</p>
+        <p>应用程序需要在运行时从某个特定的程序集中载入一个特定的类型，以便实现某个任务时可以用到反射。</p>
+        <p>反射主要应用与类库，这些类库需要知道一个类型的定义，以便提供更多的功能。</p>
+        <h4>应用要点</h4>
+        <p>现实应用程序中很少有应用程序需要使用反射类型</p>
+        <p>使用反射动态绑定需要牺牲性能</p>
+        <p>有些元数据信息是不能通过反射获取的</p>
+        <p>某些反射类型是专门为那些clr 开发编译器的开发使用的，所以你要意识到不是所有的反射类型都是适合每个人的。</p>
+        <h4>反射的性能</h4>
+        <p>使用反射来调用类型或者触发方法，或者访问一个字段或者属性时clr 需要做更多的工作：校验参数，检查权限等等，所以速度是非常慢的。所以尽量不要使用反射进行编程，对于打算编写一个动态构造类型（晚绑定）的应用程序，可以采取以下的几种方式进行代替：</p>
+        <ul>
+            <li>1、通过类的继承关系。让该类型从一个编译时可知的基础类型派生出来，在运行时生成该类型的一个实例，将对其的引用放到其基础类型的一个变量中，然后调用该基础类型的虚方法。</li>
+            <li>2、通过接口实现。在运行时，构建该类型的一个实例，将对其的引用放到其接口类型的一个变量中，然后调用该接口定义的虚方法。</li>
+            <li>3、通过委托实现。让该类型实现一个方法，其名称和原型都与一个在编译时就已知的委托相符。在运行时先构造该类型的实例，然后在用该方法的对象及名称构造出该委托的实例，接着通过委托调用你想要的方法。这个方法相对与前面两个方法所作的工作要多一些，效率更低一些。</li>
+        </ul>
+          <h3 id="fswhy">为什么要使用反射</h3>
+        <p>最初使用反射的时候，作为小菜总是不理解，既然可以通过new 一个对象的方式得到对象，然后通过对象去调用属性和方法，那么为什么还需要反射去调用呢？后来使用多了发现这就是一个先绑定还是后绑定的问题，很多初使用反射的开发人员通常都会有类似这种疑虑：既然在开发时就能够写好代码，干嘛还放到运行期去做，不光繁琐，而且效率也受影响。博主觉得主要是适用性的问题，如果你的系统没有那么高的扩展性和灵活性要求，你大可不必考虑反射。但在架构设计时，很多东西都需要考虑复用性，并且在某些特定的场景下你得不到具体的类时，你就必须用到反射。比如下面反射场景</p>
+        <ul>
+            <li>有时不知道具体的类型，可以通过dll去得到类的对象</li>
+            <li>某些特殊方法，传过来的是泛型类，需要通过反射处理某些特殊的业务</li>
+            <li>通用方法DataTable和List&lt;T&gt;的相互转化时需要用到反射</li>
+        </ul>
+        <p></p>
+        <h3 id="fsspace">C#反射相关的命名空间
+        </h3>
+        <p>装配件(可以通过assembly.GetModules()获得内部相关信息)是.Net应用程序执行的最小单位，编译出来的.dll、.exe都是装配件。</p>
+        <pre><code>
+          //  程序集           
+        namespace  N1
+        {
+              public  class  AC1  {…}
+              public  class  AC2  {…}
+        }
+        namespace  N2
+        {
+              public  class  AC3  {…}
+              public  class  AC4{…}
+        }
+
+
+         //程序集B   
+        namespace  N1
+        {
+              public  class  BC1  {…}
+              public  class  BC2  {…}
+        }
+        namespace  N2
+        {
+              public  class  BC3  {…}
+              public  class  BC4{…}
+        }
+             </code></pre>
+        <p>这两个装配件中都有N1和N2两个命名空间，而且各声明了两个类，这样是完全可以的，然后我们在一个应用程序中引用装配件A，那么在这个应用程序中，我们能看到N1下面的类为AC1和AC2，N2下面的类为AC3和AC4。</p>
+        <p>接着我们去掉对A的引用，加上对B的引用，那么我们在这个应用程序下能看到的N1下面的类变成了BC1和BC2，N2下面也一样。如果我们同时引用这两个装配件，那么N1下面我们就能看到四个类：AC1、AC2、BC1和BC2。</p>
+        <p>到这里，我们可以清楚一个概念了，命名空间只是说明一个类型是那个族的，比如有人是汉族、有人是回族；而装配件表明一个类型住在哪里，比如有人住在北京、有人住在上海；那么北京有汉族人，也有回族人，上海有汉族人，也有回族人，这是不矛盾的。</p>
+        <p>那么如果在编写程序的时候，也许不确定这个类在哪里，仅仅只是知道它的名称，就不能使用了吗？答案是可以，这就是反射了，就是在程序运行的时候提供该类型的地址，而去找到它。</p>
+        <h4>System.Reflection命名空间内的各类型</h4>
+        <ul>
+            <li><em>Assembly</em>通过它可以加载、了解和操纵一个程序集</li>
+            <li><em>AssemblyName</em>通过它可以找到大量隐藏在程序集的身份中的信息，如版本信息、区域信息等</li>
+            <li><em>EventInfo</em>事件的信息</li>
+            <li><em>FieldInfo</em>字段的信息</li>
+            <li><em>MethodInfo</em>方法的信息</li>
+            <li><em>ParameterInfo</em>参数的信息</li>
+            <li><em>PropertyInfo</em>属性的信息</li>
+            <li><em>MemberInfo</em>是抽象基类，为 EventInfo、FieldInfo 、MethodInfo、PropertyInfo等类型定义了公共的行为。</li>
+            <li><em>Module</em>用来访问带有多文件程序集的给定模块</li>
+        </ul>
+        <h4>System.Type类</h4>
+        <p>System.Type支持的成员可以分为这样几类</p>
+        <ul>
+            <li><em>Is***</em>用来检查一个类型的元数据，如IsAbstract、IsClass、IsValueType等等</li>
+            <li><em>Get***</em>用来从类型得到指定项目，如GetEvent()得到类型的一个指定的事件（EventInfo）。 另外，这些方法都有一个单数版本和一个复数版本。如GetEvent()对应有一个复数版本GetEvents()， 该方法返回一个相关的EventInfo数组。</li>
+            <li><em>FindMembers()</em>根据查询条件返回一个MemberInfo类型的数组</li>
+            <li><em>GetType()</em>该静态方法根据一个字符串名称返回一个Type实例</li>
+            <li><em>InvokeMember()</em>对给定项目进行晚期绑定</li>
+        </ul>
+        <h4>得到一个Type类型实例的三种方法</h4>
+        <ul>
+            <li><em>使用System.Object.GetType()</em>
+                Person pe=new Person(); //---------定义pe为person类的一个对象 Type t=pe.GetType();
+            </li>
+            <li><em>使用System.Type.GetType()静态方法,参数为类型的完全限定名</em>Type t=Type.GetType("Entity.Person"); 该方法被重载，允许指定两个布尔类型的参数，一个用来控制当前类型不能找到时是否抛出异常，另一个用来指示是否区分字符串大小写.Type t=Type.GetType("Entity.Person",false,true); 注意到传入的字符串并没有包含类型所在的程序集信息，此时该类型便被认为是定义在当前执行的程序集中的。<br />
+                要得到一个外部私有程序集的类型元数据时，字符串参数必须使用类型完全限定名加上类型所在程序集的友好名字,Type t=Type.GetType("Entity.Person","Entity"); //------"Entity"即为类型所在程序集的友好名字 嵌套类型：传入的字符串可以指定一个+标记来表示一个嵌套类型。<br />
+                如希望得到一个嵌套在person类中的枚举类型City的类型信息，则可以这样:Type t=Type.GetType("Entity.person+City");</li>
+            <li><em>使用typeof运算符</em>Type t=typeof(person);</li>
+        </ul>
+        <h3 id="fscxj">加载程序集</h3>
+        <p>程序集是所有类型的集合，它还有一个重要的东西就是元数据。JIT就是利用程序集的TypeRef和AssemblyRef等元数据来确定所引用的程序集及类型，这些元数据包括名称、版本、语言文化和公钥标记等，JIT就是根据这些信息来加载一个程序集到应用程序域中。如果要自己加载一个程序集，可以调用类型Assembly的LoadXXX系列方法。</p>
+        <h4>Load重载系列</h4>
+        <p>该方法会按照一定的顺序查找指定目录中的程序集：先去GAC中查找（如果是一个强命名程序集），如果找不到，则去应用程序的基目录、子目录查找。如果都没找到，则抛出异常。如下代码加载程序集MyAssemblyB：</p>
+        <pre><code>
+        string assemblyName = "MyAssemblyB, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+        Assembly assembly = Assembly.Load(assemblyName);
+             </code></pre>
+        <h4>LoadFrom重载系列</h4>
+        <p>加载指定程序集名称或路径的程序集，其在内部调用Load方法，并且还可以指定一个网络路径，如果指定网络路径，则先下载该程序集，再将其加载到程序域，如下代码：</p>
+        <pre><code>
+        Assembly.LoadFrom("http://solan.cnblogs.com/MyAssembly.dll");
+             </code></pre>
+        <h4>LoadFile重载系列</h4>
+        <p>从任意路径加载一个程序集，并且可以从不同路径加载相同名称的程序集。</p>
+        <p>在一个项目中，可能程序集之间都有依赖关系，也可以将一个程序集作为资源数据嵌入到一个程序集中，在需要时再加载该程序集，这时通过注册ResolveAssembly事件来加载这个程序集。如下;</p>
+        <pre><code>
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, arg) =>
+            {
+                byte[] buffer = null;
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ConsoleApp.MyAssemblyA.dll"))
+                {
+                    buffer = new byte[stream.Length];
+                    stream.Read(buffer, 0, buffer.Length);
+                }
+                return Assembly.Load(buffer);
+            };
+             </code></pre>
+        <p>以上代码要求必须先将MyAssemblyA.dll文件以资源形式嵌入到ConsoleApp项目中。这样在运行ConsoleApp程序时，如果使用了MyAssemblyA中的类型且未找到MyAssemblyA.dll文件，则会进入上面的事件方法来加载程序集MyAssemblyA</p>
+        <h3 id="fssl">通过反射创建类型的实例</h3>
+        <ul>
+            <li><em>Assembly</em>的CreateInstance</li>
+            <li><em>System.Activator</em> 的CreateInstance方法。该方法返回新对象的引用。System.Activator 的createInstanceFrom 与上一个方法类似，不过需要指定类型及其程序集</li>
+            <li><em>System.Appdomain</em> 的方法：createInstance,CreateInstanceAndUnwrap,CreateInstranceFrom和CreateInstraceFromAndUnwrap</li>
+            <li><em>System.Type</em>的InvokeMember实例方法：这个方法返回一个与传入参数相符的构造函数，并构造该类型。</li>
+            <li><em>System.Reflection.ConstructorInfo</em> 的Invoke实例方法</li>
+        </ul>
+        <h4>Assembly</h4>
+        <pre><code>
+        Assembly asm = Assembly.GetExecutingAssembly();          
+        Object obj = asm.CreateInstance("Reflection4.Calculator", false);
+
+        Assembly assembly = Assembly.Load("WuLaLa");
+        //创建实例
+        var obj = assembly.CreateInstance("WuLaLa.People");
+        //带参构造函数调用
+        var obj3=assembly.CreateInstance("WuLaLa.People",false,BindingFlags.Default,null,new object[]{"Book"},null,null);
+             </code></pre>
+        <p>assObj.CreateInstance的第一个参数代表了要创建的类型实例的字符串名称，第二个参数说明是不是大小写无关(Ignore Case)</p>
+        <h4>System.Activator</h4>
+        <p>System.Activator类中提供了三组静态方法来创建类型的实例，每组方法均提供多个重载，适用不同的场景。个别重载方法返回ObjectHandle对象，需要unwrap后才能获取对象实例。</p>
+        <ul>
+            <li><em>CreateInstance</em></li>
+            <li><em>CreateInstanceFrom</em></li>
+            <li><em>CreateComInstanceFrom</em></li>
+        </ul>
+        <p>现程序集有这样的类</p>
+        <pre><code>
+        public class Employee
+        {
+            public String Name { get; set; }
+
+            //带参构造函数
+            public Employee(String name)
+            {
+                Name = name;
+            }
+        
+             //无参构造函数
+            public Employee ()
+            {
+            }
+        
+            public void Say(String greeting)
+            {
+                Console.WriteLine(String.Format("Employee {0} say: {1} ", Name, greeting));
+            }
+        }
+             </code></pre>
+        <pre><code>
+        // 使用无参构造函数
+        var employee = (Employee)Activator.CreateInstance(typeof(Employee));
+        employee = Activator.CreateInstance&lt;Employee&gt;();
+        employee.Say("CreateInstance with default ctor");
+
+        ObjectHandle handler = Activator.CreateInstance(null, "Reflection4.Calculator");
+        Object obj = handler.Unwrap();
+        //其中CreateInstance的第一个参数说明是程序集的名称，为null时表示当前程序集；第二个参数说明要创建的类型名称。Activator.CreateInstance返回的是一个ObjectHandle对象，必须进行一次Unwrap()才能返回Object类型，进而可以强制转换成我们需要的类型
+
+        // 使用有参构造函数
+        employee=(Employee)Activator.CreateInstance(typeof(Employee), new object[] { "David" });
+        employee.Say("CreateInstance with ctor with args");
+
+        string assembly ="Test, Version=1.0.4562.31232, Culture=neutral, PublicKeyToken=null";
+        string type="Test.Tests.Employee";
+        var employeeHandle = Activator.CreateInstance(assembly,type);
+        employee = (Employee)employeeHandle.Unwrap();
+        employee.Say("CreateInstance and unwrap.");
+
+        string type="Test.Tests.Employee";
+        string assemblyPath=@"E:\StudyProj\ShartDev\Test\Test\bin\Debug\Test.exe";
+        employeeHandle = Activator.CreateInstanceFrom(assemblyPath,type);
+        employee = (Employee)employeeHandle.Unwrap();
+        employee.Say("CreateInstanceFrom and unwrap.");
+             </code></pre>
+        <h4>System.AppDomain</h4>
+        <p>与Activator类似，AppDomain提供了4组实例方法创建类型的实例。除了创建对象外，还指定了对象所归属的AppDomain。</p>
+        <ul>
+            <li><em>CreateInstance</em></li>
+            <li><em>CreateInstanceAndUnwrap</em></li>
+            <li><em>CreateInstanceFrom</em></li>
+            <li><em>CreateInstanceFromAndUnwrap</em></li>
+        </ul>
+        <h4>System.Type</h4>
+        <p>使用Type.InvokerMember可以调用类型的方法、属性。自然也可以通过调用类型的构造函数来创建一个类型的实例。</p>
+        <pre><code>
+        //直接调用无参构造函数
+        Object obj = typeof(Employee).InvokeMember(null, BindingFlags.CreateInstance, null, null, null);
+        Employee employee =obj as Employee;
+        employee.Say("InvokeMember default ctor");
+
+        // 使用带参数的构造函数
+        obj = typeof(Employee).InvokeMember(null, BindingFlags.CreateInstance, null, null, new object[] { "david" });
+        employee = obj as Employee;
+        ((Employee)obj).Say("InvokeMember ctor with argument");
+             </code></pre>
+        <h4>System.Reflection.ConstructorInfo</h4>
+        <p>除了直接适用InvokerMember调用构造函数外，还可以先以反射的方式获取构造函数对应的MemberInfo，具体类型为ConstructorInfo，然后使用其Invoke方法。</p>
+        <pre><code>
+        // 首先获取构造函数，然后再Invoke
+        ConstructorInfo ctor = typeof(Employee).GetConstructor(new Type[] { typeof(string) });
+        var emp = (Employee)ctor.Invoke(new object[]{"david"});
+        emp.Say("ConstructorInfo");
+             </code></pre>
+        <p>本来一步可以完成的操作，分两边走完的确是麻烦了些，但好处在于获取ConstructorInfo之后，后续多次调用Invoke时，避免重复绑定，可以提高效率，适用于需要重复多次使用同一个构造函数创建实例的场景。反射的绑定过程是按照字符串比较的方式在程序集元数据中查找匹配的成员，速度较慢。</p>
+        <pre><code>
+         public static class ReflectionHelper
+        {
+            public static T CreateInstance&lt;T&gt;(string assemblyName, string nameSpace, string className)
+            {
+                try
+                {
+                    string fullName = string.Fortmat("{0}.{1}", nameSpace, className);
+                    object obj = Assembly.Load(assemblyName).CreateInstance(fullName);
+                    return (T)obj;
+                    //下面是第二种写法
+                    //string path = fullName + "," + assemblyName;//命名空间.类型名,程序集
+                    //Type o = Type.GetType(path);//加载类型
+                    //object obj = Activator.CreateInstance(o, true);//根据类型创建实例
+                    //return (T)obj;//类型转换并返回
+
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+        }
+             </code></pre>
+        <h3 id="fsff">通过反射调用类的方法</h3>
+        <ul>
+            <li>使用MethodInfo.Invoke调用方法</li>
+            <li>Type对象下的InvokeMember调用方法</li>
+        </ul>
+        <h4>使用MethodInfo.Invoke调用方法</h4>
+        <pre><code>
+        //方法调用
+        Assembly assembly = Assembly.Load("WuLaLa");
+        MethodInfo m2 = assembly.getType().GetMethod("NewBigShow");
+        Console.WriteLine(m2.Invoke(obj, new object[] { "大神辅导" }));
+
+        //重载方法调用
+        MethodInfo m1 = type.GetMethod("Show",new Type[]{});
+        Console.WriteLine(m1.Invoke(obj, null));
+
+        MethodInfo m3 = type.GetMethod("Show",new Type[]{typeof(int)});
+        Console.WriteLine(m3.Invoke(obj, new object[] { 11 }).ToString());
+
+        MethodInfo m4 = type.GetMethod("Show", new Type[] { typeof(string) });
+        Console.WriteLine(m4.Invoke(obj, new object[] { "安生"}));
+             </code></pre>
+        <h4>Type对象下的InvokeMember调用方法</h4>
+        <pre><code>
+        Assembly assembly = Assembly.Load("WuLaLa");
+        object obj0 = Activator.CreateInstance(assembly.getType());
+        object getStr=assembly.getType().InvokeMember("NewShow", BindingFlags.InvokeMethod, null, obj0, null);
+
+        //调用静态方法
+        assembly.getType().InvokeMember("outPut",BindingFlags.InvokeMethod, null, null, null);
+        </code></pre>
+        <h3 id="fscy">查看类中成员</h3>
+        <pre><code>
+        //这里的输出并没有包含private和protected访问权限的成员，GetMembers默认返回公开的成员。不包括构造函数 
+        //获取公开的所有成员,包括从object继承的
+         foreach (var method in type.GetMethods())
+        {
+            Console.WriteLine("有：" + method.Name);
+        }
+
+
+        //  会包括非公有的成员。
+        MemberInfo[] minfos = t.GetMembers(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public );
+        foreach (MemberInfo minfo in minfos)
+         {
+            Console.WriteLine(minfo.Name);
+        }
+
+        //会去掉继承的
+        MemberInfo[] minfos = t.GetMembers(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly );
+        foreach (MemberInfo minfo in minfos)
+        {
+            Console.WriteLine(minfo.Name);
+        }
+
+        //会有静态的
+        MemberInfo[] minfos = t.GetMembers(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Static); 
+        foreach (MemberInfo minfo in minfos)
+        {
+            Console.WriteLine(minfo.Name);
+        }
+            </code></pre>
+        <pre><code>
+        //反射 访问私有方法
+        MethodInfo m5 = type.GetMethod("innerMethod",BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        Console.WriteLine(m5.Invoke(obj,null));
+        </code></pre>
+
+        <pre><code>
+        //反射 访问私有构造函数 破坏单例
+        Assembly assembly2 = Assembly.Load("WuLaLa");
+        object m6 = Activator.CreateInstance(assembly2.GetType("WuLaLa.School"), true);
+             </code></pre>
+        <h4>反射方法参数和返回值</h4>
+        <p>上面我们都只返回了名字，其实我们还可以从MethodInfo或者FieldInfo或者Type中获取更多其他的信息。</p>
+        <p>以MethodInfo为例，来丰富上面的ListMethods()方法，除了列出所有方法的名字外，还输出它们的参数（<em>MethodInfo.GetParameters()</em>）和返回值（<em>MethodInfo.ReturnType</em>）。</p>
+        <pre><code>
+        foreach (var m in type.GetMethods())
+        {
+            var paramInfos = m.GetParameters().Select(p => string.Format("{0} {1}", p.ParameterType, p.Name));
+            string paramInfo = String.Join(", ", paramInfos.ToArray());
+            Console.WriteLine("-> {0} {1}( {2} )", retVal, m.Name, paramInfo);
+        }
+             </code></pre>
+        <h3 id="fsgz">查看类的构造函数</h3>
+        <pre><code>
+        //构造函数集合  
+        ConstructorInfo[] myconstructors = type.GetConstructors();  
+        foreach (ConstructorInfo csinfo in myconstructors)  
+        {  
+            Console.WriteLine("ConstructorInfo：{0}",csinfo.Name);  
+            foreach (ParameterInfo pinfo in csinfo.GetParameters())//构造函数参数列表  
+            {  
+                Console.WriteLine("Parameter：{0},{1}", pinfo.Name,pinfo.ParameterType);  
+            }  
+        }  
+             </code></pre>
+        <h3 id="fssx">查看类中属性</h3>
+        <p>运行时获取属性的方式跟方法类似，<em>GetProperties()</em>函数。GetProperties()方法返回当前 Type的所有公共字段；<em>GetProperties(BindingFlags)</em>方法则可以使用指定绑定约束，搜索当前 Type定义的字段， PropertyInfo[]类型。</p>
+        <pre><code>
+        PropertyInfo[] finfos = t.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        foreach (PropertyInfo finfo in finfos)
+        {
+            //输出了该方法的返回类型和参数数量和MSIL代码长度以及局部变量的数量
+            MethodInfo getinfo = finfo.GetMethod(true);
+            Console.WriteLine("get方法的名称{0}  返回值类型:{1}  参数数量:{2}  MSIL代码长度:{3} 局部变量数量:{4}", getinfo.Name, getinfo.ReturnType.ToString(),getinfo.GetParameters().Count(),getinfo.GetMethodBody().GetILAsByteArray().Length, getinfo.GetMethodBody().LocalVariables.Count); 
+        }
+             </code></pre>
+        <h3 id="fszd">查看类中字段</h3>
+        <p>运行时获取字段的方式跟方法类似，采用<em>GetFileds()</em>函数。GetFileds()方法返回当前 Type的所有公共字段；<em>GetFields(BindingFlags)</em>方法则可以使用指定绑定约束，搜索当前 Type定义的字段， 它们返回的结果都是FieldInfo[]类型。</p>
+        <pre><code>
+        FieldInfo[] finfos = t.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        foreach (FieldInfo finfo in finfos)
+        {
+             Console.WriteLine("字段名称：{0}  字段类型:{1} ", finfo.Name, finfo.FieldType.ToString());
+            //获取值
+            Console.WriteLine("字段名称：{0}  字段类型:{1} rc中的值为:{2}", finfo.Name, finfo.FieldType.ToString(), finfo.GetValue(类对象));
+            //修改值
+            finfo.SetValue(类对象, 100);
+        }
+             </code></pre>
+        <h4>C#反射设置属性值和获取属性值</h4>
+        <pre><code>
+         // 获取类中的属性值 
+        public string GetModelValue(string FieldName, object obj)
+        {
+            try
+            {
+                Type Ts = obj.GetType();
+                object o = Ts.GetProperty(FieldName).GetValue(obj, null);
+                string Value = Convert.ToString(o);
+                if (string.IsNullOrEmpty(Value)) return null;
+                return Value;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+         
+        
+        // 设置类中的属性值
+        public bool SetModelValue(string FieldName,string Value, object obj)
+        {
+            try
+            {
+                Type Ts = obj.GetType();
+                object v = Convert.ChangeType(Value, Ts.GetProperty(FieldName).PropertyType);
+                Ts.GetProperty(FieldName).SetValue(obj, v, null);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+             </code></pre>
+        <h3 id="fsjk">反射实现的接口</h3>
+        <p>采用Type类的<em>GetInterfaces()</em>方法，它返回的是Type[]。获得一个类型继承的所有接口集合，可以调用Type的FindInterfaces GetInterface或者GetInterfaces。所有这些方法只能返回该类型直接继承的接口，他们不会返回从一个接口继承下来的接口。要想返回接口的基础接口必须再次调用上述方法。反射实现的接口也是类似的情况</p>
+
+
+
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+
+    })
+</script>
+

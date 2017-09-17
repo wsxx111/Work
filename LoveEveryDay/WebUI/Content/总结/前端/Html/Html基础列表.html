@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title></title>
+    <!--<link href="/WebUI/Resource/Css/PageListStyle.css" rel="stylesheet" />-->
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgcore.lhgdialog.min.js"></script>
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgdialog.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #eeeeee;
+        }
+
+        .wrap {
+            margin: 30px;
+            padding: 10px;
+        }
+
+            .wrap a {
+                color: #413939;
+                display: inline-block;
+                line-height: 36px;
+                border: 1px solid #39059b;
+                background-color: transparent;
+                padding: 20px 40px;
+                margin: 10px;
+                box-shadow: rgba(0,0,0,.8) 0px 0px 4px;
+                font-weight: bold;
+            }
+
+                .wrap a:hover {
+                    background: #394a82;
+                    color: #fbf2f2;
+                }
+
+                .wrap a.special:hover {
+                    background-color: #b9941d;
+                    color: #fbf2f2;
+                }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <a data-url="url:/WebUI/Content/总结/前端/Html/Detail/meta讲解.html" href="javascript:void(0);">meta讲解</a>
+        <a data-url="url:/WebUI/Content/总结/前端/Html/Detail/单位.html" href="javascript:void(0);">单位</a>
+        <a data-url="url:/WebUI/Content/总结/前端/Html/Detail/行内元素和块级元素.html" href="javascript:void(0);">行内元素和块级元素</a>
+        <a data-url="url:/WebUI/Content/总结/前端/Html/Detail/html头部.html" href="javascript:void(0);">html头部（本地）</a>
+        <a class="special" data-url="" href="http://www.css88.com/archives/6410" target="_blank">Html头部</a>
+        <a class="special" data-url="" href="http://mp.weixin.qq.com/s/gl41egMUjCK5Bec9Ghg1NA" target="_blank">rem手机屏幕适配</a>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    window.onload = function () {
+
+        var objs = document.getElementsByTagName("a");
+        for (var i = 0; i < objs.length; i++) {
+
+            (function (i) {
+                var obj = objs[i];
+                obj.onclick = function () {
+                    var url = obj.getAttribute("data-url");
+                    if (!url) {
+                        return;
+                    }
+                    var tit = obj.text;
+                    var dg = $.dialog({
+                        id: tit,
+                        init: function () {
+                            this.max();
+                        },
+                        min: false,
+                        title: tit,
+                        content: url,
+                        width: 40,
+                        height: 0,
+                        iconTitle: false,
+                        cover: true,   //开启遮罩层
+                        btnBar: false
+                    });
+                }
+            })(i);
+
+        }
+    }
+
+</script>

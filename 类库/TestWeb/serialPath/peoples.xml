@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPeople xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <People>
+    <Address>上海大厅sss</Address>
+  </People>
+  <People>
+    <Address>北京大厅sss</Address>
+  </People>
+</ArrayOfPeople>

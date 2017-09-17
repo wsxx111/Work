@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <link rel="shortcut icon" href="WebUI/Resource/Images/wk.ico" />
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" />
+    <link href="WebUI/Resource/Css/bootstrap_amend.css" rel="stylesheet" />
+    <link href="WebUI/Resource/Css/Site.css" rel="stylesheet" />
+    <style type="text/css">       
+        .showline {
+            outline: 1px solid red;
+        }
+    </style>
+    <title>凯的世界</title>
+</head>
+<body>  
+    <div class="container-fluid">
+        <div id="web-header" class="row">
+            <div class="navbar navbar-inverse">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".res">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand"><span class="glyphicon glyphicon-heart red"></span>&nbsp;&nbsp;&nbsp;凯的世界</div>
+                </div>
+                <div class="navbar-text"></div>
+
+                <div class="collapse navbar-collapse navbar-right res">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="WebUI/Content/MainPage.html" target="frameRight">主页</a></li>
+                        <li><a href="http://www.cnblogs.com/wwkk/" target="_blank">博客</a></li>
+                        <li><a href="https://github.com/wsxx111" target="_blank">GitHub</a></li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">设置&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">BrnShop系统</a></li>
+                                <li><a href="#">PetShop系统</a></li>
+                            </ul>
+                        </li>
+                        <li><a style="color:#ccc;" href="index.html" target="_self">wap版</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="web-content" class="row">
+            <!--导航-->
+            <div class="col-xs-2 row-in">
+                <div class="web-left">
+                    <div id="adminInfo">
+                    </div>
+                    <div id="menu">
+                        <ul class="nav-left">
+                            <li>正在加载...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--内容-->
+            <div class="col-xs-10 row-in">
+                <div class="web-right">
+                    <div class="content-tabs">
+                        <button class="btn btn-default roll-btn-left">
+                            <i class="glyphicon glyphicon-backward"></i>
+                        </button>
+                        <nav class="page-tabs">
+                            <div class="page-tabs-content">
+                                <a href="WebUI/Content/MainPage.html" class="active" target="frameRight">主页</a>                               
+                            </div>
+                        </nav>                       
+                            <button class="btn btn-default roll-btn-right">
+                                <i class="glyphicon glyphicon-forward"></i>
+                            </button>
+                            <div class="btn-group roll-group-right">
+                                <button type="button" class="btn-new-black2" data-toggle="dropdown">
+                                    关闭操作&nbsp;<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">                                   
+                                    <li class=""><a id="tabs_close" href="javascript:void(0)">关闭全部选项卡</a>
+                                    </li>
+                                    <li class=""><a id="tabs_otherclose" href="javascript:void(0)">关闭其他选项卡</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="login.html" class="btn btn-default roll-link-right"><i class=""></i>退出</a>
+                        </div>                   
+                    <div class="content-main">
+                        <iframe id="frameRight" onload="loadFrame(this)" name="frameRight" height="100%" width="100%" src="WebUI/Content/MainPage.html" frameborder="0" seamless="seamless"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="web-footer">
+            <div>
+                <div id="time"></div>
+                <div id="copy_desc">Copyright&nbsp;©&nbsp;wangkai &nbsp;&nbsp;&nbsp;&nbsp;2017</div>
+            </div>
+        </div>
+        <div id="parcentNum">
+        </div>
+    </div>
+</body>
+</html>
+<!--<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>-->
+<!--<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>-->
+
+<script src="WebUI/Resource/Javascript/jquery.min.js"></script>
+<script src="WebUI/Resource/Javascript/bootstrap.min.js"></script>
+<script src="WebUI/Resource/Javascript/menulist.js?v=1.1"></script>
+<script src="WebUI/Resource/Javascript/loadnavlist.js?v=1.0"></script>
+<script src="WebUI/Resource/Javascript/wk-tabs.js?v=1.0"></script>
+
+<script type="text/javascript">    
+
+    function loadFrame(obj) {
+        $('#parcentNum').text('');
+        var win = document.getElementById('frameRight').contentWindow;
+        var targetElem = document.getElementById('frameRight').contentWindow.document
+        var docum = document.getElementById('frameRight').contentWindow.document;
+        $(win).scroll(function () {
+            var scrollTo = $(win).scrollTop(),
+            docHeight = $(docum).height(),
+            windowHeight = $(win).height();
+            scrollPercent = (scrollTo / (docHeight - windowHeight)) * 100;
+            console.log(scrollPercent);
+            if (scrollPercent > 0) {
+                scrollPercent = scrollPercent.toFixed(1);
+                $('#parcentNum').text(scrollPercent + "%");
+            }
+        }).trigger('scroll');
+    }
+
+</script>
+<script type="text/javascript">
+    $(function () {      
+        setInterval("document.getElementById('time').innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());", 1000);
+    });
+</script>

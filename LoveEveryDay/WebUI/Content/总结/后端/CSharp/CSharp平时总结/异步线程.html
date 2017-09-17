@@ -1,0 +1,680 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>   
+     <div class="sideMenu">
+        <input type='checkbox' id='sideToggle' />
+        <div class="cover-white"></div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#xc">线程</a></li>
+                <li><a href="#task">Task</a></li>
+                <li><a href="#async_await">async/await</a></li>
+                <li><a href="#iasyncResult">IAsyncResult</a></li>
+                <li><a href="#parallel">Parallel</a></li>
+                <li><a href="#ybhd">异步的回调</a></li>
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar"></div>
+            <ul>
+               <li><a href="#">顶部</a></li>
+                <li><a href="#xc">线程</a></li>
+                <li><a href="#task">Task</a></li>
+                <li><a href="#async_await">async/await</a></li>
+                <li><a href="#iasyncResult">IAsyncResult</a></li>
+                <li><a href="#parallel">Parallel</a></li>
+                <li><a href="#ybhd">异步的回调</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">     
+        <p><em>同步编程</em>是对于单线程来说的，就像我们编写的控制台程序，以main方法为入口，顺序执行我们编写的代码。</p>  
+        <p><em>异步编程</em>是对于多线程来说的，通过创建不同线程来实现多个任务的并行执行。</p> 
+        <h3 id="xc">线程</h3>       
+        <p>多线程的意义在于一个应用程序中，有多个执行部分可以同时执行；对于比较耗时的操作(例如io，数据库操作)，或者等待响应(如WCF通信)的操作，可以单独开启后台线程来执行，这样主线程就不会阻塞，可以继续往下执行；等到后台线程执行完毕，再通知主线程，然后做出对应操作！</p>
+        <h5> 什么是主线程</h5>
+        <p>每一个Windows进程都恰好包含一个用作程序入口点的主线程。进程的入口点创建的第一个线程被称为主线程。.Net执行程序（控制台、Windows Form、Wpf等）使用Main()方法作为程序入口点。当调用该方法时，主线程被创建。</p>
+        <h5>什么是工作者线程</h5>
+        <p>由主线程创建的线程，可以称为工作者线程，用来去执行某项具体的任务。</p>
+        <h5>什么是前台线程</h5>
+        <p>默认情况下，使用Thread.Start()方法创建的线程都是前台线程。前台线程能阻止应用程序的终结，只有所有的前台线程执行完毕，CLR才能关闭应用程序（即卸载承载的应用程序域）。前台线程也属于工作者线程。</p>
+        <h5>什么是后台线程</h5>
+        <p>后台线程不会影响应用程序的终结，当所有前台线程执行完毕后，后台线程无论是否执行完毕，都会被终结。一般后台线程用来做些无关紧要的任务（比如邮箱每隔一段时间就去检查下邮件，天气应用每隔一段时间去更新天气）。后台线程也属于工作者线程。</p>
+        <p>在C#中开启新线程比较简单</p>
+        <pre><code>
+        static void Main(string[] args)
+        {
+            Console.WriteLine("主线程开始！");
+            //创建前台工作线程
+            Thread t1 = new Thread(Task1);
+            t1.Start();
+            //创建后台工作线程
+            Thread t2= new Thread(new ParameterizedThreadStart(Task2));
+            t2.IsBackground = true;//设置为后台线程
+            t2.Start("传参");
+        }
+        private static void Task1()
+        {
+            Thread.Sleep(1000);//模拟耗时操作，睡眠1s
+            Console.WriteLine("前台线程被调用！");
+        }
+        private static void Task2(object data)
+        {
+            Thread.Sleep(2000);//模拟耗时操作，睡眠2s
+            Console.WriteLine("后台线程被调用！" + data);
+        }
+             </code></pre>
+        <img alt="" src="http://img.soufun.com/kanli/2017_03/22/59/96/pic/006093138700.jpg" />
+        <h4>线程池</h4>
+        <p>试想一下，如果有大量的任务需要处理，例如网站后台对于HTTP请求的处理，那是不是要对每一个请求创建一个后台线程呢？显然不合适，这会占用大量内存，而且频繁地创建的过程也会严重影响速度，那怎么办呢？线程池就是为了解决这一问题，把创建的线程存起来，形成一个线程池(里面有多个线程)，当要处理任务时，若线程池中有空闲线程(前一个任务执行完成后，线程不会被回收，会被设置为空闲状态)，则直接调用线程池中的线程执行(例asp.net处理机制中的Application对象)</p>
+        <p>线程池是为突然大量爆发的线程设计的，通过有限的几个固定线程为大量的操作服务，减少了创建和销毁线程所需的时间，从而提高效率，这也是线程池的主要好处。</p>
+        <p>ThreadPool适用于并发运行若干个任务且运行时间不长且互不干扰的场景。</p>
+        <p>还有一点需要注意，通过线程池创建的任务是后台任务。</p>
+        <pre><code>
+        for (int i = 0; i < 100; i++)
+        {
+            //将方法排入队列以便执行，此方法在线程池中线程变的可以时执行
+            ThreadPool.QueueUserWorkItem(m =>
+            {
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString());
+            });
+        }
+        Console.Read();
+
+        //虽然执行了100次，但并没有创建100个线程。
+        //如果去掉最后一句Console.Read()，会发现程序仅输出【主线程开始！】就直接退出，从而确定ThreadPool创建的线程都是后台线程。
+             </code></pre>
+        <h4>信号量(Semaphore)</h4>
+        <p>信号量(Semaphore)，有时被称为信号灯，是在多线程环境下使用的一种设施, 它负责协调各个线程, 以保证它们能够正确、合理的使用公共资源。 </p>
+        <p>以一个停车场是运作为例。为了简单起见，假设停车场只有三个车位，一开始三个车位都是空的。这是如果同时来了五辆车，看门人允许其中三辆不受阻碍的进入，然后放下车拦，剩下的车则必须在入口等待，此后来的车也都不得不在入口处等待。这时，有一辆车离开停车场，看门人得知后，打开车拦，放入一辆，如果又离开两辆，则又可以放入两辆，如此往复。
+　　在这个停车场系统中，车位是公共资源，每辆车好比一个线程，看门人起的就是信号量的作用。
+　　更进一步，信号量的特性如下：信号量是一个非负整数（车位数），所有通过它的线程（车辆）都会将该整数减一（通过它当然是为了使用资源），当该整数值为零时，所有试图通过它的线程都将处于等待状态。在信号量上我们定义两种操作： Wait（等待） 和 Release（释放）。 当一个线程调用Wait等待）操作时，它要么通过然后将信号量减一，要么一自等下去，直到信号量大于一或超时。Release（释放）实际上是在信号量上执行加操作，对应于车辆离开停车场，该操作之所以叫做“释放”是应为加操作实际上是释放了由信号量守护的资源。</p>
+        <p>类似互斥锁，但它可以允许多个线程同时访问一个共享资源。通过使用一个计数器来控制对共享资源的访问，如果计数器大于0，就允许访问，如果等于0，就拒绝访问。计数器累计的是“许可证”的数目，为了访问某个资源。线程必须从信号量获取一个许可证。</p>
+        <p>Semaphore负责协调线程，可以限制对某一资源访问的线程数量</p>
+        <pre><code>
+        using  System.Threading
+
+        static SemaphoreSlim semLim = new SemaphoreSlim(3); //3表示最多只能有三个线程同时访问
+        static void Main(string[] args)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                new Thread(SemaphoreTest).Start();
+            }
+            Console.Read();
+        }
+        static void SemaphoreTest()
+        {
+            semLim.Wait();
+            Console.WriteLine("线程" + Thread.CurrentThread.ManagedThreadId.ToString() + "开始执行");
+            Thread.Sleep(2000);
+            Console.WriteLine("线程" + Thread.CurrentThread.ManagedThreadId.ToString() + "执行完毕");
+            semLim.Release();
+        }
+             </code></pre>
+        <p>可以看到，刚开始只有三个线程在执行，当一个线程执行完毕并释放之后，才会有新的线程来执行方法！除了SemaphoreSlim类，还可以使用Semaphore类，感觉更加灵活</p>
+        <em>Semaphore</em>
+        
+        <p>Public Semaphore（int initialCount，int maximumCount）</p>
+        <p>initialCount指信号量许可证的初始值，maximumCount为最大值.获取许可证使用WaitOne(),不需要时释放使用 public int Release()或者public int Release(int  releaseCount)</p>
+        <pre><code>
+        public class MyThread
+        {
+            public Thread thrd;
+            //创建一个可授权2个许可证的信号量，且初始值为2
+            static Semaphore sem = new Semaphore(2, 2);
+            public MyThread(string name)
+            {
+                thrd = new Thread(this.run);
+                thrd.Name = name;
+                thrd.Start();
+            }
+            void run()
+            {
+                Console.WriteLine(thrd.Name + "正在等待一个许可证……");
+                //申请一个许可证
+                sem.WaitOne();
+                Console.WriteLine(thrd.Name + "申请到许可证……");
+                for (int i = 0; i < 4; i++)
+                {
+                    Console.WriteLine(thrd.Name + "： " + i);
+                    Thread.Sleep(1000);
+                }
+                Console.WriteLine(thrd.Name + " 释放许可证……");
+                //释放
+                sem.Release();
+            }
+        }
+
+        class Program
+        {
+            public static void Main()
+            {
+                mythread mythrd1 = new mythread("Thrd #1");
+                mythread mythrd2 = new mythread("Thrd #2");
+                mythread mythrd3 = new mythread("Thrd #3");
+                mythread mythrd4 = new mythread("Thrd #4");
+                mythrd1.thrd.Join();
+                mythrd2.thrd.Join();
+                mythrd3.thrd.Join();
+                mythrd4.thrd.Join();
+            }
+        } 
+             </code></pre>
+        <h3 id="task">Task</h3>
+        <p>Task是.NET4.0加入的，跟线程池ThreadPool的功能类似，用Task开启新任务时，会从线程池中调用线程，而Thread每次实例化都会创建一个新的线程,简化了我们进行异步编程的方式，而不用直接与线程和线程池打交道。用Task类可以轻松地在次线程中调用方法。</p>
+        <p>System.Threading.Tasks中的类型被称为任务并行库（TPL）。TPL使用CLR线程池（说明使用TPL创建的线程都是后台线程）自动将应用程序的工作动态分配到可用的CPU中。</p>
+        <pre><code>
+        Console.WriteLine("主线程启动");
+        //Task.Run启动一个线程
+        //Task启动的是后台线程，要在主线程中等待后台线程执行完毕，可以调用Wait方法
+        //Task task = Task.Factory.StartNew(() => { Thread.Sleep(1500); Console.WriteLine("task启动"); });
+        Task task = Task.Run(() => { 
+            Thread.Sleep(1500);
+            Console.WriteLine("task启动");
+        });
+        Thread.Sleep(300);
+        task.Wait();
+        Console.WriteLine("主线程结束");
+             </code></pre>
+        <p>开启新任务的方法：Task.Run()或者Task.Factory.StartNew()，开启的是后台线程。要在主线程中等待后台线程执行完毕，可以使用Wait方法(会以同步的方式来执行)。不用Wait则会以异步的方式来执行。</p>
+        <p>比较一下Task和Thread：</p>
+        <pre><code>
+        static void Main(string[] args)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                new Thread(Run1).Start();
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                Task.Run(() => { Run2(); });
+            }
+        }
+        static void Run1()
+        {
+            Console.WriteLine("Thread Id =" + Thread.CurrentThread.ManagedThreadId);
+            /*
+            Thread Id=10
+            Thread Id=11
+            Thread Id=12
+            Thread Id=13
+            Thread Id=14            
+            */
+        }
+        static void Run2()
+        {
+            Console.WriteLine("Task调用的Thread Id =" + Thread.CurrentThread.ManagedThreadId);
+
+            /*
+            Task调用的Thread Id =15
+            Task调用的Thread Id =6
+            Task调用的Thread Id =6
+            Task调用的Thread Id =17
+            Task调用的Thread Id =15
+            */
+        }
+             </code></pre>
+        <p>可以看出来，直接用Thread会开启5个线程，用Task(用了线程池)开启了3个！</p>
+        <h4>Task&lt;TResult&gt;</h4>
+        <p>Task&lt;TResult&gt;就是有返回值的Task，TResult就是返回值类型。</p>
+        <pre><code>
+        Console.WriteLine("主线程开始");
+        //返回值类型为string
+        Task&lt;string&gt; task = Task&lt;string&gt;.Run(() => {
+            Thread.Sleep(2000); 
+            return Thread.CurrentThread.ManagedThreadId.ToString(); 
+        });
+        //会等到task执行完毕才会输出;
+        Console.WriteLine(task.Result);
+        Console.WriteLine("主线程结束");
+
+        /*
+        主线程开始
+        10
+        主线程结束
+        */
+           </code></pre>
+        <p>通过task.Result可以取到返回值，若取值的时候，后台线程还没执行完，则会等待其执行完毕！Task任务可以通过CancellationTokenSource类来取消，感觉用得不多</p>
+        <h4>Task线程取消</h4>
+        <p>Task 提供了线程取消的操作，使用起来也是非常的简单。它本质上是靠异常来打断线程的执行，并且把Task的状态置为Cancel状态</p>
+        <p>要实现线程的取消需要一下步骤。</p>
+        <ul>
+            <li> 首先要在线程中加入取消检查点（ThrowIfCancellationRequested），这里是在工作函数的起始处和while循环的运行中。</li>
+            <li>在Main函数中定义CancellationTokenSource对象并把它作为参数传递给工作Task。</li>
+            <li>在运行时调用CancellationTokenSource.Cancel()，触发线程的取消。</li>
+            <li> 在Main函数中捕获取消异常（OperationCanceledException），线程终止，取消成功。</li>
+        </ul>
+        <pre><code>
+        public void run_with_cancel(System.Threading.CancellationToken ct)
+        {           
+            System.Console.WriteLine("ThreadWork1 run { ");
+            ct.ThrowIfCancellationRequested();
+            for (int i = 0; i < 10; i++)
+            {
+                System.Console.WriteLine("ThreadWork1 : " + i);
+                System.Threading.Thread.Sleep(200);
+                ct.ThrowIfCancellationRequested();
+            }
+            System.Console.WriteLine("ThreadWork1 run } ");           
+        }
+        
+        public void run_with_cancel(System.Threading.CancellationToken ct)
+        {            
+            ct.ThrowIfCancellationRequested();
+            System.Console.WriteLine("ThreadWork2 run { ");
+            for (int i = 0; i < 10; i++)
+            {
+                System.Console.WriteLine("ThreadWork2 : " + i * i);
+                System.Threading.Thread.Sleep(300);
+                ct.ThrowIfCancellationRequested();
+            }
+            System.Console.WriteLine("ThreadWork2 run } ");            
+        }
+             </code></pre>
+        
+        <pre><code>
+        static void StartT1(System.Threading.CancellationToken ct)
+        {
+            ThreadWork1 work1 = new ThreadWork1();
+            work1.run_with_cancel(ct);
+        }
+
+        static void StartT2(System.Threading.CancellationToken ct)
+        {
+            ThreadWork2 work2 = new ThreadWork2();
+            work2.run_with_cancel(ct);
+        }
+             </code></pre>
+        <pre><code>
+        System.Threading.CancellationTokenSource cts =new System.Threading.CancellationTokenSource();  
+        System.Threading.CancellationToken ct = cts.Token;
+        Task t1 = new Task(() => StartT1(ct)); //传入Token
+        Task t2 = new Task(() => StartT2(ct)); //传入Token
+        t1.Start();
+        t2.Start();
+        System.Threading.Thread.Sleep(2000);
+        cts.Cancel(); //触发取消
+        try{
+                Console.WriteLine("Main wait t1 t2 end {");
+                if (!Task.WaitAll(new Task[] { t1, t2 }, 5000))
+                {
+                    Console.WriteLine("Worker1 and Worker2 NOT complete within 5 seconds");
+                    Console.WriteLine("Worker1 Status: " + t1.Status);
+                    Console.WriteLine("Worker2 Status: " + t2.Status);
+                }
+                else
+                {
+                    Console.WriteLine("Worker1 and Worker2 complete within 5 seconds");
+                }
+            }
+            catch (AggregateException agg_ex)
+            {
+                foreach (Exception ex in agg_ex.InnerExceptions)
+                {
+                    Console.WriteLine("Agg Exceptions: " + ex.ToString());
+                    Console.WriteLine("");
+                }
+            }
+             </code></pre>
+
+
+        <h3 id="async_await">async/await</h3>
+        <p>async/await是C#4.5中推出的,async关键字用来指定某个方法、Lambda表达式或匿名方法自动以异步的方式来调用，先上用法</p>
+        <pre><code>
+        static void Main(string[] args)
+        {
+            Console.WriteLine("-------主线程启动-------");
+            Task&lt;int&gt; task = GetStrLengthAsync();
+            Console.WriteLine("主线程继续执行");
+            Console.WriteLine("Task返回的值" + task.Result);
+            Console.WriteLine("-------主线程结束-------");
+        }
+        
+        static async Task&lt;int&gt; GetStrLengthAsync()
+        {
+            Console.WriteLine("GetStrLengthAsync方法开始执行");
+            //此处返回的&lt;string&gt;中的字符串类型，而不是Task&lt;string&gt;
+            string str = await GetString();
+            Console.WriteLine("GetStrLengthAsync方法执行结束");
+            return str.Length;
+        }
+        
+        static Task&lt;string&gt; GetString()
+        {
+        　　 Console.WriteLine("GetString方法开始执行")
+            return Task&lt;string&gt;.Run(() =>
+            {
+                Thread.Sleep(2000);
+                return "GetString的返回值";
+            });
+        }
+
+        /*
+        -------主线程启动-------
+        GetStrLengthAsync方法开始执行
+        GetString方法开始执行
+        主线程继续执行
+        GetStrLengthAsync方法执行结束
+        Task返回的值13
+        -------主线程结束-------
+        */
+             </code></pre>
+        <p>async用来修饰方法，表明这个方法是异步的，声明的方法的返回类型必须为：void，Task或Task&lt;TResult&gt;。方法的执行结果或者任何异常都将直接反映在返回类型中</p>
+        <p>await必须用来修饰Task或Task&lt;TResult&gt;，而且只能出现在已经用async关键字修饰的异步方法中。通常情况下，async/await成对出现才有意义</p>
+        <p>可以看出来，main函数调用GetStrLengthAsync方法后，在await之前，都是同步执行的，直到遇到await关键字，main函数才返回继续执行</p>
+        <p>在遇到await关键字后，没有继续执行GetStrLengthAsync方法后面的操作，也没有马上反回到main函数中，而是执行了GetString的第一行，以此可以判断await这里并没有开启新的线程去执行GetString方法，而是以同步的方式让GetString方法执行，等到执行到GetString方法中的Task&lt;string&gt;.Run()的时候才由Task开启了后台线程！</p>
+        <p>被async标记的方法，意味着可以在方法内部使用await，这样该方法将会在一个await point（等待点）处被挂起，并且在等待的实例完成后该方法被异步唤醒。【注意：await point（等待点）处被挂起，并不是说在代码中使用await SomeMethodAsync()处就挂起，而是在进入SomeMethodAsync()真正执行异步任务时被挂起，切记</p>
+        <p>不是被async标记的方法，就会被异步执行，刚开始都是同步开始执行。换句话说，方法被async标记不会影响方法是同步还是异步的方式完成运行。事实上，async使得方法能被分解成几个部分，一部分同步运行，一些部分可以异步的运行（而这些部分正是使用await显示编码的部分），从而使得该方法可以异步的完成。调用async标记的方法，刚开始是同步执行的，只有当执行到await标记的方法中的异步任务时，才会挂起。</p>
+        <p>那么await的作用是什么呢？</p>
+        <p>await关键字告诉编译器在async标记的方法中插入一个可能的挂起/唤醒点。 逻辑上，这意味着当你写await someMethod();时，编译器将生成代码来检查someMethod()代表的操作是否已经完成。如果已经完成，则从await标记的唤醒点处继续开始同步执行；如果没有完成，将为等待的someMethod()生成一个continue委托，当someMethod()代表的操作完成的时候调用continue委托。这个continue委托将控制权重新返回到async方法对应的await唤醒点处。返回到await唤醒点处后，不管等待的someMethod()是否已经经完成，任何结果都可从Task中提取，或者如果someMethod()操作失败，发生的任何异常随Task一起返回或返回给SynchronizationContext。</p>
+        <p>可以从字面上理解，上面提到task.wait可以让主线程等待后台线程执行完毕，await和wait类似，同样是等待，等待Task&lt;string&gt;.Run()开始的后台线程执行完毕，不同的是await不会阻塞主线程，只会让GetStrLengthAsync方法暂停执行。</p>
+        <h3 id="iasyncResult">IAsyncResult</h3>
+        <p>IAsyncResult自.NET1.1起就有了，包含可异步操作的方法的类需要实现它，Task类就实现了该接口</p>
+        <p>在不借助于Task的情况下怎么实现异步呢？</p>
+        <pre><code>
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                Console.WriteLine("主程序开始--------------------");
+                int threadId;
+                AsyncDemo ad = new AsyncDemo();
+                AsyncMethodCaller caller = new AsyncMethodCaller(ad.TestMethod);
+        
+                IAsyncResult result = caller.BeginInvoke(3000,out threadId, null, null);
+                Thread.Sleep(0);
+                Console.WriteLine("主线程线程 {0} 正在运行.",Thread.CurrentThread.ManagedThreadId)
+                //会阻塞线程，直到后台线程执行完毕之后，才会往下执行
+                result.AsyncWaitHandle.WaitOne();
+                Console.WriteLine("主程序在做一些事情！！！");
+                //获取异步执行的结果
+                string returnValue = caller.EndInvoke(out threadId, result);
+                //释放资源
+                result.AsyncWaitHandle.Close();
+                Console.WriteLine("主程序结束--------------------");
+                Console.Read();
+            }
+        }
+        public class AsyncDemo
+        {
+            //供后台线程执行的方法
+            public string TestMethod(int callDuration, out int threadId)
+            {
+                Console.WriteLine("测试方法开始执行.");
+                Thread.Sleep(callDuration);
+                threadId = Thread.CurrentThread.ManagedThreadId;
+                return String.Format("测试方法执行的时间 {0}.", callDuration.ToString());
+            }
+        }
+        public delegate string AsyncMethodCaller(int callDuration, out int threadId);
+
+            /*
+            主程序开始--------------------
+            主线程线程9正在运行.
+            测试方法开始执行.
+            测试方法执行完毕.
+            主程序在做一些事情！！！
+            主程序结束--------------------
+            */
+             </code></pre>
+        <p>和Task的用法差异不是很大！result.AsyncWaitHandle.WaitOne()就类似Task的Wait。</p>
+        <h3 id="parallel">Parallel(数据并行)</h3>
+        <p>数据并行是指使用Parallel.For()或Parallel.ForEach()方法以并行方式对数组或集合中的数据进行迭代。</p>
+        <pre><code>
+        Stopwatch watch1 = new Stopwatch();
+        watch1.Start();
+        for (int i = 1; i <= 10; i++)
+        {
+            Console.Write(i + ",");
+            Thread.Sleep(1000);
+        }
+        watch1.Stop();
+        Console.WriteLine(watch1.Elapsed);
+        
+        Stopwatch watch2 = new Stopwatch();
+        watch2.Start();
+        
+        //会调用线程池中的线程
+        Parallel.For(1, 11, i =>
+        {
+            Console.WriteLine(i + ",线程ID:" + Thread.CurrentThread.ManagedThreadId);
+            Thread.Sleep(1000);
+        });
+        watch2.Stop();
+        Console.WriteLine(watch2.Elapsed);
+             </code></pre>
+        <pre><code>
+        List&lt;int&gt; list = new List&lt;int&gt;() { 1, 2, 3, 4, 5, 6, 6, 7, 8, 9 };
+        Parallel.ForEach&lt;int&gt;(list, n =>
+        {
+            Console.WriteLine(n);
+            Thread.Sleep(1000);
+        });
+             </code></pre>
+        <pre><code>
+        Action[] actions = new Action[] { 
+           new Action(()=>{
+               Console.WriteLine("方法1");
+           }),
+            new Action(()=>{
+               Console.WriteLine("方法2");
+           })
+        };
+        Parallel.Invoke(actions);
+             </code></pre>
+         <h4>PLINQ(并行LINQ查询)</h4>
+        <p>为并行运行而设计的LINQ查询为PLINQ。System.Linq命名空间的ParallelEnumerable中包含了一些扩展方法来支持PINQ查询。</p>
+        <pre><code>
+        int[] modThreeIsZero = (from num in source.AsParallel()
+                        where num % 3 == 0
+                        orderby num descending
+                        select num).ToArray();
+             </code></pre>
+        <h3 id="ybhd">异步的回调</h3>
+        <p>为了简洁(偷懒)，文中所有Task&lt;TResult&gt;的返回值都是直接用task.result获取，这样如果后台任务没有执行完毕的话，主线程会等待其执行完毕。这样的话就和同步一样了，一般情况下不会这么用。简单演示一下Task回调函数的使用：</p>
+        <pre><code>
+        Console.WriteLine("主线程开始");
+        Task&lt;string&gt; task = Task&lt;string&gt;.Run(() => {
+            Thread.Sleep(2000); 
+            return Thread.CurrentThread.ManagedThreadId.ToString(); 
+        });
+        //会等到任务执行完之后执行
+        task.GetAwaiter().OnCompleted(() =>
+        {
+            Console.WriteLine(task.Result);
+        });
+        Console.WriteLine("主线程结束");
+        Console.Read();
+
+            /*
+            主线程开始
+            主线程结束
+            10
+            */
+             </code></pre>
+        <p>OnCompleted中的代码会在任务执行完成之后执行！另外task.ContinueWith()也是一个重要的方法：</p>
+        <pre><code>
+        Console.WriteLine("主线程开始");
+        Task&lt;string&gt; task = Task&lt;string&gt;.Run(() => {
+            Thread.Sleep(2000); 
+            return Thread.CurrentThread.ManagedThreadId.ToString(); 
+        });
+        
+        task.GetAwaiter().OnCompleted(() =>
+        {
+            Console.WriteLine(task.Result);
+        });
+        task.ContinueWith(m=>{Console.WriteLine("第一个任务结束啦！我是第二个任务");});
+        Console.WriteLine("主线程结束");
+        Console.Read();
+
+            /*
+            主线程开始
+            主线程结束
+            10
+            第一个任务结束啦！我是第二个任务
+            */
+             </code></pre>
+        <p>ContinueWith()方法可以让该后台线程继续执行新的任务，控制Task简单的任务执行顺序的方式。</p>   
+        <p>用ContinueWith和Wait函数组合使用便可以控制任务的运行顺序。</p>   
+        <pre><code>
+         class ThreadWork1
+         {
+             public ThreadWork1()
+             { }
+
+             public List&lt;string&gt; run()
+             {
+                 List&lt;string&gt; RetList = new List&lt;string&gt;();
+                 System.Console.WriteLine("ThreadWork1 run { ");
+                 System.Console.WriteLine("ThreadWork1 running ... ... ");
+                 for (int i = 0; i < 100; i++)
+                 {
+                     RetList.Add("ThreadWork1 : " + i);
+                     //System.Console.WriteLine("ThreadWork1 : " + i);
+                 }
+                 System.Console.WriteLine("ThreadWork1 run } ");
+
+                 return RetList;
+             }
+         }
+
+         class ThreadWork2
+         {
+             public ThreadWork2()
+             { }
+
+             public List&lt;string&gt; run()
+             {
+                 List&lt;string&gt; RetList = new List&lt;string&gt;();
+
+                 System.Console.WriteLine("ThreadWork2 run { ");
+                 System.Console.WriteLine("ThreadWork2 running ... ... ");
+                 for (int i = 0; i < 100; i++)
+                 {
+                     RetList.Add("ThreadWork2 : " + i);
+                     //System.Console.WriteLine("ThreadWork2 : " + i * i);
+                 }
+                 System.Console.WriteLine("ThreadWork2 run } ");
+                 return RetList;
+             }
+         }
+
+         class Program
+         {
+             static void StartT0()
+             {
+                 System.Console.WriteLine("Hello I am T0 Task, sleep 3 seconds. when I am ready others GO!");  
+                 for (int i = 0; i < 3; i++)
+                 {
+                     Console.WriteLine("StartT0 sleeping  ... ... " + i);
+                     System.Threading.Thread.Sleep(1000);
+                 }
+             }
+
+             static List&lt;string&gt; StartT1()
+             {
+                 ThreadWork1 work1 = new ThreadWork1();
+                 return work1.run();
+             }
+
+             static List&lt;string&gt; StartT2()
+             {
+                 ThreadWork2 work2 = new ThreadWork2();
+                 return work2.run();
+             }
+             static void Main(string[] args)
+             {
+                 Console.WriteLine("Sample 3-4 Main {");
+                 // The sequence of the task is:
+                 // T0 (Wait 3s) --> |
+                 //                  | --> T1 (Cacluate) |
+                 //                  | --> T2 (Cacluate) |
+                 //                                      |  --> T3 (Print)
+
+                 var t0 = Task.Factory.StartNew(() => StartT0());
+                 var t1 = t0.ContinueWith((t) => StartT1());
+                 var t2 = t0.ContinueWith((t) => StartT2());
+
+                 Console.WriteLine("Main wait t1 t2 end {");
+                 Task.WaitAll(t1, t2);
+                 Console.WriteLine("Main wait t1 t2 end }");
+
+                 var t3 = Task.Factory.StartNew(() =>
+                 {
+                     Console.WriteLine("============= T1 Result =============");
+                     for (int i = 0; i < t1.Result.Count; i++)
+                     {
+                         Console.WriteLine(t1.Result[i]);
+                     }
+                     Console.WriteLine("============= ========= =============\n\n");
+
+                     Console.WriteLine("============= T2 Result =============");
+                     for (int i = 0; i < t2.Result.Count; i++)
+                     {
+                         Console.WriteLine(t2.Result[i]);
+                     }
+                     Console.WriteLine("============= ========= =============\n\n");
+                 }, TaskCreationOptions.LongRunning);
+
+                 Console.WriteLine("Sample 3-4 Main }");
+
+                 Console.ReadKey();
+             }
+         }
+
+             </code></pre>
+
+
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+
+    })
+</script>
+
+
+

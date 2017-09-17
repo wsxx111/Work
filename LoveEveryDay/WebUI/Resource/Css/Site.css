@@ -1,0 +1,428 @@
+﻿body, html {
+    height: 100%;
+}
+
+.red {
+    color: red;
+}
+
+#web-content {
+    margin-top: -20px;
+    height: 100%;
+    overflow: hidden;
+}
+
+#navbar {
+    padding-top: 20px;
+}
+
+.web-left {
+    position: relative;
+    z-index: 100;
+    height: 100%;
+    background-color: #eee;
+}
+
+.web-right {
+    padding: 0px;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+}
+
+
+#web-footer {
+    position: absolute;
+    z-index: 200;
+    height: 48px;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    border-top: 2px solid rgb(167,177,194);
+    background-color: #1e1c1c;
+}
+
+#parcentNum {
+    position: absolute;
+    z-index: 400;
+    height: 48px;
+    line-height: 40px;
+    right: 20px;
+    bottom: 30px;
+    font-size: 20px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.row-in {
+    padding-left: 0px;
+    padding-right: 0px;
+    height: calc(100% - 100px) !important;
+}
+
+/*左侧菜单*/
+#menu {
+    padding-top: 0px;
+    width: 100%;
+    height: 100%;
+    padding-left: 0px;
+}
+
+    #menu ul {
+        list-style: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+.nav-left {
+    padding-left: 0px;
+    margin-left: 0px;
+    /*border-right: 1px solid white;*/
+}
+
+
+    .nav-left > li {
+        width: 100%;
+        background-color: #1e1c1c;
+        color: #b9b6b6;
+        position: relative;
+        border-right: 1px solid white;
+    }
+
+        .nav-left > li > div {
+            display: inline-block;
+            height: 50px;
+            width: 60px;
+            line-height: 50px;
+            border-right: 1px solid white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .nav-left > li:hover div {
+            cursor: pointer;
+            background-color: #ff6a00;
+            color: #fff;
+        }
+
+    .nav-left li:hover > a {
+        cursor: pointer;
+        color: #ff6a00;
+    }
+
+    .nav-left li:hover {
+        background-color: #353535;
+    }
+
+
+    .nav-left li ul {
+        display: none;
+    }
+
+    .nav-left li a {
+        color: #b9b6b6;
+        line-height: 50px;
+        height: 50px;
+        padding-left: 15px;
+    }
+
+    .nav-left > li > a {
+        /*display: inline-block;*/
+        width: -moz-calc(100% - 60px) !important;
+        width: -webkit-calc(100% - 60px) !important;
+        width: calc(100% - 60px) !important;
+    }
+
+    .nav-left > li li > a {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .nav-left > li ul {
+        width: 150px;
+        position: absolute;
+        right: -151px;
+        top: 0px;
+        background-color: #1e1c1c;
+        color: #b9b6b6;
+        position: absolute;
+        border-right: 1px solid white;
+        padding-left: 0px;
+    }
+
+        .nav-left > li ul li {
+            position: relative;
+            border-right: 1px solid white;
+        }
+
+            .nav-left > li ul li:hover {
+                border-left: 4px solid #ad1010;
+            }
+
+    .nav-left li a i {
+        position: absolute;
+        right: 10px;
+        line-height: 50px;
+    }
+
+    .nav-left li a:focus {
+        outline: none;
+    }
+
+@media (min-width: 791px) {
+    .nav-left li:hover > ul {
+        display: block;
+    }
+
+    /*底部*/
+    #time {
+        color: #bbb;
+        font-size: 12px;
+        display: inline-block;
+        position: absolute;
+        right: 20px;
+        top: 4px;
+        line-height: 40px;
+    }
+}
+
+@media (max-width:790px) {
+
+    /*底部*/
+    #time {
+        color: #bbb;
+        font-size: 12px;
+        display: inline-block;
+        position: absolute;
+        left: 10px;
+        top: 4px;
+        line-height: 40px;
+    }
+
+    .nav-left > li {
+        width: 60px;
+        height: 100px;
+        position: relative;
+    }
+
+        .nav-left > li > a > span {
+            position: relative;
+            left: -200px;
+            display: inline-block;
+            z-index: 0;
+        }
+
+        .nav-left > li > a i {
+            display: none;
+        }
+
+
+    .nav-left li:hover > a span {
+        transition: left .4s;
+        left: 0px;
+    }
+
+    .nav-left > li > a {
+        display: inline;
+        width: 50px;
+    }
+
+    .nav-left > li ul {
+        display: block;
+        position: relative;
+        left: 1px;
+    }
+
+
+    .nav-left > li > ul {
+        position: absolute;
+        display: none;
+        top: 0px;
+        left: 60px;
+    }
+
+        .nav-left > li > ul ul {
+            display: none;
+        }
+}
+
+
+/*右侧导航内容*/
+.content-tabs {
+    position: relative;
+    height: 40px;
+    /*background: #fafafa;*/
+    line-height: 40px;
+    padding: 0px;
+    border-bottom: 1px solid #b9b6b6;
+}
+
+.page-tabs-right {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0xp;
+}
+
+.content-tabs .btn {
+    display: inline;
+    height: 102%;
+    position: absolute;
+    z-index: 1000;
+    border-radius: 0px;
+    outline: 0;
+    margin: 0px;
+}
+
+.content-tabs .btn-group {
+    width: 96px;
+    height: 100%;
+    position: absolute;
+    border-radius: 0px;
+    outline: 0;
+    z-index: 1000;
+    margin: 0px;
+    right: 64px;
+}
+
+
+.content-tabs .roll-btn-left {
+    /*margin-left:0px;*/
+    width: 43px;
+    left: -1px;
+    z-index: 350;
+    background-color: #343434;
+    color: #b9b6b6;
+}
+
+.content-tabs .roll-btn-right {
+    /*margin-left:0px;*/
+    width: 43px;
+    right: 160px;
+    background-color: #343434;
+    color: #b9b6b6;
+}
+
+    .content-tabs .roll-btn-right:hover, .content-tabs .roll-btn-left:hover {
+        color: #fff;
+    }
+
+.content-tabs .roll-group-right li {
+    cursor: pointer;
+}
+
+.btn-new-black {
+    background-color: #343434;
+    color: #b9b6b6;
+}
+
+.content-tabs .roll-link-right {
+    line-height: 30px;
+    width: 66px;
+    right: 0px;
+    background-color: #343434;
+    color: #b9b6b6;
+}
+
+
+nav.page-tabs {
+    position: absolute;
+    margin-left: 40px;
+    width: 100000px;
+    height: 40px;
+    left: 0px;
+    overflow: hidden;
+}
+
+    nav.page-tabs .page-tabs-content {
+        float: left;
+    }
+
+.page-tabs a {
+    display: block;
+    text-decoration: none;
+    float: left;
+    border-left: solid 1px #b9b6b6;
+    border-right: solid 1px #eee;
+    padding: 0px 15px;
+    /*line-height:69px;*/
+}
+
+    .page-tabs a:hover {
+        color: #777;
+        background: #f2f2f2;
+        cursor: pointer;
+    }
+
+    .page-tabs a span:hover {
+        /*color: #c00;*/
+        background-color: #c00;
+    }
+
+.close-badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 1px 5px 0px 4px;
+    margin-left: 5px;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+}
+
+.content-main {
+    height: 100%;
+    overflow: hidden;
+    padding: 1px;
+    padding-bottom: 44px;
+}
+
+.page-tabs a {
+    background-color: #343434;
+    border-left: 1px solid white;
+    color: #a7b1c2;
+}
+
+    .page-tabs a:hover {
+        background-color: #222;
+        color: #fff;
+    }
+
+    .page-tabs a.active {
+        background: black;
+        border-left: 1px solid white;
+        color: red;
+    }
+
+.btn-new-black2 {
+    background-color: #343434;
+    color: #a7b1c2;
+    padding: 10px 12px;
+    line-height: 1.3333333;
+    border: none;
+}
+
+    .btn-new-black2:hover {
+        color: #fff;
+    }
+
+.page-tabs a.active i:hover, .page-tabs a.active:hover {
+    color: #fff;
+}
+
+
+#copy_desc {
+    color: #aaa;
+    font-size: 11px;
+    display: inline-block;
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    line-height: 40px;
+}

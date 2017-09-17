@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/codelight.js"></script>
+    <script src="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/scripts/shBrushBash.js"></script>
+    <title></title>
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h4>定时器中的this</h4>
+        <pre class="brush: javascript;">
+        function Aaa()
+        {
+            var _this = this;  //解决关键
+            this.a = 12;
+            //但凡被定时器调的函数，this必然是window，所以，show里面的this.a是undefined的
+            // setInterval(this.show, 1000);
+            setInterval(function () { _this.show(); }, 1000);
+        }
+        
+        Aaa.prototype.show = function () 
+        {
+            console.log(this.a);
+        }
+        
+        var obj = new Aaa();
+        obj.show();
+    </pre>
+        <h4>按钮事件中的this</h4>
+        <pre class="brush: javascript;">
+        function Bbb() 
+        {
+            var _this = this;
+            this.b = 5;
+            var btn = document.getElementById('btn1');
+            //同理，onclick下show函数中如果是this，则指的是按钮，this.show()将会是undefined，所以得存起来
+
+            //btn.onclick = (function () {
+            //    this.show();
+            //}).bind(this); //或者
+
+            btn.onclick = function () {
+                _this.show();
+            }
+
+            btn.ondblclick = function () {
+                console.log(this.value); //弹出按钮的显示文本
+            }
+        }
+
+        Bbb.prototype.show = function () {
+            console.log(this.b);
+        }
+
+        window.onload = function () {
+            new Bbb();
+        }
+     </pre>
+    <pre class="brush: javascript;">
+        document.write('<button onclick="console.log(this)">Show this</button>');
+        //输出： <button onclick="console.log(this)">Show this</button>
+        document.write('<button onclick="(function(){console.log(this);})()">Show this</button>');
+        //输出： window
+     </pre>          
+    <h4>作用域</h4>
+    <pre class="brush: javascript;">
+        var fun = 90;
+        (function () {
+            //对于fun，首先本范围内上部没有，那么就找本范围内的函数，如果函数没有就找外部，
+            //如果外部没有就undefinded，不会因为下部有但不是函数就选择下部的
+            console.log(fun); //输出的是fun2的那个
+            function fun() {
+                console.log('我是fun1方法');
+            }
+            function fun() {
+                console.log('我是fun2方法');
+            }
+            var fun = 3;
+            console.log(fun);  //3
+        })()
+    </pre>   
+    <pre class="brush: javascript;">
+        var mmm = "da";
+        var obj = {
+            mmm: "xiao",
+            method: function () {
+                console.log(this.mmm);  //xiao
+                function shakereturn() {
+                    var mmm = "zuixiao";
+                    console.log(this.mmm); //da
+                }
+                shakereturn();
+
+                (function shakereturn2() {
+                    var mmm = "zuixiao2";
+                    console.log(this.mmm);  //da
+                })()
+
+            }
+        }
+        obj.method();
+     </pre>
+      <h4>参数绑定</h4>
+         <pre class="brush: javascript;">
+        function attachfun(b, c) {
+            console.log(this.a + b + c);
+        }
+        attachfun(3, 4);//NaN
+        var bbb = { a: 20 };
+        attachfun.apply(bbb, [3, 4]);
+        attachfun.call(bbb, 3, 4);
+        var f_1 = attachfun.bind(bbb);
+        f_1(3, 4);
+        var f_2 = attachfun.bind(bbb, 3);
+        f_2(4);
+     </pre>  
+    <pre class="brush: javascript;">
+        //可以使用bind来设置this达到this暂存的效果。
+        var bar = {
+            name: "bar",
+            body: document.getElementsByTagName("body")[0],
+
+            greeting: function () {
+                console.log("Hi there, I'm " + this + ":" + this.name);
+            },
+
+            anotherMethod: function () {
+                this.body.addEventListener("click", (function () {
+                    this.greeting();
+                }).bind(this));
+            }
+        };
+
+        bar.anotherMethod();
+        // Hi there, I'm [object Object]:bar
+     </pre> 
+      
+    </div>
+</body>
+</html>

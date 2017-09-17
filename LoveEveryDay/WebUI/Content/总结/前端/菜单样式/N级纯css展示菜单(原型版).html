@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title></title>
+    <style type="text/css">
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+            ul.nav-left-list > li {
+                text-align: center;
+                width: 100px;
+                background-color: #0094ff;
+                border: 1px solid;
+                line-height: 40px;
+
+                position: relative;
+            }
+
+            ul.nav-left-list li ul {
+                display: none;  
+                position: absolute;            
+                left: 100px;
+                top: 0px;               
+            }
+
+                ul.nav-left-list li ul li {
+                    text-align: center;
+                    width: 100px;
+                    background-color: #b6ff00;
+                    border: 1px solid;
+                    line-height: 40px;
+
+                    position: relative;
+                }
+
+            ul.nav-left-list li:hover > ul {
+                display: block;
+            }
+    </style>
+</head>
+<body>
+    <ul class="nav-left-list">
+        <li><a href="#"><span>首页</span></a></li>
+        <li>
+            <a href="#"><span>一级》</span></a>
+            <ul>
+                <li><a href="#"><span>二级》</span></a>
+                    <ul>
+                        <li><a href="#"><span>三级11</span></a></li>
+                        <li><a href="#"><span>三级12</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span>二级</span></a></li>
+                <li>
+                    <a href="#"><span>二级》</span></a>
+                    <ul>
+                        <li><a href="#"><span>三级21</span></a></li>
+                        <li><a href="#"><span>三级22》</span></a>
+                            <ul>
+                                <li><a href="#"><span>四级11</span></a></li>
+                                <li><a href="#"><span>四级12</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#"><span>下文</span></a></li>       
+    </ul>
+</body>
+</html>

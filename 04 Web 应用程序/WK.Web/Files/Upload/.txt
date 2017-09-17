@@ -1,0 +1,95 @@
+	DECLARE @MainCount INT = 1;
+                        DECLARE @TCount INT = 0;
+                        DECLARE @TempNewcode VARCHAR(255) = 0;
+                        DECLARE @City NVARCHAR(MAX)= 0;
+                        DECLARE @District NVARCHAR(MAX)= 0;
+                        DECLARE @TempProjtype NVARCHAR(MAX) = 0;
+                        DECLARE @TempHouseFeature NVARCHAR(MAX) = 0;
+                        DECLARE @T AS TABLE
+                            (
+                                id BIGINT IDENTITY(1, 1) ,
+                                newcode VARCHAR(255) ,
+                                city NVARCHAR(MAX) ,
+                                district NVARCHAR(MAX) ,
+                                proj_type NVARCHAR(MAX) ,
+                                houseFeature NVARCHAR(MAX)
+                            );
+                        DECLARE @T1 AS TABLE
+                            (
+                                newcode VARCHAR(255) ,
+								city  VARCHAR(255) ,
+                                district NVARCHAR(MAX) ,
+                                proj_type NVARCHAR(MAX)
+                            );
+                        DECLARE @T2 AS TABLE
+                            (
+                                newcode VARCHAR(255) ,
+                                city NVARCHAR(MAX) ,
+                                houseFeature NVARCHAR(MAX)
+                            );
+                        INSERT  INTO @T
+                                SELECT  newcode ,
+                                        city ,
+                                        district ,
+                                        proj_type ,
+                                        houseFeature
+                                FROM    ProjectPotentialUserForCube_ProjInfo WITH ( NOLOCK )
+                                WHERE   newcode IN ( '1210124564','1010762767' )
+								;
+                        SELECT  @TCount = COUNT(ID)
+                        FROM    @T
+                        WHILE @MainCount <= @TCount
+                            BEGIN
+                                SET @TempNewcode = 0;
+                                SET @TempProjtype = '';
+                                SET @TempHouseFeature = '';
+                                SELECT  @TempNewcode = newcode ,
+                                        @City = city ,
+                                        @District = district ,
+                                        @TempProjtype = proj_type ,
+                                        @TempHouseFeature = houseFeature
+                                FROM    @T
+                                WHERE   id = @MainCount;
+                        --跑类型
+                                DECLARE @i INT
+                                SET @TempProjtype = RTRIM(LTRIM(@TempProjtype))
+                                SET @i = CHARINDEX(',', @TempProjtype)
+                                WHILE @i >= 1
+                                    BEGIN
+                                        INSERT  INTO @T1
+                                        VALUES  ( @TempNewcode,@City, @District, LEFT(@TempProjtype, @i - 1) )
+                                        SET @TempProjtype = SUBSTRING(@TempProjtype, @i + 1,
+                                                                        LEN(@TempProjtype) - @i)
+                                        SET @i = CHARINDEX(',', @TempProjtype)
+                                    END
+                                IF @TempProjtype <> ''
+                                    INSERT  INTO @T1
+                                    VALUES  ( @TempNewcode,@City, @District, @TempProjtype )
+                        --跑特性
+                                DECLARE @j INT
+                                SET @TempProjtype = RTRIM(LTRIM(@TempHouseFeature))
+                                SET @j = CHARINDEX(',', @TempHouseFeature)
+                                WHILE @j >= 1
+                                    BEGIN
+                                        INSERT  INTO @T2
+                                        VALUES  ( @TempNewcode, @City, LEFT(@TempHouseFeature, @j - 1) )
+                                        SET @TempHouseFeature = SUBSTRING(@TempHouseFeature, @j + 1,
+                                                                            LEN(@TempHouseFeature) - @j)
+                                        SET @j = CHARINDEX(',', @TempHouseFeature)
+                                    END
+                                IF @TempHouseFeature <> ''
+                                    INSERT  INTO @T2
+                                    VALUES  ( @TempNewcode, @City, @TempHouseFeature )
+                                SET @MainCount = @MainCount + 1;
+                            END;
+
+							select distinct *  from (SELECT  a.city, a.newcode,b.uid,b.platform FROM @T1 a ,ProjectPotentialUserForCube_Interest  b
+							where b.type=1 and a.city = b.city and a.district = b.key1 and a.proj_type = b.key2  and lasttime >'2017-05-25'
+
+							union all 
+							select  a.city,a.newcode,b.uid,b.platform from 
+
+							(SELECT a.newcode,a.proj_type,b.houseFeature,b.city FROM @T1 a join  @T2 b on a.newcode = b.newcode 
+							) a 
+							,ProjectPotentialUserForCube_Interest  b
+							where b.type=2 and a.city = b.city and a.proj_type = b.key1 and a.houseFeature = b.key2 and lasttime >'2017-05-25') a

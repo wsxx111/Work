@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">      
+        <p>首先说一下bind,灵活的通过bind来改变this指针</p>
+        <p>bind方法会创建一个新函数,称为绑定函数.当调用这个绑定函数时,绑定函数会以创建它时传入bind方法的第一个参数作为this,</p>
+        <p>传入bind方法的第二个以及以后的参数加上绑定函数运行时本身的参数按照顺序作为原函数的参数来调用原函数.</p>
+        <p>首先bind是Function下的函数</p>
+        <pre><code>
+        var pp = { name: 'wk', show: function () { console.log(this.name) } };
+             </code></pre>
+        <p>如果给按钮绑定事件</p>
+        <p>这样写的话就有问题，因为show里面的this是button对象,将返回''</p>
+        <pre><code>
+        document.getElementById('btn').addEventListener("click", pp.show);
+        document.getElementById('btn').onclick = pp.show;
+        document.getElementById('btn').addEventListener("click", function () {
+           pp.show();  
+        });
+        document.getElementById('btn').addEventListener("click", pp.show.bind(pp));
+             </code></pre>
+        <pre><code>
+        function people() {
+            this.name = 'wk';
+            this.salary = 6000;
+        }
+        people.prototype.addSalary = function (address) {
+            if (address) {
+                console.log(address);
+            }
+            window.setTimeout((function () {
+                var newsalary = this.salary + 1000;
+                console.log('原工资为：' + this.salary + ',过了一秒后，工资为：' + newsalary);
+            }).bind(this), 1000);
+        }
+             </code></pre>
+        <pre><code>
+        var p1 = new people();
+        p1.addSalary();
+        p1.addSalary.call(p1, '北京');
+             </code></pre>
+        <pre><code>
+        var ordata = { age: 12 };
+        function showdata() {
+            console.log(this.age);
+        }
+
+        //showdata();  undefined  ×
+
+        showdata.bind(ordata)();//12  √ 
+             </code></pre>
+        <pre><code>
+        var arr = [1, 4, 67, 23];
+        console.log(arr.slice(2, 4));  //[67,23]
+             </code></pre>
+        <p>我们把这个方法提起出来</p>
+        <p>var getSlice = Array.prototype.slice;</p>
+        <p>现在要执行getSlice这方法getSlice()，需要this</p>
+        <pre><code>
+        console.log(getSlice.call(arr, 2, 4));
+        console.log(getSlice.apply(arr, [2, 4]));
+        console.log(getSlice.bind(arr, 2, 4)());//都是一样的
+             </code></pre>
+        <p>apply和call以及bind都是Function.prototype下的</p>
+
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>

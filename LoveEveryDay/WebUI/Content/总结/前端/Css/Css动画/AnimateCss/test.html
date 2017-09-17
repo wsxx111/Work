@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style type="text/css">
+        .showStyle {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 120px;
+            text-align: center;
+            background-color: #ffd800;
+            border: 1px solid #2b2a2a;
+        }
+
+            .showStyle > img {
+                width: 60%;
+            }
+
+        .animated {
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+            .animated.infinite {
+                -webkit-animation-iteration-count: infinite;
+                animation-iteration-count: infinite;
+            }
+
+            .animated.hinge {
+                -webkit-animation-duration: 2s;
+                animation-duration: 2s;
+            }
+
+        @-webkit-keyframes bounce {
+            0%,100%,20%,53%,80% {
+                -webkit-transition-timing-function: cubic-bezier(0.215,.61,.355,1);
+                transition-timing-function: cubic-bezier(0.215,.61,.355,1);
+                -webkit-transform: translate3d(0,0,0);
+                transform: translate3d(0,0,0);
+            }
+
+            40%,43% {
+                -webkit-transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                -webkit-transform: translate3d(0,-30px,0);
+                transform: translate3d(0,-30px,0);
+            }
+
+            70% {
+                -webkit-transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                -webkit-transform: translate3d(0,-15px,0);
+                transform: translate3d(0,-15px,0);
+            }
+
+            90% {
+                -webkit-transform: translate3d(0,-4px,0);
+                transform: translate3d(0,-4px,0);
+            }
+        }
+
+        @keyframes bounce {
+            0%,100%,20%,53%,80% {
+                -webkit-transition-timing-function: cubic-bezier(0.215,.61,.355,1);
+                transition-timing-function: cubic-bezier(0.215,.61,.355,1);
+                -webkit-transform: translate3d(0,0,0);
+                -ms-transform: translate3d(0,0,0);
+                transform: translate3d(0,0,0);
+            }
+
+            40%,43% {
+                -webkit-transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                -webkit-transform: translate3d(0,-30px,0);
+                -ms-transform: translate3d(0,-30px,0);
+                transform: translate3d(0,-30px,0);
+            }
+
+            70% {
+                -webkit-transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                transition-timing-function: cubic-bezier(0.755,.050,.855,.060);
+                -webkit-transform: translate3d(0,-15px,0);
+                -ms-transform: translate3d(0,-15px,0);
+                transform: translate3d(0,-15px,0);
+            }
+
+            90% {
+                -webkit-transform: translate3d(0,-4px,0);
+                -ms-transform: translate3d(0,-4px,0);
+                transform: translate3d(0,-4px,0);
+            }
+        }
+
+        .bounce {
+            -webkit-animation-name: bounce;
+            animation-name: bounce;
+            -webkit-transform-origin: center bottom;
+            -ms-transform-origin: center bottom;
+            transform-origin: center bottom;
+        }
+        @-webkit-keyframes flash {
+    0%,100%,50% {
+        opacity: 1;
+    }
+
+    25%,75% {
+        opacity: 0;
+    }
+}
+
+@keyframes flash {
+    0%,100%,50% {
+        opacity: 1;
+    }
+
+    25%,75% {
+        opacity: 0;
+    }
+}
+
+.flash {
+    -webkit-animation-name: flash;
+    animation-name: flash;
+}
+
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-transform: scale3d(1,1,1);
+        transform: scale3d(1,1,1);
+    }
+
+    50% {
+        -webkit-transform: scale3d(1.05,1.05,1.05);
+        transform: scale3d(1.05,1.05,1.05);
+    }
+
+    100% {
+        -webkit-transform: scale3d(1,1,1);
+        transform: scale3d(1,1,1);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="showStyle">
+        <img id="animation" src="img.jpg" />
+    </div>
+</body>
+</html>
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var getStyle = 'flash';
+        $('#animation').removeClass().addClass(getStyle + ' animated');
+       
+    });
+</script>
+

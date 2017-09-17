@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+</head>
+<body>
+    <div id="content"></div>
+</body>
+</html>
+<!--<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>-->
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="/WebUI/Resource/Javascript/plugins/artTemplate/template.js"></script>
+<script src="/WebUI/Resource/Javascript/plugins/artTemplate/doT.min.js"></script>
+<script id="test" type="text/html">
+<h1>{{title}}</h1>
+<ul>
+    {{each list as value i}}
+        <li>索引 {{i + 1}} ：{{value}}</li>
+    {{/each}}
+</ul>
+    <div id="interpolation"></div>
+</script>
+
+<script id="interpolationtmpl" type="text/x-dot-template">
+<div>Hi {{=it.name}}!</div>
+<div>{{=it.age || ''}}</div>
+</script>
+
+
+<script type="text/javascript">
+    var data = {
+        title: '标签',
+        list: ['文艺', '博客', '摄影', '电影', '民谣', '旅行', '吉他']
+    };
+    var html = template('test', data);
+    document.getElementById('content').innerHTML = html;
+
+    //doT.js
+    var dataInter = { "name": "Jake", "age": 31 };
+    var interText = doT.template($("#interpolationtmpl").text());
+    $("#interpolation").html(interText(dataInter));
+</script>
+

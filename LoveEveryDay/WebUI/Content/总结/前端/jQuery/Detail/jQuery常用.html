@@ -1,0 +1,430 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <link href="/WebUI/Resource/Css/bootstrap.css" rel="stylesheet" />
+    <title></title>
+    <style type="text/css">
+        .header {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+            ul.item {
+                padding-left: 0px;
+                margin-left: 5px;
+                counter-reset: ppp;
+            }
+
+                ul.item > li {
+                    padding: 10px;
+                    background-color: #306ec3;
+                    margin-bottom: 8px;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    border-radius: 5px;
+                    position: relative;
+                }
+
+                    ul.item > li:not(.detail)::before {
+                        font-weight: bold;
+                        counter-increment: ppp;
+                        content: counter(ppp)".";
+                        color: white;
+                        background-color: #306ec3;
+                    }
+
+                    ul.item > li > a {
+                        font-weight: bold;
+                        color: white;
+                        font-size: 11px;
+                        line-height: 30px;
+                    }
+
+                    ul.item > li > i {
+                        font-size: 11px;
+                        position: absolute;
+                        right: 20px;
+                        font-style: normal;
+                        color: wheat;
+                        line-height: 30px;
+                        font-weight: bold;
+                    }
+
+                    ul.item > li a + ul {
+                        margin-left: -10px;
+                        margin-right: -10px;
+                        margin-bottom: -10px;
+                        padding: 10px;
+                        background-color: #f2eded;
+                        display: none;
+                    }
+
+                    ul.item > li li > span {
+                        font-weight: bold;
+                    }
+
+                    ul.item > li li > p {
+                        font-size: 12px;
+                        text-indent: 20px;
+                    }
+
+                    ul.item > li li > div {
+                        padding: 5px;
+                        font-size: 12px;
+                        background-color: #e0e0e0;
+                        border: 1px solid #808080;
+                        border-radius: 3px;
+                        min-height: 20px;
+                        margin-bottom: 5px;
+                    }
+
+                    ul.item > li.detail a + ul {
+                        background-color: wheat;
+                    }
+
+                    ul.item > li.detail {
+                        background-color: #178a7c;
+                        border: 1px solid #808080;
+                    }
+
+        .Jhide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul class="item">
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.noConflict/">jQuery.noConflict([removeAll])</a>
+                <ul>
+                    <li><span>放弃jQuery控制$ 变量。</span>
+                        <p>
+                            removeAll:一个布尔值，判断是否从全局作用域中内去除所有jQuery变量(包括jQuery本身)。<br />
+                            很多javascript库使用 $ 作为一个函数或者变量名，正如jquery做的一样。在jQuery下 $只是jQuery的一个别名，所以不使用 $所有功能都是有效的。如果我们需要同时使用jQuery和其他javascript库，我们可以使用 $.noConflict()把 $的控制权交给其他库。旧引用的$ 被保存在jQuery的初始化; noConflict() 简单的恢复它们。
+                        </p>
+
+                        <div>
+                            &lt;script type="text/javascript" src="other_lib.js"&gt;&lt;/&lt;script&gt;<br />
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;<br />
+                            &lt;script type="text/javascript"&gt;<br />
+                            $.noConflict();<br />
+                            // 其他库用$的代码<br />
+                            &lt;/script&gt;
+                        </div>
+                        <p>
+                            有个技巧对于解决冲突特别有效。.ready() 方法可以给 jQuery 对象取个别名，这样就能够在传给 .ready() 的回调函数的内部继续使用 $ 而不用担心冲突.ready()是一个闭包。
+                        </p>
+                        <div>
+                            &lt;script type="text/javascript" src="other_lib.js"&gt;&lt;/&lt;script&gt;<br />
+                            &lt;script type="text/javascript" src="jquery.js"&gt;&lt;/script&gt;<br />
+                            &lt;script type="text/javascript"&gt;<br />
+                            $.noConflict();<br />
+                            jQuery(document).ready(function($){
+                            //jQuery代码
+                            })
+                            // 其他库用$的代码<br />
+                            &lt;/script&gt;
+                        </div>
+                        <p>如果必要的话，我们可以释放jQuery名字，传递true作为一个参数给这个方法。 这不是必须的，如果我们必须这样做的话（举个例子，如果我们在同一个页面上使用多个版本的jQuery库）， 我们必须考虑到大多数插件依靠jQuery存在的变量,这种情况下，可能导致插件不能正常操作。</p>
+                        <div>
+                            jQuery.noConflict();<br />
+                            jQuery("div p").hide();//这是jquery的<br />
+                            $("content").style.display = 'none';//这是其他的
+                        </div>
+                        <div>
+                            jQuery.noConflict();<br />
+                            (function($) {<br />
+                            $(function() {<br />
+                            //jquery代码，里面仍然可以用$<br />
+                            });<br />
+                            })(jQuery);<br />
+                            // 其他库用$的代码
+                        </div>
+                        <div>
+                            //创建一个新的别名用以在接下来的库中使用jQuery对象。<br />
+                            jq162 = jQuery.noConflict(true);<br />
+                            jq162("p").text('');//应用jquery的<br />
+                            $[c].test('aa');//其他库的
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.12</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/eq/">eq(index)</a>
+                <ul>
+                    <li><span>减少匹配元素的集合为指定的索引的哪一个元素。</span>
+                        <p>可以正数可以负数，负数为从后向前数</p>
+                    </li>
+
+                </ul>
+            </li>
+            <li><i>1.12</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/eq/">filter(selector)</a>
+                <ul>
+                    <li><span>筛选元素集合中匹配表达式 或 通过传递函数测试的 那些元素集合。 </span>
+                        <p>
+                            可以selector:一个用于匹配元素的选择器字符串。<br />
+                            可以function(index): 一个函数用作测试集合中的每个元素。this 是当前DOM元素。<br />
+                            可以jQuery object：现有jQuery对象，用于进一步筛选当前元素集合。
+                        </p>
+                        <div>
+                            $('li').filter(':even')<br />
+                            $('li').filter(function(index) {<br />
+                            return $('strong', this).length == 1;<br />
+                            }) //仅包含一个&lt;strong&gt;标签<br />
+                            $('li').filter(function(index) {<br />
+                            return index % 3 == 2;<br />
+                            })<br />
+                            $("div").css("background", "#c8ebcc")<br />
+                            .filter(".middle")<br />
+                            $("div").filter(function (index) {<br />
+                            return index == 1 || $(this).attr("id") == "fourth";<br />
+                            })<br />
+                            $("div").filter(document.getElementById("unique"))<br />
+                            $("div").filter( $("#unique"))
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/first/">first()</a>
+                <ul>
+                    <li><span>获取匹配元素集合中第一个元素。</span>
+                        <p>
+                            如果一个jQuery对象表示一个DOM元素的集合，.first()方法会构造一个新的jQuery对象，它包含了前一个集合的第一个元素。
+                        </p>
+                        <div>
+                            $('li').first()
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/last/">last()</a>
+                <ul>
+                    <li><span>获取匹配元素集合中最后一个元素。</span>
+                        <p>
+                            如果一个jQuery对象表示一个DOM元素的集合，.last()方法从最后一个匹配的元素中构造一个新的jQuery对象。
+                        </p>
+                        <div>
+                            $('li').last()
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/has/">has(selector)</a>
+                <ul>
+                    <li><span>筛选匹配元素集合中的那些有相匹配的选择器或DOM元素的后代元素。</span>
+                        <p>
+                            selector :一个用于匹配元素的选择器字符串。<br />
+                            contained :用于匹配元素的DOM元素。<br />
+                            如果提供一个jQuery对象代表DOM元素集合， .has() 方法会用其子集创建一个新的jQuery对象。
+                        </p>
+                        <div>
+                            $('li').has('ul')
+                        </div>
+                        <div>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/is/">is(selector)</a>
+                <ul>
+                    <li><span>判断当前匹配的元素集合中的元素，是否为一个选择器，DOM元素，或者jQuery对象，如果这些元素至少一个匹配给定的参数，那么返回true。</span>
+                        <p>
+                            selector :一个字符串，包含一个用来匹配元素的选择器表达式。<br />
+                            function(index) :一个函数，用来测试集合中的元素。它接受一个参数，index ，这是元素在jQuery集合的索引位置。在函数中， this指的是当前的DOM元素。<br />
+                            jQuery object:现有的jQuery对象，以匹配当前的元素。<br />
+                            element :用于匹配元素的DOM元素。<br />
+                            不像其他过滤和遍历方法，.is()并不创建一个新的jQuery对象。相反，它允许我们检测jQuery对象的内容，而无需修改该对象。
+                        </p>
+                        <div>
+                            &lt;ul&gt;<br />
+                            &lt;li&gt;list &lt;strong&gt;item 1&lt;/strong&gt;&lt;/li&gt; //点这个list有效<br />
+                            &lt;li&gt;&lt;span&gt;list item 2&lt;/span&gt;&lt;/li&gt;<br />
+                            &lt;li&gt;list item 3&lt;/li&gt; //点这个有效<br />
+                            &lt;/ul&gt; //其他无效，因为target不是li,而是strong、span等<br />
+                            <br />
+                            $('ul').click(function(event){<br />
+                            var $target=$(event.target);<br />
+                            if($target.is('li'))<br />
+                            {<br />
+                            // $target.css("","");<br />
+                            }<br />
+                            })<br />
+                        </div>
+
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.2</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/map/">.map(callback(index,domElement))</a>
+                <ul>
+                    <li><span>通过一个函数匹配当前集合中的每个元素,产生一个包含新的jQuery对象。</span>
+                        <p>
+                            如果你想处理一个简单的数组或对象中，使用jQuery.map()代替。<br />
+                            由于返回值是一个jQuery包裹的数组，所以通常会使用get()方法将其转换成普通的数组。<br />
+                            .map()方法特别适用于获取或设置元素集合中的值。
+                        </p>
+                        <div>
+                            $(':checkbox').map(function() {<br />
+                            return this.id;<br />
+                            }).get().join();
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/not/">.not(selector)</a>
+                <ul>
+                    <li><span>从匹配的元素集合中移除指定的元素。</span>
+                        <p>
+                            selector :一个用于匹配元素的选择器字符串。
+                            elements :要从匹配元素集合中移除的一个或多个DOM元素。
+                            function(index) :一个函数用作测试集合中的每个元素。this 是当前DOM元素。
+                            jQuery object :现有匹配当前元素集合的jQuery对象。
+                        </p>
+                        <div>
+                            $('li').not(':even')<br />
+                            $("div").not(".green, #blueone")<br />
+                            $("p").not("#selected")<br />
+                            $("p").not($("div p.selected"))<br />
+                            $("p").not($("#selected")[0])<br />
+                            $('li').not(document.getElementById('notli'))
+                        </div>
+                        <p>从jQuery 1.4开始，.not()方法可以接受一个函数作为参数，这和.filter()方式是一样。如果该函数返回 true，那么当前元素就不会包含在结果中。 </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/slice/">slice()</a>
+                <ul>
+                    <li><span>根据指定的下标范围，过滤匹配的元素集合，并生成一个新的 jQuery 对象。</span>
+                        <p>
+                            .slice(start,[end]) :如果提供的jQuery代表了一组DOM元素，.slice()方法从匹配元素的子集中构造一个新的jQuery对象。所提供的start索引标识的设置一个集合中的元素的位置;如果end被省略，这个元素之后的所有元素将包含在结果中。
+                        </p>
+                        <div>
+                            $('li').slice(2)<br />
+                            $('li').slice(2, 4)<br />
+                            $('li').slice(-2, -1)                           
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/add/">add(selector)</a>
+                <ul>
+                    <li><span>创建一个新的jQuery对象 ，元素添加到匹配的元素集合中。</span>
+                        <p>
+                            selector:一个字符串表示的选择器表达式，找到更多的元素添加到匹配的元素集合。
+                            elements :一个或多个元素添加到匹配的元素集合。
+                            html:HTML片段添加到匹配的元素集合。
+                            jQuery object :一个现有的jQuery对象添加到匹配的元素集合。
+                            selector,context:一个字符串表示的选择器表达式,元素所在的上下文
+                        </p>
+                        <div>
+                            $("p").add("div")<br />
+                            var pdiv = $("p");<br />
+                            pdiv.add("div");  // 错误, pdiv 不会变<br />
+                            $('li').add(document.getElementsByTagName('p')[0])
+                            <br />
+                            $('li').add('<p id="new">new paragraph</p>
+                            ').css('background-color', 'red');
+                            <br />
+                            // 虽然已经创建新的段落，并且改变其背景颜色，但是它仍然没有出现在页面上。要想在页面上显示该段落，我们需要在链式方式中使用 jQuery 的插入方法。<br />
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.2</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/contents/">contents()</a>
+                <ul>
+                    <li><span>获得匹配元素集合中每个元素的子元素，包括文字和注释节点。</span>
+                        <p>
+                            .contents()和.children()方法类似，只不过前者包括文本节点和注释节点，以及jQuery对象中产生的HTML元素。
+                        </p>
+                        <div>
+                            $("#frameDemo").contents().find("a")<br />
+                            $("p").contents().filter(function(){ return this.nodeType != 1; })                           
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/each/">.each(function(index,Element))</a>
+                <ul>
+                    <li><span>遍历一个jQuery对象，为每个匹配元素执行一个函数。</span>
+                        <p>
+                            .each() 方法用来让DOM循环结构更简单更不易出错。它会迭代jQuery对象中的每一个DOM元素。每次回调函数执行时，会传递当前循环次数作为参数(从0开始计数)。更重要的是，回调函数是在当前DOM元素为上下文的语境中触发的。因此关键字 this 总是指向这个元素。
+                        </p>
+                        <div>
+                            $( "li" ).each(function( index ) {<br />
+                            console.log( index + ": "" + $(this).text());<br />
+                            });                       
+                        </div>
+                    </li>
+                </ul>
+            </li>
+             <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/end/">end()</a>
+                <ul>
+                    <li><span>遍历一个jQuery对象，为每个匹配元素执行一个函数。</span>
+                        <p>
+                            大多数 jQueryDOM遍历 方法来操作 jQuery 对象实例，并创建一个新的对象，匹配一个不同的 DOM 元素集合。当发生这种情况时，实际上是新的元素集合被压入到对象内部维护的栈中。每次过滤方法都会被压入栈中。当我们需要返回到前一个状态时，我们可以使用end() 进行出栈操作，来返回栈中的前一个状态。 
+                        </p>
+                        <div>
+                           $('ul.first').find('.foo').css('background-color', 'red')<br />
+                            .end().find('.bar').css('background-color', 'green');<br />                                            
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.2</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/replaceAll/">replaceAll(target)</a>
+                <ul>
+                    <li><span>用集合的匹配元素替换每个目标元素。</span>
+                        <p>
+                          target:一个选择器字符串，jQuery对象，DOM元素，或者元素数组，包含哪个元素被替换。<br />
+                            .replaceAll()和.replaceWith()功能类似，但是目标和源相反<br />                                                      
+                        </p>
+                        <div>
+                          $('&lt;h2&gt;New heading&lt;/&lt;h2&gt;').replaceAll('.inner');     <br />       
+                          $('.first').replaceAll('.third');  用来替换的元素从老地方移到新位置，而不是复制 <br />                       
+                        </div>
+                    </li>
+                </ul>
+            </li>
+             <li><i>1.2</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/replaceWith/">replaceWith(target)</a>
+                <ul>
+                    <li><span>用提供的内容替换集合中所有匹配的元素并且返回被删除元素的集合。</span>
+                        <p>
+                         .replaceWith()可以从DOM中移除内容，然后在这个地方插入新的内容                                                      
+                        </p>
+                        <div>
+                          $('div.second').replaceWith('&lt;h2&gt;New heading&lt;/&lt;h2&gt;'); <br />  
+                            //或者我们可以选择一个元素把它当做替换的内容：    <br />  
+                          $('div.third').replaceWith($('.first'));                       
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
+
+
+</body>
+</html>
+<!--<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>-->
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $("ul.item > li").each(function (index, data) {
+            $(data).unbind("click");
+            $(data).unbind("touchend");
+            $(data).on("click touchend", function () {
+                var Obj = $(data).find("ul");
+                // $(Obj).parent().find("ul").slideUp();
+                $(Obj).slideToggle();
+
+                return false;
+            })
+        })
+
+    })
+</script>

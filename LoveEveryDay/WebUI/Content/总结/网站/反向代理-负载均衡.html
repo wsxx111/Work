@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container">
+        <h3>正向代理和反向代理</h3>
+        <p>正向代理代理的对象是客户端，目的为了隐藏客户端，服务端不知道实际发起请求的客户端.；反向代理是服务端部署/使用，对象是服务端。目的为了隐藏服务端，客户端不知道实际提供服务的服务端。反向代理是和服务器集群在一起的，并且知道集群的内部情况。而至于负载均衡，CDN都是反向代理的应用</p>
+        <p>一个是代理(v)客户端，为客户端收发请求，使真实客户端对服务器不可见。一个是反代理(v)服务器，为服务器收发请求，使真实服务器对客户端不可见。</p>
+        <img class="little" src="https://pic1.zhimg.com/480c1c45d2565e2f92fd930d25b73a18_b.jpg" />
+        <p>使用正向代理的过程如下：</p>
+        <ul>
+            <li>客户端连接代理。</li>
+            <li>代理连接服务器。</li>
+            <li>服务器将结果发给代理。</li>
+            <li>代理将结果发给客户端。</li>
+        </ul>
+        <p>反向代理的过程如下：</p>
+        <ul>
+            <li>客户端连接服务器，其实连接的是反向代理服务器，但是客户端不知道。</li>
+            <li>反向代理将请求转发给相应的服务器。</li>
+            <li>服务器将结果发给反向代理。</li>
+            <li>反向代理将结果发给客户端。</li>
+        </ul>
+        <h3>负载均衡</h3>
+        <p>主要说Nginx。Nginx在做反向代理时，提供性能稳定，并且能够提供配置灵活的转发功能。Nginx可以根据不同的正则匹配，采取不同的转发策略。比如图片文件结尾的走文件服务器，动态页面走web服务器</p>
+        <p>Nginx提供的负载均衡策略有2种：内置策略和扩展策略。内置策略为轮询，加权轮询，Ip hash。扩展策略就自定义发挥了</p>
+        <h4>轮询负载均衡算法</h4>
+        <p>优点：请求分配平均.缺点：不能根据机器配置的好坏进行分配</p>
+        <img class="little" src="http://img.soufun.com/kanli/2017_07/26/83/29/pic/006480314900.png" />
+        <pre><code>
+    public static class RoundRobin
+    {
+        private static object obj = new object();
+        static Dictionary&lt;string, int&gt; dic = new Dictionary&lt;string, int&gt;
+        {
+            { "192.168.1.12", 1},
+            {"192.168.1.13", 1 },
+            { "192.168.1.14", 3},
+            { "192.168.1.15", 1},
+            {"192.168.1.16", 1},
+            {"192.168.1.17", 1 },
+            { "192.168.1.18", 1},
+            { "192.168.1.19", 1}
+        };
+        static int pos = 0;
+        public static string roundRobin()
+        {
+            var keyList = dic.Keys.ToList();
+            string server = null;
+            lock (obj)
+            {
+                if (pos >= keyList.Count)
+                {
+                    pos = 0;
+                }
+                server = keyList[pos];
+                pos++;
+            }
+            return server;
+        }
+    }
+            </code></pre>
+        <h4>加权轮询负载均衡算法</h4>
+        <img class="little" src="http://img.soufun.com/kanli/2017_07/26/69/58/pic/006580405500.png" />
+        <pre><code>
+     public static class WeightRoundRobin
+    {
+        private static object obj = new object();
+        private static int pos = 0;
+        static Dictionary&lt;string, int&gt; dic = new Dictionary&lt;string, int&gt;
+        {
+            { "192.168.1.12", 1},
+            {"192.168.1.13", 1 },
+            { "192.168.1.14", 3},
+            { "192.168.1.15", 1},
+            {"192.168.1.16", 1},
+            {"192.168.1.17", 1 },
+            { "192.168.1.18", 1},
+            { "192.168.1.19", 1}
+        };
+        public static string roundRobin()
+        {
+            //獲取ip列表list
+            List&lt;string&gt; it = dic.Keys.ToList();
+            List&lt;string&gt; serverList = new List&lt;string&gt;();
+            foreach (var item in it)
+            {
+                int weight = 0;
+                dic.TryGetValue(item, out weight);
+                for (int i = 0; i < weight; i++)
+                {
+                    serverList.Add(item);
+                }
+            }
+            string server = null;
+            lock (obj)
+            {
+                if (pos >= serverList.Count)
+                {
+                    pos = 0;
+                }
+                server = serverList[pos];
+                pos++;
+            }
+            return server;
+        }
+    }
+            </code></pre>
+        <h4>加权随机负载均衡算法</h4>
+        <pre><code>
+    public static class WeightRandom
+    {
+        static Dictionary&lt;string, int&gt; dic = new Dictionary&lt;string, int&gt;
+        {
+            { "192.168.1.12", 1},
+            {"192.168.1.13", 1 },
+            { "192.168.1.14", 3},
+            { "192.168.1.15", 1},
+            {"192.168.1.16", 1},
+            {"192.168.1.17", 1 },
+            { "192.168.1.18", 1},
+            { "192.168.1.19", 1}
+        };
+        public static string weightRandom()
+        {
+            //获取ip列表list
+            List&lt;string&gt; it=dic.Keys.ToList();
+            list&lt;string&gt; serverlist=new list&lt;string&gt;();
+            foreach (var item in it)
+            {
+                int weight = 0;
+                dic.TryGetValue(item, out weight);
+                for (int i = 0; i < weight; i++)
+                {
+                    serverList.Add(item);
+                }
+            }
+            Random random = new Random();
+            int randomPos = random.Next(serverList.Count);
+            string server = serverList[randomPos];
+            return server;
+        }
+    }
+            </code></pre>
+        <h4>Ip Hash</h4>
+        <img class="little" src="http://img.soufun.com/kanli/2017_07/26/90/66/pic/006574782700.png" />
+        <h4>操作配置</h4>
+        <p>upstream这个配置的，这个配置是写一组被代理的服务器地址，然后配置负载均衡的算法。</p>
+        <pre><code>
+    upstream mysvr { 
+      server 192.168.10.121:3333;
+      server 192.168.10.122:3333;
+    }
+    server {
+           ....
+           location  ~*^.+$ {         
+              proxy_pass  http://mysvr;  #请求转向mysvr 定义的服务器列表         
+           } 
+            </code></pre>
+        <ul>
+            <li>
+                <p>热备：如果你有2台服务器，当一台服务器发生事故时，才启用第二台服务器给提供服务。服务器处理请求的顺序：AAAAAA突然A挂啦，BBBBBBBBBBBBBB.....</p>
+                <pre><code>                                            
+                  upstream mysvr { 
+                    server 127.0.0.1:7878; 
+                    server 192.168.10.121:3333 backup;  #热备     
+                  }
+                    </code></pre>
+            </li>
+            <li>
+                <p>轮询：nginx默认就是轮询其权重都默认为1，服务器处理请求的顺序：ABABABABAB....</p>
+                <pre><code>                                            
+                upstream mysvr { 
+                      server 127.0.0.1:7878;
+                      server 192.168.10.121:3333;       
+                    }
+                    </code></pre>
+            </li>
+            <li>
+                <p>
+                    加权轮询：跟据配置的权重的大小而分发给不同服务器不同数量的请求。如果不设置，则默认为1。下面服务器的请求顺序为：ABBABBABBABBABB....
+                </p>
+                <pre><code>
+                upstream mysvr { 
+                      server 127.0.0.1:7878 weight=1;
+                      server 192.168.10.121:3333 weight=2;
+                }
+                    </code></pre>
+            </li>
+            <li>
+                <p>ip_hash:nginx会让相同的客户端ip请求相同的服务器。</p>
+                <pre><code>                                            
+                upstream mysvr { 
+                      server 127.0.0.1:7878; 
+                      server 192.168.10.121:3333;
+                      ip_hash;
+                    }
+                    </code></pre>
+            </li>
+        </ul>
+        <p>
+            关于nginx负载均衡配置的几个状态参数讲解。
+            <pre><code>
+    upstream mysvr { 
+      server 127.0.0.1:7878      weight=2 max_fails=2 fail_timeout=2;
+      server 192.168.10.121:3333   weight=1 max_fails=2 fail_timeout=1;    
+    }
+                </code></pre>
+        <p>down，表示当前的server暂时不参与负载均衡。</p>
+        <p>backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。</p>
+        <p>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。</p>
+        <p>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。
+        </p>
+    </div>
+</body>
+</html>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+
+</script>

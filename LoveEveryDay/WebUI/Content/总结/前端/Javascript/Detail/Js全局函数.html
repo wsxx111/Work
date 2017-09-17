@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">      
+        <h3>全局函数</h3>
+        <div class="forMore">
+            <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Predefined_Core_Objects#%E6%95%B0%E7%BB%84%E7%9A%84%E6%96%B9%E6%B3%95" target="_blank">Js内置核心对象</a>
+        </div>
+        <p><em>encodeURI()</em><em>decodeURI()</em><em>encodeURIComponent()</em><em>decodeURIComponent()</em><em>escape()</em><em>unescape()</em><em>eval()</em></p>
+        <p><em>String()</em><em>Number()</em><em>parseInt()</em><em>parseFloat()</em></p>
+        <p><em>isNaN()</em><em>isFinite()</em></p>
+        <hr />
+        <p><em>encodeURI(uri):</em>将字符串编码为URI。使用 decodeURI() 方法可以编码URI（通用资源标识符:Uniform Resource Identifier,简称"URI")。对以下在 URI 中具有特殊含义的 ASCII 标点符号，encodeURI() 函数是不会进行转义的：<em> , / ? : @ & = + $ #</em>(可以使用 encodeURIComponent() 方法分别对特殊含义的 ASCII 标点符号进行编码。)。decodeURI(uri):解码某个编码的URI。</p>
+        <pre><code>
+            var textStr='http://www.zhuan-qian.com?url=http://xiao_da.com&name=花钱#index';
+            var newStr1=encodeURI(textStr);
+            console.log(newStr1);
+
+            --  http://www.zhuan-qian.com?url=http://xiao_da.com&name=%E8%8A%B1%E9%92%B1#index 
+             </code></pre>
+        <hr />
+        <p><em>encodeURIComponent(uri):</em>将字符串编码为URI组件。该方法不会对 ASCII 字母和数字进行编码，也不会对这些 ASCII 标点符号进行编码： <em>- _ . ! ~ * ' ( ) </em>。其他字符（比如 ：;/?:@&=+$,# 这些用于分隔 URI 组件的标点符号），将由一个或多个十六进制的转义序列替换的。decodeURIComponent():解码一个编码的URI组件</p>
+        <pre><code>
+            var textStr='http://www.zhuan-qian.com?url=http://xiao_da.com&name=花钱#index';
+            var newStr1=encodeURIComponent(textStr);
+            console.log(newStr1);
+
+           -- http%3A%2F%2Fwww.zhuan-qian.com%3Furl%3Dhttp%3A%2F%2Fxiao_da.com%26name%3D%E8%8A%B1%E9%92%B1%23index  
+             </code></pre>
+        <hr />
+        <p>
+            <em>escape():</em>对字符串进行编码。该函数可对字符串进行编码，这样就可以在所有的计算机上读取该字符串。
+
+　　该方法不会对 ASCII 字母和数字进行编码，也不会对下面这些 ASCII 标点符号进行编码： <em>* @ - _ + . /</em> 。其他所有的字符都会被转义序列替换。该函数不能用于编码 URIs(通用资源标识符（UniformResourceIdentifier,简称"URI"））。unescape():解码由escape()编码的字符串
+        </p>
+        <pre><code>
+             var textStr='h@#$-_32测试/?,.';
+            var newStr1=escape(textStr);
+            console.log(newStr1);
+
+           -- h@%23%24-_32%u6D4B%u8BD5/%3F%2C.  
+             </code></pre>
+        <hr />
+        <p><em>eval():</em>将JavaScript字符串当作脚本来执行。如果参数是一个表达式，eval() 函数将执行表达式。如果参数是Javascript语句，eval()将执行 Javascript 语句。eval()函数是一种由函数执行的动态代码，比直接执行脚本慢很多。慎重使用eval()函数,尽量不用，保证程序的安全性。</p>
+        <hr />
+        <p><em>String():</em>把对象的值转换为字符串</p>
+        <hr />
+        <p><em>Number()</em>把对象的值转换为数字,如果对象的值无法转换为数字，Number()函数返回NaN。如果参数的Date对象，Number()返回从1970年1月1日到现在所经历的毫秒数</p>
+        <hr />
+        <p><em>parseInt(String,radix):</em>返回转换成整数的值。</p>
+        <p>注意：当参数radix的值为0，或者没有设置这个参数，parseInt()会根据string来判断数字的基数。当忽略radix，JavaScript默认数字的基数规则为：</p>
+        <ul>
+            <li>如果string以0x开头，parseInt()会把string的其余部分解析为十六进制的整数。</li>
+            <li>如果string以0开头，那么ECMAScript v3允许parseInt()的一个实现把其后的字符解析为八进制或十六进制的数。
+            </li>
+            <li>如果string以1~9的数字开头，parseInt()将把它解析为十进制的整数。</li>
+            <li>如果字符串以合法字符开始，parseInt()会截取合法字符。</li>
+            <li>String开头和结尾的空格是允许的。</li>
+            <li>如果字符串的第一个字符不能被转换为数字，parseInt()会返回NaN。</li>
+            <li>在字符串以"0"为开始时旧的浏览器默认使用八进制基数。ECMAScript 5，默认的是十进制的基数。</li>
+        </ul>
+        <hr />
+        <p><em>parseFloat(string):</em>返回转换成浮点型的值。</p>
+        <p>该函数指定字符串中的首个字符是否是数字。如果是，则对字符串进行解析，直到到达数字的末端为止，然后以数字返回该数字，而不是作为字符串。</p>
+        <hr />
+        <p><em>isNaN(value):</em>检测某个值是否是NaN。isNaN()检测是否是非数字值，如果值为NaN返回true，否则返回false。</p>
+        <hr />
+        <p><em>isFinite(value):</em>检测某个是是否是无穷值。如果value是NaN或者+Infinity或者-Infinity的数，isFinite()返回false。</p>
+
+         <h3>全局属性</h3>
+        <p><em>Infinity:</em>Infinity 属性用于存放表示正无穷大的数值。负无穷大是表示负无穷大一个数字值。在Javascript中，超出1.7976931348623157E+10308的数值即为Infinity，小于-1.7976931348623157E+103088的数值为无穷小。 </p>
+        <p><em>NaN:</em>NaN 属性用于引用特殊的非数字值。 该属性指定的并不是不合法的数字。NaN 属性 与 Number.Nan 属性相同。请使用 isNaN() 来判断一个值是否是数字。原因是 NaN 与所有值都不相等，包括它自己。</p>
+        <p><em>undefined:</em>用于存放 JavaScript 中未定义的值。</p>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>

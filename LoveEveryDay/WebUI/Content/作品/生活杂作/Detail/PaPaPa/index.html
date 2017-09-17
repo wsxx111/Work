@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="screen-orientation" content="portrait" />
+    <title></title>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            background-color: black;
+        }
+
+        #canvas {
+            background-color: white;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        .turn_tip {
+            display: none;
+        }
+
+        .gifImg {
+            position: absolute;
+            z-index: 100;
+            display: none;
+        }
+        .txttime {
+        position:absolute;
+        top:10;   
+        display:none;
+        font-size:16px;
+        font-family:'Microsoft YaHei';
+        color:yellow;    
+        }
+    </style>
+</head>
+<body>
+    <img class="gifImg" id="nv" src="images/nv.gif" alt="" />
+    <img class="gifImg" id="nan" src="images/nan.gif" alt="" />   
+    <div id="turn_tip" class="turn_tip">
+        <p class="tip_desc">请使用竖屏浏览</p>
+    </div>
+    <canvas id="canvas" height="0" width="0">浏览器不支持canvas
+    </canvas>
+    <span class="txttime" id="txttime"></span>
+</body>
+</html>
+<script src="js/jCanvaScript.1.5.18.min.js"></script>
+<script src="js/game.js"></script>
+<script type="text/javascript">   
+
+    window.onload = function () {
+        init();
+        first_Draw();
+    }
+
+    function init() {
+        init_look();
+        canvas_id = "canvas";
+        canvas = document.getElementById(canvas_id);
+        canvasHeight = canvas.height = window.outerHeight;
+        canvasWidth = canvas.width = window.outerWidth;
+        ctx = canvas.getContext('2d');
+    }
+
+    function first_Draw() {
+        var Ttxt = document.getElementById('txttime');
+        Ttxt.style.display = "none";
+        jc.clear();
+        first_img();
+        jc.start(canvas_id, true);
+        DrawText("活动规则", canvasWidth / 2 - 30, canvasHeight - 30, 180, "#7e3c96", "15px 微软雅黑", "txt_rule", 4, rule_Draw);
+        DrawImg("proface_img", 0, 0, canvasWidth, canvasHeight, '', 0);
+        jc.rect(canvasWidth / 2 - 50, canvasHeight / 3 * 2 + 38, 100, 30, 'rgb(179,45,222)', 1).opacity(0).click(secound_Draw);
+        DrawImg("start_img", canvasWidth / 2 - 100, canvasHeight / 3 * 2, 200, '', "btn_start", 1);
+        DrawImg("ranktxt_img", canvasWidth / 2 + 70, canvasHeight / 3 * 2 - 10, 60, '', "btn_rank", 2, rank_Draw);
+        DrawImg("ruletxt_img", canvasWidth / 2 - 60, canvasHeight - 45, 20, '', '', 3, function () {
+
+        });
+    }
+
+    function secound_Draw() {
+        jc.clear();
+        sec_img();
+        jc.start(canvas_id, true);
+        DrawImg("btnback_img", canvasWidth - 45, canvasHeight / 3 * 2, 45, '', 'btnback', 6, first_Draw, "drag");
+
+        DrawText("请选择您的性别", canvasWidth / 2 - 60, canvasHeight / 2 - 100, 180, "#ffffee", "20px 微软雅黑", "", 4);
+        DrawImg("sexbg_img", 0, 0, canvasWidth, canvasHeight, "", 0);
+
+        DrawImg("sexboy_img", canvasWidth / 2 + 20, canvasHeight / 2 - 30, 120, '', 'boy', 1, function () { game_Draw(0) });
+        DrawImg("sexgirl_img", canvasWidth / 2 - 130, canvasHeight / 2 - 30, 120, '', 'girl', 2, function () { game_Draw(1) });
+
+        //DrawImg("boyside_img", canvasWidth / 2 + 120, canvasHeight / 2 - 30, 20, '', '', 63);
+        //DrawImg("girlside_img", canvasWidth / 2 - 40, canvasHeight / 2 - 30, 30, '', '', 63);
+
+        //DrawGifImg("nan", canvasWidth / 2 + 20, canvasHeight / 2 - 30, 120, '', 2, function () {
+        //    game_Draw(0);
+        //});
+        //DrawGifImg("nv", canvasWidth / 2 - 130, canvasHeight / 2 - 30, 120, '', 2, function () {
+        //    game_Draw(1);
+        //});
+
+    }
+
+    function game_Draw(sex) {
+        jc.clear();
+        game_img();
+        jc.start(canvas_id, true);
+        if (sex) {
+            DrawImg("boybg1_img", 0, 0, canvasWidth, canvasHeight, "", 0);       
+        }
+        else {
+            DrawImg("girlbg1_img", 0, 0, canvasWidth, canvasHeight, "", 0);           
+        }       
+        gamerunimg_init(30);
+        updateGame();
+        var Ttxt = document.getElementById('txttime');
+        Ttxt.style.display = "block";
+        Ttxt.style.left = (canvasWidth / 2 - 40) + 'px';
+        Ttxt.textContent = '还剩余时间为' + gametime + '秒';
+        var gametimer = setInterval(function () {           
+            gametime--;
+            Ttxt.textContent='还剩余时间为'+gametime+'秒';                                
+            if (gametime <= 0) {                            
+                window.clearInterval(gametimer);
+                gametimer = null;               
+                jc.pause(canvas_id);
+                alert('你杀死了' + killcount + '只蚊子, 总分为:' + gamescore);
+                first_Draw();
+            }            
+        }, 1000);
+    }
+
+    function rule_Draw() {
+        jc.clear();
+        rule_img();
+        jc.start(canvas_id, true);
+        jc.rect(0, 0, canvasWidth, 80, 'rgb(77,28,120)', 1);
+        jc.rect(0, 78, canvasWidth / 2, 4, '#ffffff', 1);
+
+        jc.line([[45, 40], [canvasWidth / 2 - 55, 40]]).lineStyle({ lineWidth: 40, cap: 'round', color: 'rgb(168,97,182)' }).name('rulebgbtn');
+        jc.text("活动规则", 52, 45, canvasWidth / 2 - 110, '#ffffff', 1).font("18px 微软雅黑").name('rulebgbtn');
+        jc.line([[canvasWidth / 2 + 55, 40], [canvasWidth - 55, 40]]).lineStyle({ lineWidth: 40, cap: 'round', color: 'rgb(168,97,182)' }).name('rankbgbtn');
+        jc.text("排行榜", canvasWidth / 2 + 65, 45, canvasWidth / 2 - 110, '#ffffff', 1).font("18px 微软雅黑").name('rankbgbtn');
+        jc('.rulebgbtn').click(rule_Draw);
+        jc('.rankbgbtn').click(rank_Draw);
+        DrawImg("rulebg_img", 0, 80, canvasWidth, canvasHeight - 50, "", 0);
+        DrawImg("rule_img", canvasWidth / 2 - 160, 100, 320, '', '', 1);
+        DrawImg("btnback_img", canvasWidth - 45, canvasHeight / 3 * 2, 45, '', 'btnback', 6, first_Draw, "drag");
+    }
+
+    function rank_Draw() {
+        jc.clear();
+        rule_img();
+        jc.start(canvas_id, true);
+        jc.rect(0, 0, canvasWidth, 80, 'rgb(77,28,120)', 1);
+        jc.rect(canvasWidth / 2, 78, canvasWidth / 2, 4, '#ffffff', 1);
+        jc.line([[45, 40], [canvasWidth / 2 - 55, 40]]).lineStyle({ lineWidth: 40, cap: 'round', color: 'rgb(168,97,182)' }).name('rulebgbtn');
+        jc.text("活动规则", 52, 45, canvasWidth / 2 - 110, '#ffffff', 1).font("18px 微软雅黑").name('rulebgbtn');
+        jc.line([[canvasWidth / 2 + 55, 40], [canvasWidth - 55, 40]]).lineStyle({ lineWidth: 40, cap: 'round', color: 'rgb(168,97,182)' }).name('rankbgbtn');
+        jc.text("排行榜", canvasWidth / 2 + 65, 45, canvasWidth / 2 - 110, '#ffffff', 1).font("18px 微软雅黑").name('rankbgbtn');
+        jc('.rulebgbtn').click(rule_Draw);
+        jc('.rankbgbtn').click(rank_Draw);
+        DrawImg("rulebg_img", 0, 80, canvasWidth, canvasHeight - 50, "", 0);
+        DrawImg("btnback_img", canvasWidth - 45, canvasHeight / 3 * 2, 45, '', 'btnback', 6, first_Draw, "drag");
+    }
+
+
+    function DrawText(txt, x, y, maxSize, color, fontSet, font_id, level_i, fun) {
+        var txtObj = jc.text(txt, x, y, maxSize, color, 1).level(level_i);
+        if (fontSet) {
+            txtObj.font(fontSet);
+        }
+        if (font_id) {
+            txtObj.id(font_id);
+        }
+        if (fun) {
+            txtObj.click(fun);
+        }
+    }
+
+    function DrawImg(key, x, y, w, h, elem_id, level_i, fun, attrtype) {
+        var img = new Image();
+        img.src = imageResources[key];
+        img.onload = function () {
+            var elem;
+            if (h) {
+                elem = jc.image(img, x, y, w, h).level(level_i);
+            }
+            else {
+                elem = jc.image(img, x, y, w, w * img.height / img.width).level(level_i);
+            }
+            if (elem_id) {
+                elem.id(elem_id);
+            }
+            if (fun) {
+                elem.click(fun);
+            }
+            if (attrtype) {
+                if (attrtype == "drag") {                    
+                    elem.attr({ position: 'absolute', left: '20px;' });
+                }
+            }
+        };
+    }
+
+    function DrawGifImg(elem_id, x, y, w, h, level_i, fun) {
+        var img = document.getElementById(elem_id);
+        img.style.left = x + 'px';
+        img.style.top = y + 'px';
+        img.style.width = w + 'px';
+        img.style.height = (h == true) ? h : w * img.height / img.width + 'px';
+        img.style.zIndex = level_i;
+        img.style.display = "block";
+        if (fun) {
+            img.addEventListener("touchstart", fun, false);
+        }
+    }
+
+
+    function first_img() {
+        imageResources["proface_img"] = "images/index.jpg";
+        imageResources["ranktxt_img"] = "images/paihangbang.png";
+        imageResources["start_img"] = "images/start.png";
+        imageResources["ruletxt_img"] = "images/guizhe.png";
+        imageResources["btnback_img"] = "images/btn_back.png";
+    }
+    function sec_img() {
+        imageResources["sexbg_img"] = "images/sex_back.jpg";
+        imageResources["sexboy_img"] = "images/boy.png";
+        imageResources["sexgirl_img"] = "images/girl.png";
+        imageResources["boybg1_img"] = "images/boy1.png";
+        imageResources["girlbg1_img"] = "images/girl1.png";
+
+    }
+
+    function game_img() {
+        imageResources["girlbg1_img"] = "images/girl_1.jpg";
+        imageResources["boybg1_img"] = "images/boy_1.jpg";
+        imageResources["bug1_img"] = "images/bug1.png";
+    }
+
+    function rule_img() {
+        imageResources["rule_img"] = "images/rule.png";
+        imageResources["rulebg_img"] = "images/rule_lists.jpg";
+    }
+
+    function init_look() {
+
+    }
+
+</script>

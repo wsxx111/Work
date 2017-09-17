@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title></title>
+    <!--<link href="/WebUI/Resource/Css/PageListStyle.css" rel="stylesheet" />-->
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgcore.lhgdialog.min.js"></script>
+    <script src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgdialog.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #eeeeee;
+        }
+
+        .wrap {
+            margin: 30px;
+            padding: 10px;
+        }
+
+            .wrap a {
+                color: #413939;
+                display: inline-block;
+                line-height: 36px;
+                border: 1px solid #39059b;
+                background-color: transparent;
+                padding: 20px 40px;
+                margin: 10px;
+                box-shadow: rgba(0,0,0,.8) 0px 0px 4px;
+                font-weight: bold;
+            }
+
+                .wrap a:hover {
+                    background: #394a82;
+                    color: #fbf2f2;
+                }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <!--<a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/dao_qian/apology1.html">道歉旧</a>-->
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/NewYear/index.html">过年</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/DoSome/apolpgy.html">滕王阁序</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/Liu_Cu_Tian/index.html">刘楚恬</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/clock/index.html">闹钟</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/edge_animate/xinnian.html">edge_nian</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/papapa/index.html">午夜蚊子</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/ggl/index.html">刮刮乐</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/e_luo_si/index.html">俄罗斯方块</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/sing_ci/index.html">歌词同步</a>
+        <a href="javascript:void(0)" data-url="url:/WebUI/Content/作品/生活杂作/Detail/yan_hua/yan.html">烟花</a>
+    </div>  
+</body>
+</html>
+<script type="text/javascript">
+    window.onload = function () {
+
+        var objs = document.getElementsByTagName("a");
+        for (var i = 0; i < objs.length; i++) {
+
+            (function (i) {
+                var obj = objs[i];
+                obj.onclick = function () {
+                    var url = obj.getAttribute("data-url");
+                    var tit = obj.text;
+                    var dg = $.dialog({
+                        id: tit,
+                        init: function () {
+                            this.max();
+                        },
+                        min: false,
+                        title: tit,
+                        content: url,
+                        width: 40,
+                        height: 0,
+                        iconTitle: false,
+                        cover: true,   //开启遮罩层
+                        btnBar: false
+                    });
+                }
+            })(i);
+
+        }
+    }
+
+</script>
+

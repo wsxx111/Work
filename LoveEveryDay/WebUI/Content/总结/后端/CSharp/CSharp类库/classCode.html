@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>    
+</head>
+<body>
+</body>
+</html>
+<script type="text/javascript" src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript" src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgcore.lhgdialog.min.js"></script>
+<script type="text/javascript" src="/WebUI/Resource/Javascript/lhgdialog/lhgdialog/lhgdialog.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {        
+        var dg = $.dialog({
+            id: 'design_code',           
+            min: false,
+            title: '设计模式',
+            content: 'url:/WebUI/Content/总结/后端/CSharp/CSharp类库/codeShow.html',
+            width: 40,
+            height: 0,
+            iconTitle: false,
+            cover: true,   //开启遮罩层
+            btnBar: false,
+            init: function () {
+                this.max();               
+            },
+        });
+       
+    }
+</script>

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+</head>
+<body>
+    <a href="##">测试文字</a>
+</body>
+</html>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script src="myplu.js"></script>
+<script type="text" id="mm">
+      <a href="##">测试文字</a>
+</script>
+<script type="text/javascript">
+    
+
+    $(function () {
+        $(document).append($('#mm').html());
+        $.fn.myPlugin = function (options) {
+            var defaults = {
+                'color': 'red',
+                'fontSize': '19px'
+            };
+            var settings = $.extend(defaults, options);
+            return this.css({
+                'color': settings.color,
+                'fontSize': settings.fontSize
+            })
+        }
+       
+        
+
+        $.log('hahha');
+        $("a").myOther();
+    })
+    $.extend({
+        log: function (message) {
+            var now = new Date();
+            y = now.getFullYear(),
+              m = now.getMonth() + 1, //！JavaScript中月分是从0开始的
+              d = now.getDate(),
+              h = now.getHours(),
+              min = now.getMinutes(),
+              s = now.getSeconds(),
+             time = y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s;
+            console.log(time + ' 输出: ' + message);
+        }
+    })
+    
+
+   
+</script>

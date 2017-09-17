@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="/Resource/Upload/Script/jquery.uploadify/jquery.uploadify-3.2.js"></script>
+    @*<script src="~/Resource/Js/jqueryToken-1.4.2.js"></script>*@  
+    <style type="text/css">
+        .dataShow {
+            background-color: #ffd800;
+            width: 300px;
+            height: 200px;
+            font-size: 16px;
+        }
+
+        .file {
+            position: relative;
+            display: inline-block;
+            background: white;
+            border: 1px solid gray;
+            border-radius: 4px;
+            padding: 3px 10px;
+            overflow: hidden;
+            color: black;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+
+            .file input {
+                position: absolute;
+                font-size: 100px;
+                right: 0;
+                top: 0;
+                opacity: 0;
+            }
+
+            .file:hover {
+                background: #bab5b5;
+                border-color: black;
+                color: #3d3a3a;
+                text-decoration: none;
+            }
+    </style>
+     <link href="/Resource/Upload/Css/uploadify.css" rel="stylesheet" />
+</head>
+<body>
+    <input type="button" id="btnExit" value="退出" />
+    <div class="login">
+        主页内容......
+        <input id="getData" type="button" value="获取数据" />
+        <input id="removeBtn" type="button" value="删除数据" />
+        @using (Html.BeginForm("TestRemove", "Home", FormMethod.Post))
+        {  
+            @Html.AntiForgeryToken()      
+                            
+            <input type="submit" value="防伪删除数据" />  
+        }
+    </div>
+    <div class="dataShow">
+    </div>
+    <div>
+
+        <table>
+            <tr>
+                <td align="right">
+                    <label for="WxImgUrl">缩略图：</label></td>
+                <td>
+                    <input type="hidden" id="WxImgUrl" />
+                    <a href="javascript:;" class="file">上传缩略图
+                          <input type="file" name="" id="File_Upload_WxImgUrl" accept=".jpg,.jpeg,.png,.gif" />
+                    </a>
+
+                    <a href="javascript:;" class="file" style="display: none;">上传
+                            <input id="WxImgUrlUpload" type="button" value="上传" />
+                    </a>
+                    <a href="javascript:;" class="file">删除
+                            <input id="WxImgUrlDel" type="button" value="删除" />
+                    </a>
+                    <div>(200*200,<=200K)</div>
+                    <div id="WxImgUrlPrev"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for="FileUrl">*上传证书：</label>
+                    <input id="FileUrl" type="text" />
+                    <input id="File_Upload_Url" name="file_upload" type="file" />
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        $("#btnExit").on("click", function () {
+            $.ajax({
+                url: "/Login/UserExit",
+                dataType: 'json',
+                type: "post",
+                success: function (data) {
+                    if (data.state == "success") {
+                        window.location.href = "/Login/Index";
+                    }
+                    alert(data.message);
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            })
+
+        })
+
+        $("#getData").on("click", function () {
+            $.ajax({
+                url: "/Main/GetData",
+                dataType: "json",
+                beforeSend: function (XMLHttpRequest) {
+                    XMLHttpRequest.setRequestHeader("token", "hah123");
+                },
+                type: "get",
+                success: function (data) {
+                    if (data.state == "success") {
+                        var d = JSON.parse(data.message);
+                        $(".dataShow").html(d.Name + '-' + d.Age);
+                    }
+                    else {
+                        $(".dataShow").html(data.message);
+                    }
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            })
+        })
+
+
+        $("#removeBtn").on("click", function () {
+            $.ajax({
+                url: "/Main/TestRemove",
+                dataType: "text",
+                type: "post",
+                data: {
+                },
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            })
+        })
+    })
+    $(function () {
+        var base64img_WxImgUrl = null;
+        var isuploadSucc = true;
+
+        //缩略图选择
+        $('#File_Upload_WxImgUrl').change(function (e) {
+            var file = $(this)[0].files[0];
+            if (file) {
+                if (file.size > 204800) {
+                    alert('图片上传太大！');
+                    return;
+                }
+                else {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        $("#WxImgUrlPrev").html("<img style=\"width:170px;margin:2px;margin-left:2px;border:1px solid gray;\" src=\"" + this.result + "\" />");
+                        base64img_WxImgUrl = this.result;
+                        $("#WxImgUrlUpload").click();
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        //缩略图上传
+        $("#WxImgUrlUpload").click(function () {
+            if (isuploadSucc) {
+                isuploadSucc = false;
+            } else {
+                alert('图片正在上传，请稍后....');
+                return false;
+            }
+            if (!base64img_WxImgUrl) {
+                alert('请先选择图片！');
+                isuploadSucc = true;
+                return false;
+            }
+            $.ajax({
+                url: '/UploadFile/Preview',
+                type: 'POST',
+                cache: false,
+                timeout: 60 * 60 * 1000,
+                dataType: "json",
+                data: { baseimg: base64img_WxImgUrl },
+                success: function (data) {
+                    if (data.Response.indexOf('http') > -1) {
+                        $("#WxImgUrl").val(data.Response);
+                        $("#WxImgUrlPrev").html("<img style=\"width:170px;margin:2px;margin-left:2px;border:1px solid gray;\" src=\"" + data.Response + "\" />");
+                        $('#File_Upload_WxImgUrl').val('');
+                    }
+                    isuploadSucc = true;
+                    base64img_WxImgUrl = null;
+                },
+                error: function () {
+                    isuploadSucc = true;
+                    alert("上传失败，请重试");
+                    $("#WxImgUrl").val("");
+                    $("#WxImgUrlPrev").html("");
+                }
+            });
+
+        });
+
+        //缩略图删除
+        $("#WxImgUrlDel").click(function () {
+            $("#WxImgUrl").val('');
+            $("#WxImgUrlPrev").html("");
+            isuploadSucc = true;
+            base64img_WxImgUrl = null;
+        });
+
+
+
+        //上传证书
+        $("#File_Upload_Url").uploadify({
+            'swf': '/Resource/Upload/Script/jquery.uploadify/uploadify.swf',            
+            'uploader': '/UploadFile/UploadFileData',
+            'scriptAccess': 'always',
+            'auto': true,
+            'height': 20,
+            'width': 75,
+            'method': 'get',
+            'fileSizeLimit': "2048",
+            'buttonText': '上传',
+            //'fileTypeExts': '*',
+            'preventCaching': true,         
+            'onSelect': function (file) {
+                $(".uploadify-queue").hide();
+            },
+            'onUploadError': function (file, errorCode, errorMsg, errorString) {
+                alert("上传出错:" + errorString);
+            },
+            'onUploadSuccess': function (file, data, response) {
+                if (file.size > 512000) {
+                    alert('太大，请上传小于500kb的');
+                    return;
+                }
+                if (data !== "") {
+                    var jsonobj = eval("(" + data + ")");
+
+                    var mess = jsonobj["Message"];
+                    if (jsonobj["Flag"] == "Success") {
+                        var url = jsonobj["furl"];
+                        $("#WxCertiUrl").val(url);
+                    }
+                    else {
+                        alert(mess);
+                    }
+                } else {
+                    alert("上传失败，请重试");
+                }
+            }
+        });
+
+    })
+</script>

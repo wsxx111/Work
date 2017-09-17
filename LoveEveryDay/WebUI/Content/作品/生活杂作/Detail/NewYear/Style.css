@@ -1,0 +1,253 @@
+﻿* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+}
+
+.header {
+    background-image: url(Image/tou.gif);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.bar {
+    background-image: url(Image/barim.gif);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.tb {
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+}
+
+.trans {
+    background-image: url(Image/pas.gif);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.transbar {
+    height: 3px;
+    background-color: #ffd800;
+}
+
+.footer {
+    background-image: url(Image/140.gif);
+    background-size: 100%;
+    background-repeat: repeat-y;
+}
+
+.lm {
+    background-repeat: no-repeat;
+    background-image: url(Image/left.gif);
+    background-size: 100% 100%;
+    width: 20%;
+    height: 100%;
+}
+
+.md {
+    background-repeat: no-repeat;
+    background-image: url(Image/1454465788480.gif);
+    background-size: 100% 100%;
+    width: 60%;
+    height: 100%;
+padding-top:15px;
+text-align:center;
+}
+
+.rm {
+    background-repeat: no-repeat;
+    background-image: url(Image/right.gif);
+    background-size: 100% 100%;
+    width: 20%;
+    height: 100%;
+}
+
+.wordcon {
+    height: 140px;
+}
+
+.lb {
+    background-repeat: no-repeat;
+    background-image: url(Image/yuleft.png);
+    background-size: 100% 100%;
+    width: 30%;
+    height: 100%;
+    text-align: right;
+}
+
+
+.mb {
+    background-repeat: no-repeat;
+    background-image: url(Image/fu.png);
+    background-size: 100% 100%;
+    width: 40%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+}
+.btcon {
+text-align:center;
+width:100%;
+height:60px;
+}   
+
+   .btcon .button.blue {   
+    background: rgba(0, 0, 0, 0) linear-gradient(center top , #cd061d, #f1394e) repeat scroll 0 0;
+    background-color:#cd061d;
+    border: 1px solid #f4f10b;
+    box-shadow: 0 1px 2px #dca603 inset, 0 -1px 0 #d4d250 inset, 0 -2px 3px #efed3c inset;
+}
+.btcon .button {
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    line-height: 38px;
+    margin: 0 20px 20px 0;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    text-shadow: 1px 1px 1px #333;
+    width: 100px;
+    position:relative;
+    padding-left:28px;
+}
+    .btcon .button img {
+    position:absolute;
+    top:5px;
+    left:12px;
+    width:28px;
+    height:30px;
+    }
+
+
+.xuan {
+    background-image: url(Image/quan.png);
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    background-size: 100% 100%;
+    height: 100%;
+    width: 100%;
+    -webkit-animation: change 5s linear infinite;
+    -moz-animation: change 5s linear infinite;
+    -o-animation: change 5s linear infinite;
+    animation: change 5s linear infinite;
+}
+
+@-webkit-keyframes change{
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes change{
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    50% {
+        -moz-transform: rotate(180deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes change {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+
+    50% {
+        -o-transform: rotate(180deg);
+    }
+
+    100% {
+        -o-transform: rotate(360deg);
+    }
+}
+
+@keyframes change {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.rb {
+    background-repeat: no-repeat;
+    background-image: url(Image/yuright.png);
+    background-size: 100% 100%;
+    width: 30%;
+    height: 100%;
+    text-align: left;
+}
+
+.db {
+    background-repeat: no-repeat;
+    background-image: url(Image/di.png);
+    background-size: 100% 100%;
+    text-align: center;
+}
+
+.box {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.bcon {   
+    border: 1px solid #ffd800;
+    margin: 15px 20px;
+    text-align: center;
+}
+
+    .bcon h1 {
+        border-bottom: 1px solid #eee;
+        padding: 0 10px;
+    }
+
+.list_lh {
+    height: 100px;
+    overflow: hidden;
+}
+
+    .list_lh li {
+        padding: 10px;
+    }
+
+        .list_lh li.lieven {
+            background: #F0F2F3;
+        }
+
+        .list_lh li p {
+            height: 24px;
+            line-height: 24px;
+        }
+
+            .list_lh li p a {              
+                text-decoration: none;
+                color: #fbc103;
+                font-size:20px;
+            }
+

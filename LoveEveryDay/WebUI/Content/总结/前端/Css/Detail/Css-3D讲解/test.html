@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <style type="text/css">
+        /*容器*/
+        .container {
+            -webkit-perspective: 1000px;
+            -moz-perspective: 1000px;
+            -ms-perspective: 1000px;
+            perspective: 1000px;
+        }
+        /*piece盒子*/
+        .piece-box {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 300px auto;
+            perspective-origin: 50% 50%;
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -ms-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            -moz-animation: pieceRotate 5s;
+            -webkit-animation: pieceRotate 5s;
+            -o-animation: pieceRotate 5s;
+            animation: pieceRotate 5s;
+        }
+
+        .pies {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            opacity: 1;
+        }
+
+        .c1 {
+            background-image: url(imgs/s1.jpg);
+            background-size: 100% 100%;
+            -webkit-transform: rotateY(0deg) translateZ(173.2px);
+            -ms-transform: rotateY(0deg) translateZ(173.2px);
+            -o-transform: rotateY(0deg) translateZ(173.2px);
+            transform: rotateY(0deg) translateZ(173.2px);
+        }
+
+        .c2 {
+            background-image: url(imgs/s2.jpg);
+            background-size: 100% 100%;
+            -webkit-transform: rotateY(60deg) translateZ(173.2px);
+            -ms-transform: rotateY(60deg) translateZ(173.2px);
+            -o-transform: rotateY(60deg) translateZ(173.2px);
+            transform: rotateY(60deg) translateZ(173.2px);
+        }
+
+        .c3 {
+            background-image: url(imgs/s3.jpg);
+            background-size: 100% 100%;
+            -webkit-transform: rotateY(120deg) translateZ(173.2px);
+            -ms-transform: rotateY(120deg) translateZ(173.2px);
+            -o-transform: rotateY(120deg) translateZ(173.2px);
+            transform: rotateY(120deg) translateZ(173.2px);
+        }
+
+        .c4 {
+            background-image: url(imgs/s4.jpg);
+            background-size: 100% 100%;
+            -webkit-transform: rotateY(180deg) translateZ(173.2px);
+            -ms-transform: rotateY(180deg) translateZ(173.2px);
+            -o-transform: rotateY(180deg) translateZ(173.2px);
+            transform: rotateY(180deg) translateZ(173.2px);
+        }
+
+        .c5 {
+            background-image: url(imgs/s5.jpg);
+            background-size: 100% 100%;
+            -webkit-transform: rotateY(240deg) translateZ(173.2px);
+            -ms-transform: rotateY(240deg) translateZ(173.2px);
+            -o-transform: rotateY(240deg) translateZ(173.2px);
+            transform: rotateY(240deg) translateZ(173.2px);
+        }
+
+        .c6 {
+            background-image: url(imgs/s6.jpg);
+            background-size: 100% 100%;
+            -webkit-transform: rotateY(300deg) translateZ(173.2px);
+            -ms-transform: rotateY(300deg) translateZ(173.2px);
+            -o-transform: rotateY(300deg) translateZ(173.2px);
+            transform: rotateY(300deg) translateZ(173.2px);
+        }
+
+        /*.c7 {
+            -webkit-transform: translateZ(100px) translateX(200px) rotateX(90deg) translateY(-200px) rotateZ(30deg);
+            -ms-transform: translateZ(100px) translateX(200px) rotateX(90deg) translateY(-200px) rotateZ(30deg);
+            -o-transform: translateZ(100px) translateX(200px) rotateX(90deg) translateY(-200px) rotateZ(30deg);
+            transform: translateZ(100px) translateX(200px) rotateX(90deg) translateY(-200px) rotateZ(30deg);
+        }*/
+
+        .c7 {
+            transform: translateX(-10px) translateY(-100px);
+        }
+
+        .six {
+            width: 346px;
+            height: 200px;
+            background: red;
+            background-image: url(imgs/s6.jpg);
+            position: relative;
+        }
+
+            .six:before {
+                content: "";
+                position: absolute;
+                top: -100px;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-left: 173px solid transparent;
+                border-right: 173px solid transparent;
+                border-bottom: 100px solid red;
+                background-image: url(imgs/s6.jpg);
+            }
+
+            .six:after {
+                content: "";
+                position: absolute;
+                bottom: -100px;
+                left: 0;
+                width: 0;
+                height: 0;
+                border-left: 173px solid transparent;
+                border-right: 173px solid transparent;
+                border-top: 100px solid red;
+                background-image: url(imgs/s6.jpg);
+            }
+
+        .sixImg, .sixCut-a, .sixCut-b {
+            width: 346px;
+            height: 400px;
+            /*overflow: hidden;*/
+        }
+
+        .sixCut-a, .sixCut-b {
+            /*visibility: hidden;*/
+        }
+
+        .sixCut-a {
+            outline:2px solid blue;
+            -ms-transform: rotate(120deg);
+            -moz-transform: rotate(120deg);
+            -webkit-transform: rotate(120deg);
+            transform: rotate(120deg);
+            outline: 1px solid red;
+        }
+
+        .sixCut-b {
+             outline:2px solid green;
+            transform: rotate(-60deg);
+            -ms-transform: rotate(-60deg);
+            -moz-transform: rotate(-60deg);
+            -webkit-transform: rotate(-60deg);
+        }
+
+        .sixImg {
+             outline:1px solid red;
+            background: no-repeat 50% center;
+            background-size: 100% 100%;
+            -ms-transform: rotate(-60deg);
+            -moz-transform: rotate(-60deg);
+            -webkit-transform: rotate(-60deg);
+            transform: rotate(-60deg);
+            visibility: visible;
+            background-image: url(imgs/s6.jpg);
+        }
+
+        @keyframes pieceRotate {
+            0% {
+                -webkit-transform: rotateY(0deg) rotateX(0deg);
+                -ms-transform: rotateY(0deg) rotateX(0deg);
+                -o-transform: rotateY(0deg) rotateX(0deg);
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotateY(360deg) rotateX(360deg);
+                -ms-transform: rotateY(360deg) rotateX(360deg);
+                -o-transform: rotateY(360deg) rotateX(360deg);
+                transform: rotateY(360deg) rotateX(360deg);
+            }
+        }
+        /* Firefox */
+        @-moz-keyframes pieceRotate {
+            0% {
+                -webkit-transform: rotateY(0deg) rotateX(0deg);
+                -ms-transform: rotateY(0deg) rotateX(0deg);
+                -o-transform: rotateY(0deg) rotateX(0deg);
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotateY(360deg) rotateX(360deg);
+                -ms-transform: rotateY(360deg) rotateX(360deg);
+                -o-transform: rotateY(360deg) rotateX(360deg);
+                transform: rotateY(360deg) rotateX(360deg);
+            }
+        }
+        /* Safari and Chrome */
+        @-webkit-keyframes pieceRotate {
+            0% {
+                -webkit-transform: rotateY(0deg) rotateX(0deg);
+                -ms-transform: rotateY(0deg) rotateX(0deg);
+                -o-transform: rotateY(0deg) rotateX(0deg);
+                transform: rotateY(0deg) rotateX(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotateY(360deg) rotateX(360deg);
+                -ms-transform: rotateY(360deg) rotateX(360deg);
+                -o-transform: rotateY(360deg) rotateX(360deg);
+                transform: rotateY(360deg) rotateX(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="piece-box">           
+            <!--<div class="pies c1"></div>
+            <div class="pies c2"></div>
+            <div class="pies c3"></div>
+            <div class="pies c4"></div>
+            <div class="pies c5"></div>
+            <div class="pies c6"></div>-->
+            <div class="pies c7">
+                <div class="sixCut-a">
+                    <div class="sixCut-b">
+                        <div class="sixImg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1266 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="sideMenu">
+        <input type='checkbox' id='sideToggle' />
+        <div class="cover-white"></div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#introduce">介绍</a></li>
+                <li><a href="#strq">视图容器</a></li>
+                <li><a href="#jcnr">基础内容</a></li>
+                <li><a href="#bdzj">表单组件</a></li>
+                <li><a href="#cz_fk">操作反馈</a></li>
+                <li><a href="#d_h">导航</a></li>
+                <li><a href="#mtzj">媒体组件</a></li>
+                <li><a href="#d_t">地图</a></li>
+                <li><a href="#h_b">画布</a></li>
+                <li><a href="#wx_api">小程序API</a></li>
+                <li><a href="#net">网络</a></li>
+                <li><a href="#data">数据</a></li>
+                <li><a href="#location">位置</a></li>
+                <li><a href="#device">设备</a></li>
+                <li><a href="#face">界面</a></li>
+                <li><a href="#dev_interface">开发接口</a></li>
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#introduce">介绍</a></li>
+                <li><a href="#strq">视图容器</a></li>
+                <li><a href="#jcnr">基础内容</a></li>
+                <li><a href="#bdzj">表单组件</a></li>
+                <li><a href="#cz_fk">操作反馈</a></li>
+                <li><a href="#d_h">导航</a></li>
+                <li><a href="#mtzj">媒体组件</a></li>
+                <li><a href="#d_t">地图</a></li>
+                <li><a href="#h_b">画布</a></li>
+                <li><a href="#wx_api">小程序API</a></li>
+                <li><a href="#net">网络</a></li>
+                <li><a href="#data">数据</a></li>
+                <li><a href="#location">位置</a></li>
+                <li><a href="#device">设备</a></li>
+                <li><a href="#face">界面</a></li>
+                <li><a href="#dev_interface">开发接口</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <img src="http://img.soufun.com/kanli/2017_03/02/72/13/pic/003370147700.png" alt="" />
+        <div class="forMore">
+            <a href="http://123.w3cschool.cn/wxxcx" target="_blank">全面教程</a>
+        </div>
+        <h3 id="introduce">介绍</h3>
+        <p>微信小程序是一种不需要下载安装即可使用的应用，它实现了应用“触手可及”的梦想，用户扫一扫或者搜一下即可打开应用。也体现了“用完即走”的理念，用户不用关心是否安装太多应用的问题。微信“小程序”可以为开发者提供基于微信的表单、导航、地图、媒体和位置等开发组件，让他们在微信的网页里构建一个HTML 5应用。同时微信还开放了登录和微信支付等接口，让这个“小程序”可以和用户的微信账号打通。微信将“小程序”定义为“一种新的应用形态”。微信方面强调，小程序、订阅号、服务号、企业号目前是并行的体系。</p>
+        <p>虽然微信小程序本质上来说就是一个HTML 5（移动网页）应用，但与那些经常在朋友圈刷屏的 H5 小游戏或者应用不同的是，微信小程序获得更多的系统权限。首先是数据缓存能力，这可以让用户在打开一个小程序的时候将程序的主要框架缓存到微信上，下一次就可以快速打开了</p>
+        <p>主要内容包括一些API接口</p>
+        <ul>
+            <li>视图容器：<em>视图(View)</em>、<em>滚动视图</em>、<em id="s_wiper">Swiper</em></li>
+            <li>基础内容：<em>图标</em>、<em>文本</em>、<em id="j_d_t">进度条</em></li>
+            <li>表单组件：<em>按钮</em>、<em id="b_d">表单</em>等</li>
+            <li><em>操作反馈</em></li>
+            <li><em>导航</em></li>
+            <li>媒体组件：<em id="y_p">音频</em>、<em id="t_p">图片</em>、<em id="s_p">视频</em></li>
+            <li><em>地图</em></li>
+            <li><em>画布</em></li>
+            <li><em>微信小程序API</em></li>
+            <li>网络：<em id="s_x_neng">上传下载能力</em>、<em id="web_socket">websocket</em></li>
+            <li>数据：<em>数据缓存能力</em></li>
+            <li>位置：<em id="get_location">获取位置</em>查看位置</li>
+            <li>设备：网络状态、系统信息、重力感应、罗盘</li>
+            <li>界面：<em id="set_bar">设置导航条</em>、<em id="nav_bar">导航</em>、<em id="animate">动画</em>、<em id="h_h">绘画</em></li>
+            <li>开发接口：<em id="lo_gin">登录</em>包括<em id="qm_jm">签名加密</em>、<em id="yh_xx">用户信息</em>、<em id="wx_pay">微信支付</em>、<em id="mb_xx">模板消息</em></li>
+        </ul>
+        <h3 id="strq">视图容器
+        </h3>
+        <h4 id="s_t">视图(View)
+        </h4>
+        <pre><code>
+        &lt;view class="section"&gt;
+          &lt;view class="flex-wrp" style="display:flex;flex-direction:row;"&gt;
+            &lt;view class="flex-item bc_green"&gt;1&lt;/view&gt;
+            &lt;view class="flex-item bc_red"&gt;2&lt;/view&gt;
+            &lt;view class="flex-item bc_blue"&gt;3&lt;/view&gt;
+          &lt;/view&gt;
+        &lt;/view&gt;
+             </code></pre>
+        <pre><code>
+        &lt;view class="section"&gt;
+           &lt;view class="flex-wrp" style="display:flex;flex-direction:column;"&gt;
+             &lt;view class="flex-item bc_green"&gt;1&lt;/view&gt;
+             &lt;view class="flex-item bc_red"&gt;2&lt;/view&gt;
+             &lt;view class="flex-item bc_blue"&gt;3&lt;/view&gt;
+           &lt;/view&gt;
+        &lt;/view&gt;
+             </code></pre>
+        <h4 id="gd_st">滚动视图(scroll-view)
+        </h4>
+        <p>使用竖向滚动时，需要给<em>&lt;scroll-view/&gt;</em>一个固定高度，</p>
+        <ul>
+            <li><em>scroll-x</em>允许横向滚动</li>
+            <li><em>scroll-y</em>允许纵向滚动</li>
+            <li><em>scroll-top</em>设置竖向滚动条位置</li>
+            <li><em>scroll-left</em>设置横向滚动条位置</li>
+            <li><em>scroll-into-view</em>值应为某子元素id，则滚动到该元素，元素顶部对齐滚动区域顶部</li>
+            <li><em>bindscrolltoupper</em>滚动到顶部/左边，会触发 scrolltoupper 事件</li>
+            <li><em>bindscrolltolower</em>滚动到底部/右边，会触发 scrolltolower 事件</li>
+            <li><em>scroll-top</em>滚动时触发，event.detail = {scrollLeft, scrollTop, scrollHeight, scrollWidth, deltaX, deltaY}</li>
+        </ul>
+        <pre><code>
+        &lt;scroll-view scroll-y="true" style="height: 200px;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}"&gt; 
+           &lt;view id="green" class="scroll-view-item bc_green"&gt;&lt;/view&gt; 
+           &lt;view id="red"  class="scroll-view-item bc_red"&gt;&lt;/view&gt;
+           &lt;view id="yellow" class="scroll-view-item bc_yellow">&gt;&lt;/view&gt;
+           &lt;view id="blue" class="scroll-view-item bc_blue"&gt;&lt;/view&gt;
+        &lt;/scroll-view>
+             </code></pre>
+        <h4>滑块视图容器(swiper)</h4>
+        <p>
+            swiper-item仅可放置在swiper组件中，宽高自动设置为100%
+        </p>
+        <ul>
+            <li><em>indicator-dots</em>是否显示面板指示点(默认false)</li>
+            <li><em>autoplay</em>是否自动切换(默认false)</li>
+            <li><em>current</em>当前所在页面的index(0)</li>
+            <li><em>interval</em>自动切换时间间隔(默认5000)</li>
+            <li><em>duration</em>滑动动画时长(默认1000)</li>
+            <li><em>bindchange</em>current改变时会触发change事件，event.detail={current:current}</li>
+        </ul>
+        <pre><code>
+        &lt;swpier indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}"&gt;
+          &lt;block wx:for-items="{{imgUrls}}"&gt;
+            &lt;swpier-item&gt;
+              &lt;image src="{{item}}" class="slide-image" width="355" height="150"/&gt;
+              &lt;text class="textindex">{{index}}&lt;/text&gt;
+            &lt;/swpier-item&gt;
+          &lt;/block&gt;
+        &lt;/swpier&gt;
+
+            &lt;slider bindchange="durationChange" show-value min="1000" max="10000"/&gt;duration
+
+        durationChange: function(e) {
+          this.setData({
+            duration: e.detail.value
+          })
+        }
+             </code></pre>
+        <h3>基础内容</h3>
+        <h4 id="t_b">图标</h4>
+        <ul>
+            <li><em>type</em>icon的类型，有效值：<img src="images/t2.png" alt="" />
+                <ul>
+                    <li>
+                        <em>success</em>
+                    </li>
+                    <li>
+                        <em>success_no_circle</em>
+                    </li>
+                    <li>
+                        <em>safe_success</em>
+                    </li>
+                    <li>
+                        <em>safe_warn</em>
+                    </li>
+                    <li>
+                        <em>info</em>
+                    </li>
+                    <li>
+                        <em>info_circle</em>
+                    </li>
+                    <li>
+                        <em>warn</em>
+                    </li>
+                    <li>
+                        <em>waiting</em>
+                    </li>
+                    <li>
+                        <em>waiting_circle</em>
+                    </li>
+                    <li>
+                        <em>circle</em>
+                    </li>
+                    <li>
+                        <em>cancel</em>
+                    </li>
+                    <li>
+                        <em>download</em>
+                    </li>
+                    <li>
+                        <em>search</em>
+                    </li>
+                    <li>
+                        <em>clear</em>
+                    </li>
+                </ul>
+            </li>
+            <li><em>size</em>icon的大小，单位px</li>
+            <li><em>color</em>icon的颜色，同css的color</li>
+        </ul>
+        <pre><code>
+        &lt;view class="group"&gt;
+          &lt;block wx:for="{{iconSize}}"&gt;
+           &lt;icon type="success" size="{{item}}"/&gt;
+          &lt;/block&gt;
+        &lt;/view&gt;
+             </code></pre>
+        <h4 id="w_b">文本</h4>
+        <p>文本节点，支持转义符"\"。除了文本节点以外的其他节点都无法长按选中</p>
+        <pre><code>
+             &lt;text>{{text1}}+'\n'+{{test2}}&gt;&lt;/text&gt;
+             </code></pre>
+        <h4>进度条(process)</h4>
+        <ul>
+            <li><em>percent</em>百分比0~100</li>
+            <li><em>showInfo</em>在进度条右侧显示百分比，默认false</li>
+            <li><em>strokeWidth</em>进度条线的宽度，单位px,默认为6</li>
+            <li><em>color</em>进度条颜色</li>
+            <li><em>active</em>进度条从左往右的动画,默认false</li>
+        </ul>
+        <pre><code>
+            &lt;progress percent="20" show-info stroke-width="12" color="pink" active /&gt;
+             </code></pre>
+        <h3 id="ljc">逻辑层</h3>
+        <p>小程序开发框架的逻辑层是由JavaScript编写。逻辑层将数据进行处理后发送给视图层，同时接受视图层的事件反馈</p>
+        <p>增加 App 和 Page 方法，进行程序和页面的注册。</p>
+        <h4>App()</h4>
+        <p>App()函数用来注册一个小程序。接受一个object参数，其指定小程序的生命周期函数等。</p>
+        <ul>
+            <li><em>onLaunch</em>生命周期函数--监听小程序初始化,当小程序初始化完成时，会触发onLaunch（全局只触发一次）</li>
+            <li><em>onShow</em>生命周期函数--监听小程序显示,当小程序启动，或从后台进入前台显示，会触发onShow</li>
+            <li><em>onHide</em>生命周期函数--监听小程序隐藏,当小程序从前台进入后台，会触发onHide</li>
+            <li><em>其他</em>开发者可以添加任意的函数或数据到Object参数中，用this可以访问</li>
+        </ul>
+        <p>当用户点击左上角关闭，或者按了设备Home键离开微信，小程序并没有正在的销毁，而是进入了后台；当再次启动微信或再次打开小程序，又会从后台进入前台.只有当小程序进入后台一定时间，或者系统资源占用过高，才会被真正的销毁。</p>
+        <pre><code>
+        App({
+          onLaunch: function() { 
+            // Do something initial when launch.
+          },
+          onShow: function() {
+              // Do something when show.
+          },
+          onHide: function() {
+              // Do something when hide.
+          },
+          globalData: 'I am global data'
+        })
+             </code></pre>
+        <h4>App.prototype.getCurrentPage()</h4>
+        <p><em>getCurrentPage()</em>函数用户获取当前页面的实例。</p>
+        <h4>getApp()</h4>
+        <p>我们提供了全局的getApp()函数，可以获取到小程序实例。</p>
+        <pre><code>
+        // other.js
+        var appInstance = getApp()
+        console.log(appInstance.globalData) // I am global data
+             </code></pre>
+        <p>App()必须在app.js中注册，且不能注册多个。不要在定义于App()内的函数中调用getApp()，使用this就可以拿到app实例。不要在onLaunch的时候调用getCurrentPage()，此时page还没有生成。通过getApp获取实例之后，不要私自调用生命周期函数。</p>
+        <h4>Page()</h4>
+        <p>Page()函数用来注册一个页面。接受一个object参数，其指定页面的初始数据、生命周期函数、事件处理函数等。</p>
+        <ul>
+            <li><em>data</em>页面的初始数据</li>
+            <li><em>onLoad</em>生命周期函数--监听页面加载</li>
+            <li><em>onReady</em>生命周期函数--监听页面初次渲染完成</li>
+            <li><em>onShow</em>生命周期函数--监听页面显示</li>
+            <li><em>onHide</em>生命周期函数--监听页面隐藏</li>
+            <li><em>onUnload</em>生命周期函数--监听页面卸载</li>
+            <li><em>onPullDownRefresh</em>页面相关事件处理函数--监听用户下拉动作</li>
+            <li><em>onReachBottom</em>页面上拉触底事件的处理函数</li>
+            <li><em>其他</em>开发者可以添加任意的函数或数据到 object 参数中，在页面的函数中用 this 可以访问</li>
+        </ul>
+        <pre><code>
+        //index.js
+        Page({
+          data: {
+            text: "This is page data."
+          },
+          onLoad: function(options) {
+            // Do some initialize when page load.
+          },
+          onReady: function() {
+            // Do something when page ready.
+          },
+          onShow: function() {
+            // Do something when page show.
+          },
+          onHide: function() {
+            // Do something when page hide.
+          },
+          onUnload: function() {
+            // Do something when page close.
+          },
+          onPullDownRefresh: function() {
+            // Do something when pull down.
+          },
+          onReachBottom: function() {
+            // Do something when page reach bottom.
+          },
+          // Event handler.
+          viewTap: function() {
+            this.setData({
+              text: 'Set some data for updating view.'
+            })
+          },
+          customData: {
+            hi: 'MINA'
+          }
+        })
+             </code></pre>
+        <h5>初始化数据</h5>
+        <p>初始化数据将作为页面的第一次渲染。data将会以JSON的形式由逻辑层传至渲染层，所以其数据必须是可以转成JSON的格式：字符串，数字，布尔值，对象，数组。</p>
+        <pre><code>
+            &lt;view>{{text}}&lt;/view&gt;
+&lt;view&gt;{{array[0].msg}}&lt;/view&gt;
+
+
+        Page({
+          data: {
+            text: 'init data',
+            array: [{msg: '1'}, {msg: '2'}]
+          }
+        })
+             </code></pre>
+        <ul>
+            <li><em>onLoad</em>页面加载,一个页面只会调用一次。一个页面只会调用一次。接收页面参数可以获取wx.navigateTo和wx.redirectTo及&lt;navigator/&gt;中的 </li>
+            <li><em>onShow</em>页面显示,每次打开页面都会调用一次。</li>
+            <li><em>onReady</em>页面初次渲染完成,一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。对界面的设置如wx.setNavigationBarTitle请在onReady之后设置。</li>
+            <li><em>onHide</em>页面隐藏,当navigateTo或底部tab切换时调用。</li>
+            <li><em>onUnload</em>页面卸载,当redirectTo或navigateBack的时候调用。</li>
+            <li><em>onPullDownRefresh</em>下拉刷新,监听用户下拉刷新事件,需要在config的window选项中开启enablePullDownRefresh。当处理完数据刷新后，wx.stopPullDownRefresh可以停止当前页面的下拉刷新。</li>
+        </ul>
+        <h5>事件处理函数</h5>
+        <p>除了初始化数据和生命周期函数，Page中还可以定义一些特殊的函数：事件处理函数。在渲染层可以在组件中加入事件绑定，当达到触发事件时，就会执行Page中定义的事件处理函数。</p>
+        <pre><code>
+        &lt;view bindtap="viewTap"&gt; click me &lt;/view&gt;
+
+        Page({
+          viewTap: function() {
+            console.log('view tap')
+          }
+        })
+             </code></pre>
+        <h4>Page.prototype.setData()</h4>
+        <p>setData函数用于将数据从逻辑层发送到视图层，同时改变对应的this.data的值。直接修改this.data无效，无法改变页面的状态，还会造成数据不一致。单次设置的数据不能超过1024kB，请尽量避免一次设置过多的数据。 </p>
+
+
+
+        <h3 id="bdzj">表单组件</h3>
+        <h4 id="a_n">按钮(button)</h4>
+        <ul>
+            <li><em>size</em>有效值default, mini,默认default</li>
+            <li><em>type</em>按钮的样式类型，有效值primary, default, warn,默认default</li>
+            <li><em>plain</em>按钮是否镂空，背景色透明,false</li>
+            <li><em>disabled</em>是否禁用,默认false</li>
+            <li><em>loading</em>名称前是否带 loading 图标,默认false</li>
+            <li><em>formType</em>有效值：submit, reset，用于form组件，点击分别会触发submit/reset事件</li>
+            <li><em>hover-class</em>指定按钮按下去的样式类。当hover-class="none"时，没有点击态效果,默认button-hover{background-color:rgba(0,0,0,0.1);opacity:0.7;}</li>
+        </ul>
+        <pre><code>
+        &lt;button type="primary" size="default" &gt;牛&lt;/button&gt;
+        &lt;button type="default" size="mini" disabled&gt;牛&lt;/button&gt;
+        &lt;button type="warn"    size="mini" plain&gt;牛&lt;/button&gt;
+        &lt;button type="warn"    size="default" &gt;牛&lt;/button&gt;
+             </code></pre>
+        <h4 id="check-group">checkbox-group</h4>
+        <p>多选项目组，内部由多个checkbox组成。checkbox-group内只能包含checkbox</p>
+        <ul>
+            <li><em>bindchange</em>checkbox-group中选中项发生改变是触发change事件，detail = {value:[选中的checkbox的value的数组]}</li>
+            <li><em>value</em>heckbox标识，选中时触发checkbox-group的change事件，并携带checkbox的value</li>
+            <li><em>disabled</em>是否禁用</li>
+            <li><em>checked</em>当前是否选中，可用来设置默认选中</li>
+        </ul>
+        <pre><code>
+        &lt;checkbox-group bindchange="checkboxChange"&gt;
+             &lt;label class="checkbox" wx:for-items="{{items}}"&gt;
+               &lt;checkbox value="{{item.name}}" checked="{{item.checked}}"/&gt;{{item.value}}
+             &lt;/label&gt;
+        &lt;/checkbox-group&gt;
+
+        Page({
+          data: {
+            items: [
+              {name: 'USA', value: '美国'},
+              {name: 'CHN', value: '中国', checked: 'true'},
+              {name: 'BRA', value: '巴西'},
+              {name: 'JPN', value: '日本'},
+              {name: 'ENG', value: '英国'},
+              {name: 'TUR', value: '法国'},
+            ]
+          },
+          checkboxChange: function(e) {
+            console.log('checkbox发生change事件，携带value值为：', e.detail.value)
+          }          
+        })
+            </code></pre>
+        <h4>form</h4>
+        <p>
+            将表单内的用户输入的switch input checkbox slider radio picker 提交.当点击 &lt;form/&gt; 表单中 formType 为 submit 的 &lt;button/&gt; 组件时，会将表单组件中的 value 值进行提交，需要在表单组件中加上 name 来作为 key。
+        </p>
+        <ul>
+            <li><em>report-submit</em>是否返回formId用于发送模板消息</li>
+            <li><em>bindsubmit</em>携带form中的数据触发submit事件，event.detail = { value : {"name":"value"} , formId:"" }</li>
+            <li><em>bindreset</em>表单重置时会触发reset事件</li>
+        </ul>
+        <pre><code>
+        &lt;form bindsubmit="formSubmit" bindReset="formReset"&gt;
+           &lt;view class="section section_gap"&gt;           
+             &lt;switch name="switch" /&gt;
+             &lt;input name="input" placeholder="hahha" /&gt;
+             &lt;radio value="1"&gt;中国&lt;/radio&gt;
+             &lt;checkbox value="1"/&gt;美食
+             &lt;button size="mini"  type="submit"&gt;啦啦&lt;/button&gt;
+             &lt;button size="mini" type="reset"&gt;重置&lt;/button&gt;
+             &lt;slider max="60" min="0" name="slider" show-value&gt;设置&lt;/slider&gt;
+           &lt;/view&gt;
+        &lt;/form&gt;
+             </code></pre>
+        <h4>input</h4>
+        <ul>
+            <li><em>value</em>输入框的内容</li>
+            <li><em>type</em>input的类型，有效值：emoji(带有表情的输入框),text,number,idcard(带小数点的数字键盘),digit(带小数点的数字键盘),time,date</li>
+            <li><em>password</em>是否是密码类型</li>
+            <li><em>placeholder</em>输入框为空时占位符</li>
+            <li><em>输入框为空时占位符</em>指定placeholder的样式</li>
+            <li><em>placeholder-class</em>指定placeholder的样式类</li>
+            <li><em>disabled</em>是否禁用</li>
+            <li><em>maxlength</em>最大输入长度，设置为0的时候不限制最大长度,默认是140</li>
+            <li><em>auto-focus</em>自动聚焦，拉起键盘。页面中只能有一个input设置auto-focus属性.默认是false</li>
+            <li><em>focus</em>使得input获取焦点,默认是false</li>
+            <li><em>bindchange</em>输入框失去焦点时，触发bindchange事件，event.detail={value:value}</li>
+            <li><em>bindinput</em>除了date/time类型外的输入框，当键盘输入时，触发input事件，event.detail={value:value}，处理函数可以直接return一个字符串，将替换输入框的内容。</li>
+            <li><em>bindfocus</em>输入框聚焦时触发，event.detail = {value:value}</li>
+            <li><em>bindblur</em>输入框失去焦点时触发，event.detail = {value:value}</li>
+        </ul>
+        <pre><code>
+            &lt;input maxlength="10"  placeholder-style="color:red" bindinput="bindKeyInput" placeholder="这是一个可以自动聚焦的input" auto-focus/&gt;
+            
+            Page({
+            data:{
+              focus:false,
+              inputValue:""
+            },
+
+            bindReplaceInput:function(e){
+              var value = e.detail.value;
+              var pos = e.detail.cursor;
+              if(pos != -1){
+                //光标在中间
+                var left = e.detail.value.slice(0,pos);
+                //计算光标的位置
+                pos = left.replace(/11/g,'2').length;
+                }
+            },             
+            bindHideKeyboard:function(e){
+              if(e.detail.value === "123"){
+                //收起键盘
+                wx.hideKeyboard();
+              }
+            }
+            });
+             </code></pre>
+        <h4>label</h4>
+        <p>用来改进表单组件的可用性，使用for属性找到对应的id，或者将控件放在该标签下，当点击时，就会触发对应的控件。</p>
+        <p>目前可以绑定的控件有：button, checkbox, radio, switch。</p>
+        <pre><code>
+            &lt;label class="label-2__text" for="{{item.name}}"&gt;&lt;text&gt;{{item.name}}&lt;/text&gt;&lt;/label&gt;
+             </code></pre>
+        <h4>picker</h4>
+        <p>
+            滚动选择器，现支持三种选择器，通过mode来区分，分别是普通选择器，时间选择器，日期选择器，默认是普通选择器
+        </p>
+        <ul>
+            <li><em>普通选择器：</em>mode=selector
+                <ul>
+                    <li><em>range</em>mode为selector时，range有效</li>
+                    <li><em>value</em>mode为selector时，是数字，表示选择了range中的第几个，从0开始。</li>
+                    <li><em>bindchange</em>value改变时触发change事件，event.detail= { value:value}</li>
+                </ul>
+            </li>
+            <li><em>时间选择器：</em>mode=time
+                <ul>
+                    <li><em>value</em>mode为selector时，range有效</li>
+                    <li><em>value</em>mode为selector时，是数字，表示选择了range中的第几个，从0开始。</li>
+                    <li><em>bindchange</em>value改变时触发change事件，event.detail= { value:value}</li>
+                </ul>
+            </li>
+            <li><em>日期选择器：</em>mode=date
+                <ul>
+                    <li><em>value</em>表示选中的日期，格式为"yyyy-MM-dd"</li>
+                    <li><em>start</em>表示有效日期范围的开始，字符串格式为"yyyy-MM-dd"</li>
+                    <li><em>end</em>表示有效日期范围的结束，字符串格式为"yyyy-MM-dd"</li>
+                    <li><em>fields</em>有效值year,month,day，表示选择器的粒度</li>
+                    <li><em>bindchange</em>value改变时触发change事件，event.detail= { value:value}</li>
+                </ul>
+            </li>
+        </ul>
+        <pre><code>
+        &lt;picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange"&gt;
+             &lt;view class="picker"&gt;
+                 当前选择: {{time}}
+             &lt;/view&gt;
+        &lt;/picker&gt;
+
+            Page({
+            data: {
+               date:"2016-09-01",
+               time:"12:01"
+            },
+             bindTimeChange:function(e){
+                this.setData({
+                  time:e.detail.time
+                })
+            }
+            })
+        </code></pre>
+        <h4>radio</h4>
+        <ul>
+            <li><em>bindchange</em>radio-group中的选中项发生变化时触发change事件，event.detai = {value : 选中项radio的value</li>
+            <li><em>value</em>radio标识。当该radio选中时，radio-group的change事件会携带radio的value</li>
+            <li><em>checked</em>当前是否选中,默认为false</li>
+            <li><em>disabled</em>是否禁用,默认为false</li>
+        </ul>
+        <pre><code>
+        &lt;radio-group class="radio-group" bindchange="radioChange"&gt;
+           &lt;label class="radio" wx:for-items="{{items}}"&gt;
+             &lt;radio value="{{item.name}}" checked="{{item.checked}}"/&gt;{{item.value}}
+           &lt;/label&gt;
+        &lt;/radio-group&gt;
+
+        Page({
+          data: {
+            items: [
+              {name: 'USA', value: '美国'},
+              {name: 'CHN', value: '中国', checked: 'true'},
+              {name: 'BRA', value: '巴西'},
+              {name: 'JPN', value: '日本'},
+              {name: 'ENG', value: '英国'},
+              {name: 'TUR', value: '法国'},
+            ]
+          },
+          radioChange: function(e) {
+            console.log('radio发生change事件，携带value值为：', e.detail.value)
+          }
+        })
+             </code></pre>
+        <h4>slider
+        </h4>
+        <ul>
+            <li><em>min</em>最小值，默认值0</li>
+            <li><em>max</em>最大值,默认值100</li>
+            <li><em>step</em>步长，取值必须大于 0，并且可被 (max - min) 整除，默认值1</li>
+            <li><em>disabled</em>是否禁用,默认值false</li>
+            <li><em>value</em>当前取值</li>
+            <li><em>show-value</em>默认值false,是否显示当前value</li>
+            <li><em>bindchange</em>完成一次拖动后触发的事件，event.detail = {value:value}</li>
+        </ul>
+        <pre><code>
+        &lt;slider bindchange="slider4change" step="5" min="50" max="200" show-value/&gt;
+
+        var pageData = {}
+        for(var i = 1; i < 5; ++i) {
+          (function (index) {
+            pageData['slider${index}change'] = function(e) {
+              console.log('slider${index}发生change事件，携带值为', e.detail.value)
+            }
+          })(i);
+        }
+        Page(pageData)
+             </code></pre>
+        <h4>switch</h4>
+        <ul>
+            <li><em>checked</em>是否选中,默认为false</li>
+            <li><em>disabled</em>是否禁用,默认为false</li>
+            <li><em>type</em>样式，有效值：switch, checkbox.默认是switch</li>
+            <li><em>bindchange</em>checked改变时触发change事件，event.detail={ value:checked}</li>
+        </ul>
+        <pre><code>
+           &lt;switch checked="{{switch1Checked}}" bindchange="switch1Change"/&gt;
+        </code></pre>
+        <h4>textarea</h4>
+        <ul>
+            <li><em>value</em>输入框的内容</li>
+            <li><em>placeholder</em>输入框为空时占位符</li>
+            <li><em>placeholder-style</em>指定 placeholder 的样式</li>
+            <li><em>placeholder-class</em>指定 placeholder 的样式类</li>
+            <li><em>disabled</em>是否禁用,默认false</li>
+            <li><em>maxlength</em>最大输入长度，设置为0的时候不限制最大长度.默认140</li>
+            <li><em>auto-focus</em>自动聚焦，拉起键盘。页面中只能有一个 &lt;textarea/&gt; 或&lt;input/&gt; 设置 auto-focus 属性</li>
+            <li><em>focus</em>获取焦点（开发工具暂不支持）.默认false</li>
+            <li><em>auto-height</em>是否自动增高，设置auto-height时，style.height不生效.默认false</li>
+            <li><em>bindfocus</em>输入框聚焦时触发，event.detail = {value: value}</li>
+            <li><em>bindblur</em>输入框失去焦点时触发，event.detail = {value: value}</li>
+            <li><em>bindlinechange</em>输入框行数变化时调用，event.detail = {height: 0, heightRpx: 0, lineCount: 0}</li>
+        </ul>
+        <pre><code>
+            &lt;textarea bindblur="bindTextAreaBlur" placeholder-style="color:red;" auto-focus auto-height placeholder="自动变高" /&gt;
+             </code></pre>
+        <h3 id="cz_fk">操作反馈</h3>
+        <h4>action-sheet</h4>
+        <p>上拉菜单，从屏幕底部出现的菜单表。</p>
+        <ul>
+            <li><em>hidden</em>是否隐藏,默认true</li>
+            <li><em>bindchange</em>点击背景或action-sheet-cancel按钮时触发change事件，不携带数据</li>
+        </ul>
+        <h4>action-sheet-item</h4>
+        <p>底部菜单表的子选项。</p>
+        <h4>action-sheet-cancel</h4>
+        <p>
+            底部菜单表的取消按钮，和action-sheet-item的区别是，点击它会触发action-sheet的change事件，并且外观上会同它上面的内容间隔开来
+        </p>
+        <pre><code>
+        &lt;button type="default" bindtap="actionSheetTap"&gt;弹出action sheet&lt;/button&gt;
+        &lt;action-sheet hidden="{{actionSheetHidden}}" bindchange="actionSheetChange"&gt;
+             &lt;block wx:for-items="{{actionSheetItems}}"&gt;
+             &lt;action-sheet-item class="item" bindtap="bind{{item}}">{{item}}&lt;/action-sheet-item&gt;
+             &lt;/block&gt;
+        &lt;action-sheet-cancel class="cancel"&gt;取消&lt;/action-sheet-cancel&gt;
+        &lt;/action-sheet&gt;
+        </code></pre>
+        <img class="little" src="images/t3.jpg" alt="" />
+        <h4>modal</h4>
+        <p>modal即将废弃，请使用 API wx.showModal</p>
+        <ul>
+            <li><em>title</em>标题</li>
+            <li><em>hidden</em>是否隐藏整个弹窗,默认false</li>
+            <li><em>no-cancel</em>是否隐藏cancel按钮，默认false</li>
+            <li><em>confirm-text</em>confirm按钮文字.默认确定</li>
+            <li><em>bindconfirm</em>点击确认触发的回调</li>
+            <li><em>bindcancel</em>点击取消以及蒙层触发的回调</li>
+        </ul>
+        <pre><code>
+        &lt;modal title="标题" confirm-text="confirm" cancel-text="cancel" hidden="{{modalHidden}}" bindconfirm="modalChange" bindcancel="modalChange"&gt;
+             这是对话框的内容。
+        &lt;/modal&gt;
+             </code></pre>
+        <img class="little" src="images/t4.jpg" alt="" />
+        <img class="little" src="images/t5.jpg" alt="" />
+        <h4>toast</h4>
+        <p>toast即将废弃，请使用 API wx.showToast</p>
+        <ul>
+            <li><em>duration</em>hidden设置false后，触发bindchange的延时，单位毫秒,默认值1500</li>
+            <li><em>hidden</em>是否隐藏,默认值false</li>
+            <li><em>bindchange</em>duration延时后触发</li>
+        </ul>
+        <pre><code>
+            &lt;toast hidden="{{toast1Hidden}}" duration="3000" bindchange="toast1Change"&gt;
+             </code></pre>
+        <img class="little" src="images/t6.jpg" alt="" />
+        <h4>loading</h4>
+        <ul>
+            <li>
+                <em>hidden</em>是否隐藏.默认值false
+            </li>
+        </ul>
+        <pre><code>
+        &lt;loading hidden="{{hidden}}"&gt;加载中...&lt;/loading&gt;
+             </code></pre>
+        <img class="little" src="images/t7.jpg" alt="" />
+        <h3 id="d_h">导航</h3>
+        <h4>微信小程序导航 navigator</h4>
+        <ul>
+            <li><em>url</em>应用内的跳转链接</li>
+            <li><em>redirect</em>是否关闭当前页面.默认为false</li>
+            <li><em>hover-class</em>指定点击时的样式类，当hover-class="none"时，没有点击态效果.默认navigator-hover</li>
+        </ul>
+        <p>navigator-hover默认为{background-color:rgba(0,0,0,0.1);opacity:0.7;},&lt;navigator/&gt;的子节点背景色应为透明色</p>
+        <pre><code>
+        &lt;navigator url="navigate?title=navigate" hover-class="navigator-hover"&gt;跳转到新页面&lt;/navigator&gt;
+        &lt;navigator url="redirect?title=redirect" hover-class="other-navigator-hover" redirect &gt;在当前页打开&lt;/navigator&gt;
+             </code></pre>
+        <h3 id="mtzj">媒体组件</h3>
+        <h4>媒体组件audio</h4>
+        <ul>
+            <li><em>action</em>控制音频的播放、暂停，播放速率、播放进度的对象，有method和data两个参数</li>
+            <li><em>src</em>要播放音频的资源地址</li>
+            <li><em>loop</em>是否循环播放,默认为false</li>
+            <li><em>controls</em>是否显示默认控件,默认true</li>
+            <li><em>poster</em>默认控件上的音频封面的图片资源地址，如果controls属性值为false则设置poster无效</li>
+            <li><em>name</em>默认控件上的音频名字，如果controls属性值为false则设置name无效</li>
+            <li><em>author</em>默认控件上的作者名字，如果controls属性值为false则设置author无效</li>
+            <li><em>binderror</em>当发生错误时触发error事件，detail = {errMsg: MediaError.code}</li>
+            <li><em>bindplay</em>当开始/继续播放时触发play事件</li>
+            <li><em>bindpause</em>当暂停播放时触发pause事件</li>
+            <li><em>bindratechange</em>当播放速率改变时触发ratechange事件</li>
+            <li><em>bindtimeupdate</em>当播放进度改变时触发timeupdate事件，detail = {currentTime, duration}</li>
+            <li><em>bindended</em>当播放到末尾时触发ended事件</li>
+        </ul>
+        <pre><code>
+        &lt;audio poster="{{poster}}" name="{{name}}" author="{{author}}" src="http://qqma.tingge123.com:823/   mp3/    2015-06-13/1434188181.mp3" action="{{action}}" controls loop>&lt;/audio&gt; 
+        &lt;button type="primary" bindtap="audioPlay"&gt;播放&lt;/button&gt;
+        &lt;button type="primary" bindtap="audioPause"&gt;暂停&lt;/button&gt;
+        &lt;button type="primary" bindtap="audioPlaybackRateSpeedUp"&gt;调为2倍速&lt;/button&gt;
+        &lt;button type="primary" bindtap="audioPlaybackRateNormal"&gt;调为1倍速&lt;/button&gt;
+        &lt;button type="primary" bindtap="audioPlaybackRateSlowDown"&gt;调为0.5倍速&lt;/button&gt;
+        &lt;button type="primary" bindtap="audio14"&gt;设置当前播放时间为14秒&lt;/button&gt;
+        &lt;button type="primary" bindtap="audioStart"&gt;回到开头&lt;/button&gt;
+
+        Page({
+          data: {
+            poster: 'http://pic.pimg.tw/pam86591/1408719752-3322564110_n.jpg',
+            name: 'Sugar',
+            author: 'Maroon 5'
+          },
+          audioPlay: function () {
+            this.setData({
+              action: {
+                method: 'play'
+              }
+            });
+          },
+          audioPause: function () {
+            this.setData({
+              action: {
+                method: 'pause'
+              }
+            });
+          },
+          audioPlaybackRateSpeedUp: function () {
+            this.setData({
+              action: {
+                method: 'setPlaybackRate',
+                data: 2
+              }
+            });
+          },
+          audioPlaybackRateNormal: function () {
+            this.setData({
+              action: {
+                method: 'setPlaybackRate',
+                data: 1
+              }
+            });
+          },
+          audioPlaybackRateSlowDown: function () {
+            this.setData({
+              action: {
+                method: 'setPlaybackRate',
+                data: 0.5
+              }
+            });
+          },
+          audio14: function () {
+            this.setData({
+              action: {
+                method: 'setCurrentTime',
+                data: 14
+              }
+            });
+          },
+          audioStart: function () {
+            this.setData({
+              action: {
+                method: 'setCurrentTime',
+                data: 0
+              }
+            });
+          }
+        })
+             </code></pre>
+        <img src="images/t8.jpg" alt="" />
+
+        <h4>image</h4>
+        <ul>
+            <li><em>src</em>图片资源地址</li>
+            <li><em>mode</em>图片裁剪、缩放的模式,image标签默认为300px,高度225px,默认scaleToFill<br />
+                <p>mode有12种模式，其中3中是缩放模式，9种是裁剪模式。</p>
+                <ul>
+                    <li><em>scaleToFill</em>不保持纵横比缩放图片，使图片的宽高完全拉伸至填满image元素</li>
+                    <li><em>aspectFit</em>保持纵横比缩放图片，使图片的长边能完全显示出来。也就是说，可以完整地将图片显示出来。</li>
+                    <li><em>aspectFill</em>保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。</li>
+                    <li><em>top</em>不缩放图片，只显示图片的顶部区域</li>
+                    <li><em>bottom</em>不缩放图片，只显示图片的底部区域</li>
+                    <li><em>center</em>不缩放图片，只显示图片的中间区域</li>
+                    <li><em>left</em>不缩放图片，只显示图片的左边区域</li>
+                    <li><em>right</em>不缩放图片，只显示图片的右边区域</li>
+                    <li><em>top left</em>不缩放图片，只显示图片的左上边区域</li>
+                    <li><em>top right</em>不缩放图片，只显示图片的右上边区域</li>
+                    <li><em>bottom left</em>不缩放图片，只显示图片的左下边区域</li>
+                    <li><em>bottom right</em>不缩放图片，只显示图片的右下边区域</li>
+                </ul>
+            </li>
+            <li><em>binderror</em> 	当错误发生时，发布到AppService的事件名，事件对象event.detail = { errMsg: 'something wrong' }</li>
+            <li><em>bindload</em>当图片载入完毕时，发布到AppService的事件名，事件对象event.detail = {}</li>
+        </ul>
+        <pre><code>
+        &lt;image style="width: 200px; height: 200px; background-color: #eeeeee;" mode="{{item.mode}}" src="{{src}}"&gt;&lt;/image&gt;  
+        </code></pre>
+        <h4>video</h4>
+        <p>
+            video标签认宽度300px、高度225px，设置宽高需要通过wxss设置width和height。          
+        </p>
+        <p>
+            tip: 请勿在 scroll-view 中使用 video 组件
+        </p>
+        <ul>
+            <li><em>hidden</em>设置视频的显示/隐藏，hidden值为true表示隐藏，值为false表示显示</li>
+            <li><em>src</em>要播放视频的资源地址</li>
+            <li><em>binderror</em>当发生错误时触发error事件，event.detail = { errMsg: 'something wrong' }</li>
+        </ul>
+        <pre><code>
+            &lt;video src="http://www.w3school.com.cn//i/movie.mp4" binderror="videoErrorCallback"&gt;&lt;/video&gt;
+             </code></pre>
+        <h3 id="d_t">地图map</h3>
+        <h4>map</h4>
+        <p>tip: 请勿在 scroll-view 中使用 map 组件</p>
+        <ul>
+            <li><em>longitude</em>中心经度</li>
+            <li><em>latitude</em>中心纬度</li>
+            <li><em>scale</em>缩放级别,默认1</li>
+            <li><em>markers</em>标记点</li>
+            <li><em>covers</em>覆盖物</li>
+        </ul>
+        <p>标记点用于在地图上显示标记的位置，不能自定义图标和样式</p>
+        <ul>
+            <li><em>latitude</em>纬度，浮点数，范围 -90 ~ 90</li>
+            <li><em>longitude</em>经度，浮点数，范围 -180 ~ 180</li>
+            <li><em>name</em>标注点名</li>
+            <li><em>desc</em>标注点详细描述</li>
+        </ul>
+        <p>覆盖物用于在地图上显示自定义图标，可自定义图标和样式</p>
+        <p>地图组件的经纬度必填, 如果不填经纬度则默认值是北京的经纬度。标记点markers只能在初始化的时候设置，不支持动态更新。</p>
+        <ul>
+            <li><em>latitude</em>纬度:浮点数，范围 -90 ~ 90</li>
+            <li><em>longitude</em>经度:浮点数，范围 -180 ~ 180</li>
+            <li><em>iconPath</em>显示的图标:项目目录下的图片路径，支持相对路径写法</li>
+            <li><em>rotate</em>旋转角度,顺时针旋转的角度，范围 0 ~ 360，默认为 0</li>
+        </ul>
+        <pre><code>
+        &lt;map longitude="23.099994" latitude="113.324520" markers="{{markers}}" covers="{{covers}}" style="width: 375px; height: 200px;"&gt;&lt;/map&gt; 
+
+        Page({
+          data: {
+            markers: [{
+              latitude: 23.099994,
+              longitude: 113.324520,
+              name: 'T.I.T 创意园',
+              desc: '我现在的位置'
+            }],
+            covers: [{
+              latitude: 23.099794,
+              longitude: 113.324520,
+              icaonPath: '../images/car.png',
+              rotate: 10
+            }, {
+              latitude: 23.099298,
+              longitude: 113.324129,
+              iconPath: '../images/car.png',
+              rotate: 90
+            }]
+          }
+        })
+        </code></pre>
+        <img class="little" src="images/t9.png" alt="" />
+        <h3 id="h_b">canvas</h3>
+        <h4>画布canvas</h4>
+        <p>
+            canvas标签默认宽度300px、高度225px. 同一页面中的canvas-id不可重复，如果使用一个已经出现过的canvas-id，该canvas标签对应的画布将被隐藏并不再正常工作
+        </p>
+        <p>
+            tip: 请勿在 scroll-view 中使用 canvas 组件
+        </p>
+        <ul>
+            <li><em>hidden</em>设置画布的显示/隐藏，hidden值为true表示隐藏，值为false表示显示,默认为false</li>
+            <li><em>canvas-id</em>canvas组件的唯一标识符</li>
+            <li><em>binderror</em> 	当发生错误时触发error事件，detail = { errMsg: 'something wrong' }</li>
+        </ul>
+        <pre><code>
+        &lt;canvas style="width: 300px; height: 200px;" canvas-id="firstCanvas" binderror="canvasIdErrorCallback" &gt;&lt;/canvas&gt;
+
+        Page({
+          canvasIdErrorCallback: function (e) {
+            console.error(e.detail.errMsg);
+          },
+          onReady: function (e) {
+        
+            //使用wx.createContext获取绘图上下文context
+            var context = wx.createContext();
+        
+            context.setStrokeStyle("#00ff00");
+            context.setLineWidth(5);
+            context.rect(0,0,200,200);
+            context.stroke()
+            context.setStrokeStyle ("#ff0000") ;
+            context.setLineWidth (2)
+            context.moveTo(160,100)
+            context.arc(100,100,60,0,2*Math.PI,true);
+            context.moveTo(140,100);
+            context.arc(100,100,40,0,Math.PI,false);
+            context.moveTo(85,80);
+            context.arc(80,80,5,0,2*Math.PI,true);
+            context.moveTo(125,80);
+            context.arc(120,80,5,0,2*Math.PI,true);
+            context.stroke();
+        
+            //调用wx.drawCanvas，通过canvasId指定在哪张画布上绘制，通过actions指定绘制行为
+            wx.drawCanvas({
+              canvasId: 'firstCanvas',
+              actions: context.getActions() //获取绘图动作数组
+            });
+          }
+        });
+             </code></pre>
+        <h3 id="wx_api">微信API请求</h3>
+        <h4>wx.request(OBJECT)</h4>
+        <p>wx.request发起的是https请求。一个微信小程序，同时只能有5个网络请求连接。</p>
+        <ul>
+            <li><em>url</em>开发者服务器接口地址,必填</li>
+            <li><em>data</em>请求的参数，否</li>
+            <li><em>header</em>设置请求的header , header中不能设置Referer，否</li>
+            <li><em>method</em>默认为GET，有效值：OPTIONS,GET,HEAD,POST,PUT,DELETE,TRACE,CONNECT，否</li>
+            <li><em>success</em>收到开发者服务成功返回的回调函数，res = {data:"开发者服务器返回的内容"}，否</li>
+            <li><em>fail</em>接口调用失败的回调函数，否</li>
+            <li><em>complete</em>接口调用结束的回调函数（调用成功、失败都会执行）,否</li>
+        </ul>
+        <pre><code>
+        wx.request({
+          url: 'test.php',
+          data: {
+             x: '' ,
+             y: ''
+          },
+          header:{
+              "Content-Type":"application/json"
+          },
+          success: function(res) {
+             var data = res.data;
+          }
+        });
+            </code></pre>
+        <h4>API 上传、下载
+        </h4>
+        <p>将本地资源上传到开发者服务器。如页面通过 wx.chooseImage 等接口获取到一个本地资源的临时文件路径后，可通过此接口将本地资源上传到指定服务器。客户端发起一个HTTPS POST请求，其中 Content-Type 为 multipart/form-data 。</p>
+        <h5>wx.uploadFile(OBJECT)</h5>
+        <ul>
+            <li><em>url</em>开发者服务器url，必填</li>
+            <li><em>filePath</em>要上传文件资源的路径，必填</li>
+            <li><em>name</em>文件对应的key , 开发者在服务器端通过这个key可以获取到文件二进制内容，必填</li>
+            <li><em>header</em>HTTP 请求 Header，否</li>
+            <li><em>formData</em>HTTP 请求中其他额外的form data，否</li>
+            <li><em>success</em>接口调用成功的回调函数，否</li>
+            <li><em>fail</em>接口调用失败的回调函数，否</li>
+            <li><em>complete</em>接口调用结束的回调函数（调用成功、失败都会执行），否</li>
+        </ul>
+        <pre><code>
+        wx.chooseImage({
+          success:function(res){
+            var tempFilePaths = res.tempFilePaths; 
+            wx.uploadFile({
+              url: 'http://example.com/upload',
+              filePath: tempFilePaths[0],
+              name:"file",
+              formData:{
+                "user":"test"
+              }
+            })
+          }
+        })
+             </code></pre>
+        <h5>wx.downloadFile(OBJECT)</h5>
+        <p>
+            下载文件资源到本地。客户端直接发起一个HTTP GET请求，把下载到的资源根据 type 进行处理，并返回文件的本地临时路径。
+        </p>
+        <ul>
+            <li><em>url</em>下载资源的 url</li>
+            <li><em>type</em>下载资源的类型，用于客户端识别处理，有效值：image/audio/video</li>
+            <li><em>header</em>HTTP 请求 Header</li>
+            <li><em>success</em>下载成功后以 tempFilePath 的形式传给页面，res={tempFilePath:"文件的临时路径"}</li>
+            <li><em>fail</em>接口调用失败的回调函数</li>
+            <li><em>complete</em>接口调用结束的回调函数（调用成功、失败都会执行）</li>
+        </ul>
+        <pre><code>
+        wx.downloadFile({
+          url: 'http://example.com/audio/123',
+          type: 'audio',
+          success:function(res){
+            wx.playVoice({
+                filePath: res.tempFilePath
+            })
+          }
+        })
+             </code></pre>
+        <h4>创建Websocket</h4>
+        <h5>wx.connectSocket(OBJECT)</h5>
+        <h5>wx.onSocketOpen(CALLBACK)</h5>
+        <h5>wx.onSocketError(CALLBACK)</h5>
+        <h5>wx.sendSocketMessage(OBJECT)</h5>
+        <h5>wx.onSocketMessage(CALLBACK)</h5>
+        <h5>wx.closeSocket()</h5>
+        <h5>wx.onSocketClose(CALLBACK)</h5>
+        <h4>wx.connectSocket(OBJECT)</h4>
+        <p>
+            创建一个 WebSocket 连接；一个微信小程序同时只能有一个WebSocket连接，如果当前已存在一个WebSocket连接，会自动关闭该连接，并重新创建一个WebSocket连接。
+        </p>
+        <ul>
+            <li><em>url</em>开发者服务器接口地址，必须是HTTPS协议，且域名必须是后台配置的合法域名</li>
+            <li><em>data</em>请求的数据</li>
+            <li><em>header</em>HTTP Header</li>
+            <li><em>method</em>默认是GET，有效值为： OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT</li>
+            <li><em>success</em>接口调用成功的回调函数</li>
+            <li><em>fail</em>接口调用失败的回调函数</li>
+            <li><em>complete</em>接口调用结束的回调函数（调用成功、失败都会执行）</li>
+        </ul>
+        <pre><code>
+        wx.connectSocket({
+          url:"test.php",
+          data:{
+            x:"",
+            y:""
+          },
+          header:{ 
+            'content-type': 'application/json'
+          },
+          method:"GET"
+        })
+        </code></pre>
+        <h4>wx.onSocketOpen(CALLBACK)</h4>
+        <pre><code>
+        wx.connectSocket({
+          url:"test.php"
+        });
+        wx.onSocketOpen(function(res){
+          console.log("WebSocket连接已打开！")
+        })
+        </code></pre>
+        <h4>wx.onSocketError(CALLBACK)
+        </h4>
+        <pre><code>
+        wx.connectSocket({
+          url:"test.php"
+        });
+        wx.onSocketOpen(function(res){
+          console.log("WebSocket连接已打开！")
+        })
+        wx.onSocketError(function(res){
+          console.log("WebSocket连接打开失败，请检查！")
+        })
+        </code></pre>
+        <h4>wx.sendSocketMessage(OBJECT)</h4>
+        <p>
+            通过WebSocket连接发送数据，需要先wx.connectSocket，并在wx.onSocketOpen回调之后才能发送。
+        </p>
+        <ul>
+            <li><em>data</em>需要发送的内容</li>
+        </ul>
+        <pre><code>
+        var socketOpen = false;
+        var socketMsgQueue = []
+        wx.connectSocket({
+          url:"test.php"
+        });
+        
+        wx.onSocketOpen(function(res){
+          socketOpen = true;
+          for(var i = 0 ; i < socketMsgQueue.length; i++){
+             sendSocketMessage(socketMsgQueue[i])
+          }
+          socketMsgQueue = [];
+        })
+        
+        function sendSocketMessage(msg){
+          if(socketOpen){
+            wx.sendSocketMessage({
+               data:msg
+            });
+          }else{
+             socketMsgQueue.push(msg)
+          }
+        }
+             </code></pre>
+        <h4>wx.onSocketMessage(CALLBACK)</h4>
+        <ul>
+            <li><em>data</em>服务器返回的消息</li>
+        </ul>
+        <pre><code>
+        wx.connectSocket({
+          url:"test.php"
+        });
+        wx.onSocketOpen(function(res){
+          console.log("WebSocket连接已打开！")
+        })
+             </code></pre>
+        <h4>wx.onSocketError(CALLBACK)
+        </h4>
+        <pre><code>
+        wx.connectSocket({
+          url:"test.php"
+        });
+        wx.onSocketOpen(function(res){
+          console.log("WebSocket连接已打开！")
+        })
+        wx.onSocketError(function(res){
+          console.log("WebSocket连接打开失败，请检查！")
+        })
+             </code></pre>
+        <h4>wx.closeSocket()</h4>
+        <p>关闭WebSocket连接</p>
+        <h4>wx.onSocketClose(CALLBACK)</h4>
+        <p>监听WebSocket关闭</p>
+        <pre><code>
+        wx.connectSocket({
+          url:"test.php"
+        });
+        
+        //注意这里有时序问题，
+        //如果wx.connectSocket还没回调wx.onSocketOpen,而先调用wx.closeSocket,那么就做不到关闭WebSocket的目的
+        //必须在WebSocket打开期间调用wx.closeSocket才能关闭
+        wx.onSocketOpen(function(){
+          wx.closeSocket()
+        })
+        
+        wx.onSocketClose(function(res){
+          console.log("WebSocket 已关闭！")
+        })
+             </code></pre>
+        <h4>API图片</h4>
+        <h5>wx.chooseImage(OBJECT)</h5>
+        <p>从本地相册选择图片或使用相机拍照</p>
+        <ul>
+            <li><em>count</em>最多可以选择的图片张数，默认9，非必填</li>
+            <li><em>sizeType</em>"original"原图，"compressed"压缩图，默认二者都有,非必填</li>
+            <li><em>sourceType</em>"album"从相册选图，"camera"使用相机，默认二者都由,非必填</li>
+            <li><em>success</em>成功则返回图片的本地文件路径列表tempFilePaths，必填</li>
+            <li><em>fail</em>接口调用失败的回调函数</li>
+            <li><em>complete</em>接口调用结束的回调函数（调用成功、失败都会执行）</li>
+        </ul>
+        <pre><code>
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                  // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+                var tempFilePaths = res.tempFilePaths; 
+            }
+        });
+             </code></pre>
+        <h5>wx.previewImage(OBJECT)</h5>
+        <ul>
+            <li><em>current</em>当前显示图片的链接，不填则默认为urls的第一张,非必填</li>
+            <li><em>urls</em>需要预览的图片链接列表</li>
+            <li><em>success</em>接口调用成功的回调函数</li>
+            <li><em>fail</em>接口调用失败的回调函数</li>
+            <li><em>complete</em>接口调用结束的回调函数（调用成功、失败都会执行）</li>
+        </ul>
+        <pre><code>
+        wx.previewImage({
+            current: '', // 当前显示图片的http链接
+            urls: [] // 需要预览的图片http链接列表
+        });
+             </code></pre>
+        <h3 id="data_cache">数据</h3>
+        <h4>数据缓存</h4>
+        <p>
+            有自己的本地缓存，可以通过wx.setStorage（wx.setStorageSync）、wx.getStorage（wx.getStorageSync）、wx.clearStorage（wx.clearStorageSync）可以对本地缓存进行设置、获取和清理。localStorage是永久存储的，但是我们不建议将关键信息全部存在localStorage，以防用户换设备的情况。
+        </p>
+        <h5>wx.setStorage(OBJECT)</h5>
+        <p>将数据存储在本地缓存中指定的key中，会覆盖掉原来该key对应的内容，这是一个异步接口。</p>
+        <ul>
+            <li><em>key：</em>本地缓存中的指定的key</li>
+            <li><em>data：</em>需要存储的内容</li>
+        </ul>
+        <pre><code>
+        wx.setStorage({
+        key:'key',
+        data:'value'
+        });
+             </code></pre>
+        <h5>wx.setStorageSync(key,data)</h5>
+        <p>
+            将DATA存储在本地缓存中指定的KEY中，会覆盖掉原来该KEY对应的内容，这是一个同步接口。
+        </p>
+        <ul>
+            <li><em>KEY:</em>本地缓存中的指定的key</li>
+            <li><em>DATA:</em> 	需要存储的内容</li>
+        </ul>
+        <pre><code>
+        wx.setStorageSync("key","value");
+        </code></pre>
+        <h5>wx.getStorage(OBJECT)</h5>
+        <p>从本地缓存中异步获取指定key对应的内容。</p>
+        <ul>
+            <li><em>key:</em>本地缓存中的指定的key,必填字段</li>
+            <li><em>success</em>接口调用的回调函数,res={data:"key对应的内容"}，必填字段</li>
+        </ul>
+        <pre><code>
+        wx.getStorage({
+          key:'key',
+          success:function(res){
+              console.log(res.data);
+          } 
+        });
+             </code></pre>
+        <h5>wx.getStorageSync(KEY)</h5>
+        <p>
+            从本地缓存中同步获取指定key对应的内容。
+        </p>
+        <ul>
+            <li><em>KEY:</em>本地缓存中的指定的key，必填字段</li>
+        </ul>
+        <pre><code>
+        var value = wx.getStorageSync("key");
+             </code></pre>
+        <h5>wx.clearStorage()</h5>
+        <p>清理本地数据缓存</p>
+        <h5>wx.clearStorageSync()</h5>
+        <p>​同步清理本地数据缓存</p>
+        <pre><code>
+        wx.clearStorage();
+        wx.clearStorageSync();
+             </code></pre>
+        <h4>当前位置、速度</h4>
+        <h5>wx.getLocation(OBJECT)</h5>
+        <ul>
+            <li><em>type</em>默认为"wgs84"返回gps坐标，"gcj02"返回可用于wx.openLocation的坐标，非必填</li>
+            <li><em>success</em>成功获取地理位置的回调，必填</li>
+            <li><em>fail</em>接口调用失败的回调函数，非必填</li>
+            <li><em>complete</em>接口调用结束的回调函数（调用成功、失败都会执行）,非必填</li>
+        </ul>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="WebUI/Resource/Javascript/jquery.min.js"><\/script>')</script>
+<script type="text/javascript">
+    $(function () {
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+    })
+</script>

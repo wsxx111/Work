@@ -1,0 +1,1442 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <link href="/WebUI/Resource/Css/bootstrap.css" rel="stylesheet" />
+    <title></title>
+    <style type="text/css">
+        .header {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+            ul.item {
+                padding-left: 0px;
+                margin-left: 5px;
+                counter-reset: ppp;
+            }
+
+                ul.item > li {
+                    padding: 10px;
+                    background-color: #306ec3;
+                    margin-bottom: 8px;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    border-radius: 5px;
+                    position: relative;
+                }
+
+                    ul.item > li:not(.detail)::before {
+                        font-weight: bold;
+                        counter-increment: ppp;
+                        content: counter(ppp)".";
+                        color: white;
+                        background-color: #306ec3;
+                    }
+
+                    ul.item > li > a {
+                        font-weight: bold;
+                        color: white;
+                        font-size: 11px;
+                        line-height: 30px;
+                    }
+
+                    ul.item > li > i {
+                        font-size: 11px;
+                        position: absolute;
+                        right: 20px;
+                        font-style: normal;
+                        color: wheat;
+                        line-height: 30px;
+                        font-weight: bold;
+                    }
+
+                    ul.item > li a + ul {
+                        margin-left: -10px;
+                        margin-right: -10px;
+                        margin-bottom: -10px;
+                        padding: 10px;
+                        background-color: #f2eded;
+                        display: none;
+                    }
+
+                    ul.item > li li > span {
+                        font-weight: bold;
+                    }
+
+                    ul.item > li li > p {
+                        font-size: 12px;
+                        text-indent: 20px;
+                    }
+
+                    ul.item > li li > div {
+                        padding: 5px;
+                        font-size: 12px;
+                        background-color: #e0e0e0;
+                        border: 1px solid #808080;
+                        border-radius: 3px;
+                        min-height: 20px;
+                        margin-bottom: 5px;
+                    }
+
+                    ul.item > li.detail a + ul {
+                        background-color: wheat;
+                    }
+
+                    ul.item > li.detail {
+                        background-color: #178a7c;
+                        border: 1px solid #808080;
+                    }
+
+        .Jhide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div><a href="http://www.jq22.com/jquery-info122" target="_blank">jQuery各个版本</a></div>
+    <select id="ChooseVersion">
+        <option value="1.0">1.0</option>
+        <option value="1.2">1.2</option>
+        <option value="1.4">1.4</option>
+        <option value="1.6">1.6</option>
+        <option value="1.8">1.8</option>
+        <option value="2.0">2.0</option>
+        <option value="2.2">2.2</option>
+    </select>
+    <div class="header">
+        <ul class="nav nav-pills">
+            <li id="f1" class="active"><a href="#">jQuery实用工具</a>
+            </li>
+            <li id="f2"><a href="##">DOM元素</a></li>
+            <li id="f3"><a href="##">延迟对象</a></li>
+            <li id="f4"><a href="##">回调函数</a></li>
+        </ul>
+
+    </div>
+
+    <div>
+        <ul class="item f1">
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.contains">jQuery.contains(后代元素,父元素)</a>
+                <ul>
+                    <li><span>检查一个DOM元素是另一个DOM元素的后代。</span></li>
+                    <li>
+                        <p>
+                            如果第二个参数所提供的DOM元素是第一个参数DOM元素的后裔，那么$.contains() 方法返回true，无论是直接的子元素或者是后代元素。否则，返回false。只支持 element 节点;如果第二个参数是一个文本或注释节点，$.contains()将返回 false。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            $.contains( document.documentElement, document.body ); // true<br />
+                            $.contains( document.body, document.documentElement ); // false
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.each/">jQuery.each(array/object,callback)</a>
+                <ul>
+                    <li><span>一个通用的迭代函数，它可以用来无缝迭代对象和数组</span></li>
+                    <li>
+                        <p>
+                            $.each()函数和 $(selector).each()是不一样的，那个是专门用来遍历一个jQuery对象。$.each()函数可用于迭代任何集合，无论是“名/值”对象（JavaScript对象）或数组。在迭代数组的情况下，回调函数每次传递一个数组索引和相应的数组值作为参数。（该值也可以通过访问this关键字得到，但是JavaScript将始终将this值作为一个Object ，即使它是一个简单的字符串或数字值。）该方法返回其第一个参数，这是迭代的对象。  
+                        </p>
+                        <p>
+                            callback函数参数：类型: Function( Integer indexInArray, Object value ) / Function( String propertyName, Object valueOfProperty ) 
+                        </p>
+                        <p>
+                            $.each()函数会在内部检索并且使用传递集合的 length属性。 所以，如果集合有一个名为length的属性 - 比如 {bar: 'foo', length: 10} - 这个函数可能无法正常工作。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            $.each([52, 97], function(index, value) {<br />
+                            alert(index + ': ' + value);<br />
+                            });
+                        </div>
+                        <div>
+                            var obj = {<br />
+                            "flammable": "inflammable",<br />
+                            "duh": "no duh"
+                            <br />
+                            };<br />
+                            $.each( obj, function( key, value ) {<br />
+                            alert( key + ": " + value );<br />
+                            });<br />
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.extend/">jQuery.extend([deep],target,object1,objectN)</a>
+                <ul>
+                    <li><span>将两个或更多对象的内容合并到第一个对象。</span></li>
+                    <li>
+                        <p>deep：如果是true，合并成为递归（又叫做深拷贝）。当我们提供两个或多个对象给$.extend()，对象的所有属性都添加到目标对象（target参数）。如果只有一个参数提供给$.extend()，这意味着目标参数被省略。在这种情况下，jQuery对象本身被默认为目标对象。这样，我们可以在jQuery的命名空间下添加新的功能。这对于插件开发者希望向 jQuery 中添加新函数时是很有用的.在默认情况下，通过$.extend()合并操作不是递归的;不支持第一个参数传递 false。若设置了 deep 参数，对象和数组也会被合并进来，但是对象包裹的原始类型，比如String, Boolean, 和 Number是不会被合并进来的。</p>
+                        <p>
+                        </p>
+
+                    </li>
+                    <li>
+                        <div>
+                            var object1 = {<br />
+                            apple: 0,<br />
+                            banana: { weight: 52, price: 100 },<br />
+                            cherry: 97<br />
+                            };<br />
+                            var object2 = {<br />
+                            banana: { price: 200 },<br />
+                            durian: 100<br />
+                            };<br />
+                            $.extend( object1, object2 );
+                            <br />
+                            //object1 :{"apple":0,"banana":{"price":200},"cherry":97,"durian":100}
+                        </div>
+                        <div>
+                            var object1 = {<br />
+                            apple: 0,<br />
+                            banana: { weight: 52, price: 100 },<br />
+                            cherry: 97<br />
+                            };<br />
+                            var object2 = {<br />
+                            banana: { price: 200 },<br />
+                            durian: 100<br />
+                            };<br />
+                            $.extend(true,object1, object2 );
+                            <br />
+                            //object1 :{"apple":0,"banana":{"weight":52,"price":200},"cherry":97,"durian":100}
+                        </div>
+                        <div>
+                            var defaults = { validate: false, limit: 5, name: "foo" };<br />
+                            var options = { validate: true, name: "bar" };<br />
+                            var settings = $.extend( {}, defaults, options );<br />
+                            //defaults和options不变<br />
+                            //settings：{"validate":true,"limit":5,"name":"bar"}
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.globalEval/">jQuery.globalEval("js代码")</a>
+                <ul>
+                    <li><span>在全局上下文下执行一些JavaScript代码。</span></li>
+                    <li>
+                        <p>
+                            此方法的表现不同于正常使用的JavaScript eval()，因为它是在全局上下文下执行（这对加载外部动态脚本很重要）。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            function test(){<br />
+                            jQuery.globalEval("var newVar = true;")<br />
+                            }<br />
+                            test();<br />
+                            // newVar === true
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.grep/">jQuery.grep(array,function(data,index),[invert])</a>
+                <ul>
+                    <li><span>查找满足过滤函数的数组元素。原始数组不受影响。</span></li>
+                    <li>
+                        <p>
+                            如果“invert”为false，或没有提供，函数返回一个“callback”中返回true的所有元素组成的数组。如果“invert”为true，函数返回一个“callback”中返回false的所有元素组成的数组。
+                        </p>
+                        <p>
+                            $.grep()方法会删除数组必要的元素，以使所有剩余元素通过过滤函数的检查。该测试是一个函数传递一个数组元素和该数组内这个的索引值。只有当测试返回true，该数组元素将返回到结果数组中
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            var arr = [ 1, 9, 3, 8, 6, 1, 5, 9, 4, 7, 3, 8, 6, 9, 1 ];{<br />
+                            arr = jQuery.grep(arr, function(n, i){<br />
+                            return (n != 5 && i > 4);<br />
+                            });<br />
+                            //arr:1, 9, 4, 7, 3, 8, 6, 9, 1
+                            <br />
+                            arr = jQuery.grep(arr, function (a) { return a != 9; });<br />
+                            //arr: 1, 4, 7, 3, 8, 6, 1                          
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.2</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.inArray/">jQuery.inArray(value,array,[fromindex])</a>
+                <ul>
+                    <li><span>在数组中查找指定值并返回它的索引（如果没有找到，则返回-1）</span></li>
+                    <li>
+                        <p>
+                            数组索引值，表示从哪里在开始查找。默认值是0，这将查找整个数组。
+                        </p>
+                        <p>
+                            $.inArray()方法类似于JavaScript的原生.indexOf()方法，没有找到匹配元素时它返回-1。如果数组第一个元素匹配value（参数） ，那么$.inArray()返回0。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            var arr = [ 1, 9, 3, 8, 6, 1, 5, 9, 4, 7, 3, 8, 6, 9, 1 ];{<br />
+                            arr = jQuery.grep(arr, function(n, i){<br />
+                            return (n != 5 && i > 4);<br />
+                            });<br />
+                            //arr:1, 9, 4, 7, 3, 8, 6, 9, 1
+                            <br />
+                            arr = jQuery.grep(arr, function (a) { return a != 9; });<br />
+                            //arr: 1, 4, 7, 3, 8, 6, 1                          
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.3</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.isArray/">jQuery.isArray(obj)</a>
+                <ul>
+                    <li><span>用来测试是否为一个数组。</span></li>
+                    <li>
+                        <p>
+                            用来指明对象是否是一个JavaScript数组（而不是类似数组的对象，如一个jQuery对象）。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            $.isArray([]) //true                     
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.isEmptyObject/">jQuery.isEmptyObject(object)</a>
+                <ul>
+                    <li><span>将要检查是否为空的对象。</span></li>
+                    <li>
+                        <p>从 jQuery 1.4 开始，这个方法既检测对象本身的属性，也检测从原型继承的属性（因此没有使用hasOwnProperty）。参数应当是一个普通的JavaScript对象， 对于其他类型的对象（DOM元素，原始strings/numbers，host对象）在跨浏览器中可能无法提供一致的结果。</p>
+                    </li>
+                    <li>
+                        <div>
+                            jQuery.isEmptyObject({}) // true<br />
+                            jQuery.isEmptyObject({ foo: "bar" }) // false                
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.isPlainObject/">jQuery.isPlainObject(obj)</a>
+                <ul>
+                    <li><span>测试对象是否是纯粹的对象（通过 "{}" 或者 "new Object" 创建的）</span></li>
+                    <li>
+                        <p>Host对象（或浏览器宿主环境中所使用的对象，用来完成的ECMAScript执行环境）在检测跨平台时存在很多的不一致，难以提供跨平台的强劲的检测函数。在某些情况下，$.isPlainObject()的结果可能在不同的浏览器评估不一致。如：console.log($.isPlainObject(document.location));重要的是要知道旧版本的浏览器中使用$.isPlainObject()的陷阱。</p>
+                    </li>
+                    <li>
+                        <div>
+                            jQuery.isPlainObject({}) // true<br />
+                            jQuery.isPlainObject("test") // false     
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.2</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.isFunction/">jQuery.isFunction(obj)</a>
+                <ul>
+                    <li><span>确定参数是否为一个Javascript 函数。</span></li>
+                    <li>
+                        <p>jQuery 1.3以后，例如在 Internet Explorer 中，浏览器提供的函数比如alert()还有 DOM 元素的方法比如 getAttribute() 将不认为是函数。</p>
+                    </li>
+                    <li>
+                        <div>
+                            jQuery.isFunction(function () {}); //true           
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.isNumeric/">jQuery.isNumeric(value)</a>
+                <ul>
+                    <li><span>确定参数是否为一个Javascript 函数。</span></li>
+                    <li>
+                        <p>$.isNumeric()方法检查它的参数是否能代表一个数值。如果是这样，则返回true。否则返回false。该参数可以是任何类型。jQuery 3.0之前，这个方法会强制转换参数为Number，转换后的值类型如果是如果是Number，也会返回true）</p>
+                        <p>在jQuery 3.0中，$.isNumeric()方法只有接收number类型的参数时候，或者是可以被强制为有限数值的 string类型的参数，才会返回true，在其他情况下，返回false。</p>
+                    </li>
+                    <li>
+                        <div>
+                            // true (numeric)<br />
+                            $.isNumeric( "-10" )<br />
+                            $.isNumeric( "0" )<br />
+                            $.isNumeric( 0xFF )<br />
+                            $.isNumeric( "0xFF" )<br />
+                            $.isNumeric( "8e5" )<br />
+                            $.isNumeric( "3.1415" )<br />
+                            $.isNumeric( +10 )<br />
+                            $.isNumeric( 0144 )<br />
+                            <br />
+                            // false (non-numeric)<br />
+                            $.isNumeric( "-0x42" )<br />
+                            $.isNumeric( "7.2acdgs" )<br />
+                            $.isNumeric( "" )<br />
+                            $.isNumeric( {} )<br />
+                            $.isNumeric( NaN )<br />
+                            $.isNumeric( null )<br />
+                            $.isNumeric( true )<br />
+                            $.isNumeric( Infinity )<br />
+                            $.isNumeric( undefined ) 
+                            <br />
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.43</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.isWindow/">jQuery.isWindow(obj)</a>
+                <ul>
+                    <li><span>确定参数是否为一个window对象。</span></li>
+                    <li>
+                        <p>这个方法在jQuery很多地方用到，用来确定我们的操作是否为一个浏览器窗口操作。（如当前窗口或一个iframe）。</p>
+                    </li>
+                    <li>
+                        <div>
+                            $.isWindow(window)     
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.14</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.isXMLDoc/">jQuery.isXMLDoc( node )</a>
+                <ul>
+                    <li><span>检查一个DOM节点是否在XML文档中（或者是一个XML文档）。</span></li>
+                    <li>
+                        <p></p>
+                    </li>
+                    <li>
+                        <div>
+                            jQuery.isXMLDoc(document) // false<br />
+                            jQuery.isXMLDoc(document.body) // false
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.2</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.makeArray/">jQuery.makeArray(obj)</a>
+                <ul>
+                    <li><span>转换一个类似数组的对象成为真正的JavaScript数组。</span></li>
+                    <li>
+                        <p>
+                            一般来说，无论是在jQuery和JavaScript中很多方法都返回类似数组的对象。举例来说，jQuery的代理函数$()返回一个jQuery对象具有许多的数组的属性。（length， []数组访问运算符等），但和数组并不完全一样，缺少一些对数组的内置方法（如.pop()和.reverse()）。<br />
+                            请注意，转换后，任何有特殊功能的对象（如在我们的例子中jQuery方法）将不再存在。现在的对象是一个普通的数组。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            var elems = document.getElementsByTagName("div");<br />
+                            var arr = jQuery.makeArray(elems);<br />
+                            arr.reverse();
+                            <br />
+                            $(arr).appendTo(document.body);
+                        </div>
+                        <div>
+                            var obj = $('li');//将一个 jQuery 对象转换成一个数组。<br />
+                            var arr = $.makeArray(obj);
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.map/">jQuery.map(array/obj, callback(data/value, index/key))</a>
+                <ul>
+                    <li><span>将一个数组中的所有元素转换到另一个数组中。</span></li>
+                    <li>
+                        <p>
+                            1.callback处理每一个元素的函数。第一个参数是数组元素，第二个参数是该元素的索引值。该函数可以返回任何值。在函数内部，this将是全局的window对象。
+                        </p>
+                        <p>
+                            2.callback处理每一个元素的函数。第一个参数是数组中元素或对象的值，第二个参数是该元素在数组中的索引值或该对象的键。该函数可以返回任何值，该返回值会被添加到数组中。若返回是数组，则会将该数组中的元素添加到最终的结果数组中。在函数内部， this指的是全球（window）的对象。
+                        </p>
+                        <p>在jQuery 1.6之前，$.map()只支持遍历数组和类似数组的对象 。在jQuery 1.6也支持遍历对象。</p>
+                    </li>
+                    <li>
+                        <div>
+                            var arr = [ "a", "b", "c", "d", "e" ];<br />
+                            arr = jQuery.map(arr, function(n, i){<br />
+                            return (n.toUpperCase() + i);<br />
+                            });                        
+                        </div>
+                        <div>
+                            $.map( [0,1,2], function(n){<br />
+                            return n > 0 ? n + 1 : null;<br />
+                            }); //[2, 3] 
+                        </div>
+                        <div>
+                            $.map( [0,1,2], function(n){<br />
+                            return [ n, n + 1 ];<br />
+                            }); //[0, 1, 1, 2, 2, 3] 
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.merge/">jQuery.merge(first, second)</a>
+                <ul>
+                    <li><span>合并两个数组内容到第一个数组</span></li>
+                    <li>
+                        <p>
+                            第一个用于合并的数组，其中将会包含合并后的第二个数组的内容。第二个用于合并的数组，该数组不会被修改，其中的内容将会被合并到第一个数组中。$.merge()操作形成一个数组，其中包含两个数组的所有元素。追加到第一个数组中的第二个数组元素的顺序会被保留。$.merge()函数是破坏性的。它会修改第一个数组的内容，并将第二个数组的内容添加到第一个数组中。
+                            $.merge()本身也可以用于拷贝操作：
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            var newArray = $.merge([], oldArray);
+                        </div>
+                    </li>
+                    <li>
+                        <p>在jQuery 1.4之前，该参数应该是原生的Javascript数组对象;如果情况并非如此（参数不是原生的Javascript数组对象）请使用$.makeArray将它们变成真正的 Javascript 数组。</p>
+                    </li>
+                    <li>
+                        <div>
+                            $.merge([0,1,2],[2,3,4]) //[0,1,2,2,3,4] 
+                        </div>
+                        <div>
+                            var first = ['a','b','c'];<br />
+                            var second = ['d','e','f'];<br />
+                            $.merge( $.merge([],first), second);
+                             //这样就可以保证原始的内容不被修改。
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.noop/">jQuery.noop()</a>
+                <ul>
+                    <li><span>此方法不接受任何参数。</span></li>
+                    <li>
+                        <p>
+                            当你仅仅想要传递一个空函数的时候，就用他吧。
+这对一些插件作者很有用，当插件提供了一个可选的回调函数接口，那么如果调用的时候没有传递这个回调函数，就用jQuery.noop来代替执行。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.43</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.now/">jQuery.now()</a>
+                <ul>
+                    <li><span>返回一个数字，表示当前时间。</span></li>
+                    <li>
+                        <p>
+                            $.now()方法是表达式(new Date).getTime()返回数值的一个简写
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.8</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.parseHTML/">jQuery.parseHTML(data,[context],[keepScripts])</a>
+                <ul>
+                    <li><span>将字符串解析到一个DOM节点的数组中。</span></li>
+                    <li>
+                        <p>
+                            data:用来解析的HTML字符串。context:DOM元素的上下文，在这个上下文中将创建的HTML片段。keepscript:表明是否在传递的HTML字符串中包含脚本。
+                        </p>
+                        <p>
+                            jQuery.parseHTML使用原生方法将字符串转换为一个DOM节点的集合，然后可以插入到文档。 这些方法渲染所有尾随或前导文本（即使只是空格）。默认情况下，如果没有指定或给定null 或 undefined，context是当前的document。如果HTML被用在另一个document中，比如一个iframe，该frame的文件可以使用。在3.0中，这种默认行为已经被改变。如果没有指定context，或者给定值为null 或 undefined，那么将使用一个新的document。这有可能会提高安全性，因为当HTML解析时，内嵌的事件将不会执行。
+                        </p>
+                        <p>大多数的jQuery的API接受的HTML字符串将运行所包含在HTML中的脚本。jQuery.parseHTML不运行HTML中解析出来的脚本，除非 keepScripts参数为true。</p>
+                    </li>
+                    <li>
+                        <div>
+                            var $log = $( "#log" ),<br />
+                            str = "hello, <b>my name is</b> jQuery.",<br />
+                            html = $.parseHTML( str );<br />
+                            $log.append( html );
+ 
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.43</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.now/">jQuery.now()</a>
+                <ul>
+                    <li><span>返回一个数字，表示当前时间。</span></li>
+                    <li>
+                        <p>
+                            $.now()方法是表达式(new Date).getTime()返回数值的一个简写
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.41</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.parseJSON/">jQuery.parseJSON(json)</a>
+                <ul>
+                    <li><span>接受一个标准格式的 JSON 字符串，并返回解析后的JavaScript值。</span></li>
+                    <li>
+                        <p>
+                            传入格式有误的 JSON 字符串可能导致抛出异常。例如，下面这些无效的 JSON 字符串：<br />
+                            {test: 1} (test 没有使用双引号包裹).<br />
+                            {'test': 1} ('test' 用了单引号而不是双引号包裹).
+                            <br />
+                            "{test: 1}" (test 没有使用双引号包裹).<br />
+                            "{'test': 1}" ('test' 用了单引号而不是双引号包裹).<br />
+                            "'test'" ('test' 用单引号代替双引号).<br />
+                            ".1" (number 必须以数字开头; "0.1" 将是有效的).<br />
+                            "undefined" (undefined 不能表示一个 JSON 字符串; 然而null,可以).<br />
+                            "NaN" (NaN 不能表示一个 JSON 字符串; 用Infinity直接表示无限也是不允许的).
+                        </p>
+                        <p>JSON标准不允许“控制字符”如制表符或换行符。比如$.parseJSON('{"testing":"1\t2\n3"}')，大多数实现中将抛出一个错误.在jQuery 1.9之前,如果传递给$.parseJSON一个空字符串，null, 或者 undefined,，将返回null，而不是抛出一个错误，即使这些都不是有效的JSON。jQuery 3.0开始，$.parseJSON已经过时。要将字符串解析成JSON对象，请使用原生的JSON.parse方法来代替。</p>
+                    </li>
+                    <li>
+                        <div>
+                            var obj = jQuery.parseJSON('{"name":"John"}');<br />
+                            alert( obj.name === "John" );
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.parseXML/">jQuery.parseXML(data)</a>
+                <ul>
+                    <li><span>解析一个字符串到一个XML文档。</span></li>
+                    <li>
+                        <p>
+                            jQuery.parseXML使用原生解析函数浏览器创建一个有效的XML文档。这文档可以被传递给jQuery中，用于创建一个典型的jQuery对象，可以查询及操作。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            var xml = "&lt;rss version='2.0'&gt;&lt;channel&gt;&lt;title&gt;RSS Title&lt;/title&gt;&lt;/channel&gt;&lt;/rss&gt;",<br />
+                            xmlDoc = $.parseXML(xml),<br />
+                            $xml = $(xmlDoc),<br />
+                            $title = $xml.find( "title" );<br />
+                            $title.text() //RSS Title
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>3.1</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.readyException/">jQuery.readyException(error)</a>
+                <ul>
+                    <li><span>处理包裹在jQuery()中函数同步抛出的错误。</span></li>
+                    <li>
+                        <p>
+                            当包裹在jQuery()或jQuery( document ).ready()，或等效的函数中的函数同步抛出错误的时候，这个方法就会被触发。默认情况下，在一个超时，它重新抛出错误，因此它被记录在控制台中，并传递给window.onerror，而不是被静悄悄的吞噬。如果你想以不同的方式处理这种错误，可以覆盖此方法。
+                        </p>
+                    </li>
+                    <li>
+                        <div>
+                            jQuery.readyException = function( error ) {<br />
+                            console.error( error );<br />
+                            };
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.trim/">jQuery.trim(str)</a>
+                <ul>
+                    <li><span>去掉字符串起始和结尾的空格。</span></li>
+                    <li>
+                        <p>
+                            $.trim()函数会移除字符串开始和结尾处的所有换行符，空格(包括连续的空格)和制表符（tab）。如果这些空白字符在字符串中间时，它们将被保留，不会被移除。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.43</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.type/">jQuery.type(obj)</a>
+                <ul>
+                    <li><span>确定JavaScript 对象的类型[[Class]] 。</span></li>
+                    <li>
+                        <p>
+                            1.如果对象是undefined或null，则返回相应的“undefined”或“null”。<br />
+                            jQuery.type( undefined ) === "undefined"<br />
+                            jQuery.type() === "undefined"<br />
+                            jQuery.type( window.notDefined ) === "undefined"<br />
+                            jQuery.type( null ) === "null"<br />
+                            2.如果对象有一个内部的[[Class]]和一个浏览器的内置对象的 [[Class]] 相同，我们返回相应的 [[Class]] 名字。 (有关此技术的更多细节。 )<br />
+                            jQuery.type( true ) === "boolean"<br />
+                            jQuery.type( 3 ) === "number"<br />
+                            jQuery.type( "test" ) === "string"<br />
+                            jQuery.type( function(){} ) === "function"<br />
+                            jQuery.type( [] ) === "array"<br />
+                            jQuery.type( new Date() ) === "date"<br />
+                            jQuery.type( new Error() ) === "error" // as of jQuery 1.9<br />
+                            jQuery.type( /test/ ) === "regexp"<br />
+                            3.其他一切都将返回它的类型“object”。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.12</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.unique/">jQuery.unique(array)</a>
+                <ul>
+                    <li><span>排序一个DOM元素的数组，恰当的除去重复项。 请注意，这仅适用于DOM元素数组，而不能处理字符串或者数字数组。</span></li>
+                    <li>
+                        <p>
+                            在jQuery 3.0中，这种方法已被弃用，只是jQuery.uniqueSort()的别名。请使用该方法代替。
+                        </p>
+                        <p>
+                            $.unique()函数通过搜索的数组对象，排序数组，并移除任何重复的节点。 如果一个节点和已经在数组中的节点完全相同，那么它被认为是重复的;  两个不同的节点具有相同的属性是被认为不重复的。 此功能只适用于普通的JavaScript DOM元素的数组，主要是jQuery内部使用。你可能永远都不需要使用它
+                        </p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="item f2 Jhide">
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.get()">get(index)</a>
+                <ul>
+                    <li><span>通过检索匹配jQuery对象得到对应的DOM元素。</span></li>
+                    <li>
+                        <p>
+                            从0开始计数，用来确定获取哪个元素。
+                        </p>
+                        <p>.get() 方法允许我们直接访问jQuery对象中相关的DOM节点。 如果index的值超出范围 - 小于元素数量的负数或等于或大于元素的数量 - 那么它将返回undefined。 假设我们页面上有一个简单的无序列表。每个 jQuery 对象也被当成一个数组，所以我们也可以直接用数组的取值运算符来获得列表项。然而，这种语法缺少某些 .get() 所具有的附加功能，比如可以指定索引值为负值</p>
+                    </li>
+                    <li>
+                        <div>
+                            console.log( $( "li" ).get(0));<br />
+                            console.log( $( "li" )[0]);<br />
+                            console.log( $( "li" ).get(-1));
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.index()">index()</a>
+                <ul>
+                    <li><span>从匹配的元素中搜索给定元素的索引值，从0开始计数</span></li>
+                    <li>
+                        <p>1. 如果不传递任何参数给 .index() 方法，则返回值就是jQuery对象中第一个元素相对于它同辈元素的位置。</p>
+                        <p>2.如果在一组元素上调用 .index() ，并且参数是一个DOM元素或jQuery对象， .index() 返回值就是传入的元素相对于原先集合的位置。</p>
+                        <p>
+                            3.如果参数是一个选择器， .index() 返回值就是原先元素相对于选择器匹配元素的位置。如果找不到匹配的元素，则 .index() 返回 -1.
+                        </p>
+                        <p>.get() 接受一个索引值参数并返回对应的DOM节点， .index() 与其正好相反，接受一个DOM节点然后返回其索引值</p>
+                    </li>
+                    <li>
+                        <div>
+                            $("div").click(function () {
+                            <br />
+                            var index = $("div").index(this);<br />
+                            $("span").text("That was div index #" + index);<br />
+                            });
+                        </div>
+                        <div>$('li').index($('#bar'))</div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.4</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.get()">toArray()</a>
+                <ul>
+                    <li><span>返回一个包含jQuery对象集合中的所有DOM元素的数组。</span></li>
+                    <li>
+                        <p>
+                            从0开始计数，用来确定获取哪个元素。
+                        </p>
+                        <p>这个方法不接受任何参数。</p>
+                    </li>
+                    <li>
+                        <div>
+                            $("div").toArray().reverse()
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.length/">length</a>
+                <ul>
+                    <li><span>在jQuery对象中元素的数量</span>
+                        <p>
+                            目前匹配的元素数量。.size()方法将返回相同的数字。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.error/">jQuery.error(message)</a>
+                <ul>
+                    <li><span>接受一个字符串，并抛出包含这个字符串的异常。</span>
+                        <p>
+                            这个方法主要是为了让插件开发人员可以重载此方法，并以更好的方式显示错误消息，或者提供更多相关信息。
+                        </p>
+                        <div>
+                            jQuery.error = console.error;
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/pushStack/">.pushStack(elements)</a>
+                <ul>
+                    <li><span>将一个DOM元素集合加入到jQuery栈。</span>
+                        <p>
+                            将要压入jQuery栈的元素，用于生成一个新的jQuery对象。
+                        </p>
+                        <div>
+                            jQuery([])<br />
+                            .pushStack(document.getElementsByTagName("div"))<br />
+                            .remove()<br />
+                            .end();
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul class="item f3 Jhide">
+            <li><i>1.6</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.always()">deferred.always(alwaysCallbacks,[alwaysCallbacks])</a>
+                <ul>
+                    <li><span>当Deferred（延迟）对象解决或拒绝时，调用添加处理程序。</span></li>
+                    <li>
+                        <p>
+                            参数可以是一个函数或一个函数的数组。当Deferred（延迟）得到解决或者拒绝时， alwaysCallbacks 始终都会被执行。由于的 deferred.always()返回Deferred（延迟）对象，所以可以链接其它的Deferred（延迟）对象，包括额外的.always()的方法。当Deferred（延迟）得到解决或者拒绝，回调将按他们顺序被执行，并且可以使用传递给如下方法的参数：resolve ， reject ， resolveWith或rejectWith。
+                        </p>
+
+                    </li>
+                    <li>
+                        <div>
+                            $.get("test.php").always( function() {<br />
+                            alert("$.get completed with success or error callback arguments");<br />
+                            });
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>3.0</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.catch/">deferred.catch(failFilter)</a>
+                <ul>
+                    <li><span>当Deferred对象被拒绝(reject)时，调用添加的处理程序。</span></li>
+                    <li>
+                        <p>
+                            由于 jQuery.get 方法返回一个jqXHR对象， 它是从Deferred对象派生的，当Deferred对象被拒绝(reject) 时，我们可以使用.catch方法来处理。
+                        </p>
+
+                    </li>
+                    <li>
+                        <div>
+                            $.get("test.php").then(function(){
+                            <br />
+                            alert("$.get succeeded"); }).catch(function(){<br />
+                            alert("$.get failed!"); });
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.done/">deferred.done(doneCallbacks,[doneCallbacks])</a>
+                <ul>
+                    <li><span>当Deferred（延迟）对象解决时，调用添加处理程序。</span></li>
+                    <li>
+                        <p>
+                            deferred.done()方法接受一个或多个参数，所有这些都参数可以是一个单一的函数或一个函数数组。当Deferred（延迟）解决时，doneCallbacks被调用。回调是依照他们添加的顺序执行。一旦deferred.done()返回Deferred（延迟）对象，Deferred（延迟）可以链接其它的延迟对象，包括增加额外的.done()方法。当Deferred（延迟）解决，doneCallbacks执行，并且使用提供给resolve或resolveWith方法的参数，依照被添加的顺序调用。
+                        </p>
+
+                    </li>
+                    <li>
+                        <div>
+                            var str = "";<br />
+                            function fn1() {   
+                            <br />
+                            str+="1,"<br />
+                            }<br />
+                            function fn2() {   
+                            <br />
+                            str += "2,"<br />
+                            }<br />
+                            function fn3(n) {  
+                            <br />
+                            str += "3,"+n<br />
+                            }<br />
+                            var dfd = $.Deferred(); 
+                            <br />
+                            dfd.resolve('d');    
+                            <br />
+                            dfd.done(fn1, [fn2, fn3]);<br />
+                            //str=1,2,3,d;<br />
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.fail/">deferred.fail(failCallbacks,[failCallbacks])</a>
+                <ul>
+                    <li><span>当Deferred（延迟）对象拒绝时，调用添加的处理程序。</span></li>
+                    <li>
+                        <p>
+                            deferred.fail()方法接受一个或多个参数，所有这些都参数可以是一个单一的函数或一个函数数组。当Deferred（延迟）拒绝时，failCallbacks被调用。回调是依照他们添加的顺序执行的。一旦deferred.fail()返回Deferred（延迟）对象，Deferred（延迟）可以链接其它的延迟对象，包括增加deferred.fail()方法。 当Deferred（延迟）拒绝时，failCallbacks执行使用提供给deferred.resolve()或deferred.rejectWith()方法的参数，依照被添加的顺序调用
+                        </p>
+
+                    </li>
+                    <li>
+                        <div>
+                            $.get("test.php")
+                            <br />
+                            .done(function(){ alert("$.get succeeded"); })<br />
+                            .fail(function(){ alert("$.get failed!"); });
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.notify/">deferred.notify(args)</a>
+                <ul>
+                    <li><span>根据给定的 args参数 调用Deferred（延迟）对象上进行中的回调</span></li>
+                    <li>
+                        <p>
+                            通常情况下，只有递延对象（Deferred）的创建者才能调用此方法; 您可以通过deferred.promise()返回的受限制的 Promise 对象，来防止其他代码改变递延的状态,jQuery提供的deferred.promise()方法的作用是，在原来的Deferred 对象上返回另一个 Deferred 对象，即受限制的 Promise 对象，受限制的 Promise 对象只开放与改变执行状态无关的方法（比如done()方法和fail()方法），屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被改变。 
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.notifyWith/">deferred.notifyWith(context,args)</a>
+                <ul>
+                    <li><span>根据给定的上下文（context）和args递延调用Deferred（延迟）对象上进行中的回调</span></li>
+                    <li>
+                        <p>
+                            通常情况下，只有递延对象（Deferred）的创建者才能调用此方法; 您可以通过deferred.promise()返回的受限制的 Promise 对象，来防止其他代码改变递延的状态。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.progress/">deferred.progress(progressCallbacks,progressCallbacks)</a>
+                <ul>
+                    <li><span>当Deferred（延迟）对象生成正在执行中的进度通知时，调用添加处理程序。</span></li>
+                    <li>
+                        <p>
+                            deferred.progress()方法接受一个或多个参数，所有参数都可以是一个单一的函数或函数数组。当Deferred （延迟）对象被 resolved（解决） 或 rejected（拒绝） 时，进度回调函数将不再被调用， 除非 Deferred （延迟）进入resolved（解决） 或 rejected（拒绝）状态后，添加任何的progressCallbacks将立即执行，使用的参数被传递给.notify() 或 notifyWith()调用。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.promise/">deferred.promise([target])</a>
+                <ul>
+                    <li><span>返回Deferred(延迟)的Promise（承诺）对象。</span></li>
+                    <li>
+                        <p>
+                            deferred.promise() 方法允许一个异步函数阻止那些干涉其内部请求的进度（progress）或状态（status）的其它代码。Promise （承诺）对象仅会暴露那些需要绑定额外的处理或判断状态的延迟方法(then, done, fail, always, pipe, progress, state，和 promise)时，并不会暴露任何用于改变状态的延迟方法(resolve, reject, notify, resolveWith, rejectWith, 和 notifyWith)。如果提供target参数，deferred.promise() 会将事件绑定到该参数上，然后返回该对象，而不是创建一个新的对象。 这个方法可以用于在已经存在的对象上绑定 Promise 行为的情况。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.reject/">deferred.reject(args)</a>
+                <ul>
+                    <li><span>拒绝Deferred（延迟）对象，并根据给定的args参数调用任何失败回调函数</span></li>
+                    <li>
+                        <p>
+                            当延迟对象被 rejected 时，任何通过 deferred.then或deferred.fail 添加的 failCallbacks，都会被调用。回调函数的执行顺序和它们被添加的顺序是一样的。传递给 deferred.reject() 的 args 参数，会传给每个回调函数。当延迟对象进入 rejected 状态后，再添加的任何 failCallbacks，当它们被添加时，就会被立刻执行，并带上传入给 .reject() 的参数
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.rejectWith/">deferred.rejectWith(context,[args])</a>
+                <ul>
+                    <li><span>拒绝Deferred（延迟）对象，并根据给定的 context和args参数调用任何失败回调函数</span></li>
+                    <li>
+                        <p>
+                            当延迟对象被 rejected 时，任何通过 deferred.then或deferred.fail 添加的 failCallbacks，都会被调用。回调函数的执行顺序和它们被添加的顺序是一样的。传递给 deferred.reject() 的 args参数，会传给每个回调函数。当延迟对象进入 rejected 状态后，再添加的任何 failCallbacks，当它们被添加时，就会被立刻执行，并带上传入给 .reject() 的参数.
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.resolve/">deferred.resolve(args)</a>
+                <ul>
+                    <li><span>解决Deferred（延迟）对象，并根据给定的args参数调用任何完成回调函数</span></li>
+                    <li>
+                        <p>
+                            当延迟对象被 resolved 时，任何通过 deferred.then或deferred.done 添加的 doneCallbacks，都会被调用。回调函数的执行顺序和它们被添加的顺序是一样的。传递给 deferred.resolve() 的 args 参数，会传给每个回调函数。当延迟对象进入 resolved 状态后，再添加的任何 doneCallbacks，当它们被添加时，就会被立刻执行，并带上传入给 .resolve()的参数。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.resolveWith/">deferred.resolveWith(context,args)</a>
+                <ul>
+                    <li><span>解决Deferred（延迟）对象，并根据给定的 context和args参数调用任何完成回调函数</span></li>
+                    <li>
+                        <p>
+                            当延迟对象被 resolved 时，任何通过 deferred.then或deferred.done 添加的 doneCallbacks，都会被调用。回调函数的执行顺序和它们被添加的顺序是一样的。传递给 deferred.resolve() 的 args 参数，会传给每个回调函数。当延迟对象进入 resolved 状态后，再添加的任何 doneCallbacks，当它们被添加时，就会被立刻执行，并带上传入给 .resolve() 的参数。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.state/">deferred.state()</a>
+                <ul>
+                    <li><span>确定一个Deferred（延迟）对象的当前状态。</span></li>
+                    <li>
+                        <p>
+                            deferred.state() 方法返回一个字符串，代表Deferred（延迟）对象的当前状态。
+                        </p>
+                        <p>
+                            1."pending": Deferred对象是尚未完成状态 (不是 "rejected" 或 "resolved").<br />
+                            2."resolved": Deferred对象是在解决状态，这意味着，deferred.resolve() 或者 deferred.resolveWith()被对象访问和doneCallbacks被访问（或在被调用的过程中）。<br />
+                            3."rejected": Deferred对象是在被拒绝的状态，这意味着，deferred.reject() 或者 deferred.rejectWith() 被对象访问和failCallbacks被访问（或在被调用的过程中） 。
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.8</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.then/">deferred.then(doneFilter,[failFilter],[progressFilter])</a>
+                <ul>
+                    <li><span>当Deferred（延迟）对象解决，拒绝或仍在进行中时，调用添加处理程序.</span></li>
+                    <li>
+                        <p>
+                            doneFilter:当Deferred（延迟）对象得到解决时被调用的一个函数。<br />
+                            failFilter:[可选]当Deferred（延迟）对象拒绝时被调用的一个函数。<br />
+                            progressFilter:[可选]当Deferred（延迟）对象生成进度通知时被调用的一个函数。 
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.6</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/deferred.promise/">promise([type] ,[target])</a>
+                <ul>
+                    <li><span>返回一个 Promise 对象，用来观察当某种类型的所有行动绑定到集合，排队与否还是已经完成。</span></li>
+                    <li>
+                        <p>
+                            .promise()方法返回一个动态生成的 Promise，当绑定到集合中的所有特定动作（action）已经被加入或未被加入到队列中时，生成的 Promise 将被受理（resolve）。默认情况下， type的值是"fx" ，这意味着返回被受理（resolve）的 Promise 对象的时机，是在所有被选中元素的动画都完成时发生的。
+                        </p>
+                        <p>返回的 Promise 被链接到延迟对象上，保存在元素的 .data() 中。由于 .remove() 方法会移除元素上的 data，同时也会移除元素本身。所以，使用它会防止任何元素上未被受理的（unresolved） Promise 被受理（resolving）。如果有必要在元素的 Promise 被受理（resolved）之前，从 DOM 中移除该元素的话，请使用 .detach() 来代替。之后再调用 .removeData()</p>
+                    </li>
+                </ul>
+            </li>
+             <li><i>1.5</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.when/">jQuery.when(deferreds)</a>
+                <ul>
+                    <li><span>提供一种方法来执行零个或多个对象的回调函数， Deferred(延迟)对象通常表示异步事件</span></li>
+                    <li>
+                        <p>
+                            如果向 jQuery.when() 传入一个单独的延迟对象，那么会返回它的 Promise 对象(延迟方法的一个子集)。可以继续绑定 Promise 对象的其它方法，例如， defered.then 。当延迟对象已经被解决（resolved）或被拒绝(rejected）（通常是由创建延迟对象的最初代码执行的），那么就会调用适当的回调函数。
+                        </p>
+                        <div>
+                            $.when( $.ajax("test.aspx") ).then(function(data, textStatus, jqXHR){<br />
+                            alert( jqXHR.status ); // alerts 200<br />
+                            });
+                        </div>
+                        <p>
+                            如果一个参数被传递给jQuery.when()，并且它不是一个Deferred或Promise对象， 那么它会被当作是一个被解决（resolved）的延迟对象，并且绑定到上面的任何 doneCallbacks 都会被立刻执行。
+                        </p>
+                        <div>
+                            $.when( { testing: 123 } ).done(<br />
+                            function(x) { alert(x.testing); } /* alerts "123" */<br />
+                            );
+                        </div>
+                        <p>
+                            如果你不传递任何参数，jQuery.when()将返回一个resolved（解决）状态的promise对象。
+                        </p>
+                        <div>
+                            $.when().then(function( x ) {<br />
+                            alert( "I fired immediately" );<br />
+                            });
+                        </div>
+                        <p>在多个延迟对象传递给jQuery.when() 的情况下，该方法根据一个新的“宿主” Deferred（延迟）对象，跟踪所有已通过Deferreds聚集状态，返回一个Promise对象。当所有的延迟对象被解决（resolve）时，“宿主” Deferred（延迟）对象才会解决（resolved）该方法，或者当其中有一个延迟对象被拒绝（rejected）时，“宿主” Deferred（延迟）对象就会reject（拒绝）该方法。如果“宿主” Deferred（延迟）对象是（resolved）解决状态时， “宿主” Deferred（延迟）对象的 doneCallbacks （解决回调）将被执行。参数传递给 doneCallbacks提供这解决（resolved）值给每个对应的Deferreds对象，并匹配Deferreds传递给 jQuery.when()的顺序。</p>
+                        <div>
+                            var d1 = $.Deferred();<br />
+                            var d2 = $.Deferred();<br />
+                            $.when( d1, d2 ).done(function ( v1, v2 ) {<br />
+                            console.log( v1 ); // "Fish"<br />
+                            console.log( v2 ); // "Pizza"<br />
+                            });<br />
+                            d1.resolve( "Fish" );<br />
+                            d2.resolve( "Pizza" );
+                        </div>
+                        <div>
+                            $.when($.ajax("/page1.php"), $.ajax("/page2.php")).then(myFunc, myFailure);<br />
+                            //执行函数myFunc当两个Ajax请求是成功的，如果任一或myFailure有一个错误。 
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="detail">
+                <a href="##">地址：http://www.ruanyifeng.com/blog/2011/08/a_detailed_explanation_of_jquery_deferred_object.html </a>
+                <ul>
+                    <li>
+                        <p>
+                            从jQuery 1.5.0版本开始引入的一个新功能----deferred对象。<br />
+                            这个功能很重要，未来将成为jQuery的核心方法，它彻底改变了如何在jQuery中使用ajax。为了实现它，jQuery的全部ajax代码都被改写了。
+                        </p>
+                        <h4>什么是deferred对象？</h4>
+                        <p>
+                            开发网站的过程中，我们经常遇到某些耗时很长的javascript操作。其中，既有异步的操作（比如ajax读取服务器数据），也有同步的操作（比如遍历一个大型数组），它们都不是立即能得到结果的.通常的做法是，为它们指定回调函数（callback）。即事先规定，一旦它们运行结束，应该调用哪些函数。但是，在回调函数方面，jQuery的功能非常弱。为了改变这一点，jQuery开发团队就设计了deferred对象。简单说，deferred对象就是jQuery的回调函数解决方案.它解决了如何处理耗时操作的问题，对那些操作提供了更好的控制，以及统一的编程接口。
+                        </p>
+                        <h4>ajax操作的链式写法</h4>
+                        <p>首先，回顾一下jQuery的ajax操作的传统写法：</p>
+                        <div>
+                            $.ajax({
+                            <br />
+                            url: "test.html",<br />
+                            success: function(){<br />
+                            alert("哈哈，成功了！");<br />
+                            },<br />
+                            error:function(){<br />
+                            alert("出错啦！");<br />
+                            }<br />
+                            });
+                        </div>
+                        <p>在上面的代码中，$.ajax()接受一个对象参数，这个对象包含两个方法：success方法指定操作成功后的回调函数，error方法指定操作失败后的回调函数。.ajax()操作完成后，如果使用的是低于1.5.0版本的jQuery，返回的是XHR对象，你没法进行链式操作；如果高于1.5.0版本，返回的是deferred对象，可以进行链式操作。现在，新的写法是这样的：</p>
+                        <div>
+                            $.ajax("test.html")<br />
+                            .done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); });　                          　　　　
+                        </div>
+                        <p>可以看到，done()相当于success方法，fail()相当于error方法。采用链式写法以后，代码的可读性大大提高</p>
+                        <h4>指定同一操作的多个回调函数</h4>
+                        <p>eferred对象的一大好处，就是它允许你自由添加多个回调函数。我还想再运行一个回调函数，怎么办</p>
+                        <div>
+                            $.ajax("test.html")<br />
+                            .done(function(){ alert("哈哈，成功了！");} )<br />
+                            .fail(function(){ alert("出错啦！"); }<br />
+                            .done(function(){ alert("第二个回调函数！");} );<br />
+                            //回调函数可以添加任意多个，它们按照添加顺序执行
+                        </div>
+                        <h4>为多个操作指定回调函数</h4>
+                        <p>deferred对象的另一大好处，就是它允许你为多个事件指定一个回调函数，这是传统写法做不到的。它用到了一个新的方法$.when(),下面这段代码的意思是，先执行两个操作$.ajax("test1.html")和$.ajax("test2.html")，如果都成功了，就运行done()指定的回调函数；如果有一个失败或都失败了，就执行fail()指定的回调函数。</p>
+                        <div>
+                            $.when($.ajax("test1.html"), $.ajax("test2.html"))<br />
+                            .done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); })
+                        </div>
+                        <h4>普通操作的回调函数接口</h4>
+                        <p>
+                            deferred对象的最大优点，就是它把这一套回调函数接口，从ajax操作扩展到了所有操作。也就是说，任何一个操作----不管是ajax操作还是本地操作，也不管是异步操作还是同步操作----都可以使用deferred对象的各种方法，指定回调函数。看一个具体的例子。假定有一个很耗时的操作wait:
+                        </p>
+                        <div>
+                            var wait = function(){<br />
+                            var tasks = function(){<br />
+                            alert("执行完毕！");<br />
+                            };<br />
+                            setTimeout(tasks,5000);<br />
+                            };<br />
+                            <br />
+                            $.when(wait())<br />
+                            .done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); });
+                        </div>
+                        <p>
+                            如果我们用$.when这样操作的话，done会立即执行。即'执行完毕'在'哈哈，成功了之后',显然没有到达我们要的效果。这时候我们引入延迟对象，对wait进行改写.
+                        </p>
+                        <div>
+                            var dtd=$.Deferred();
+                            var wait=function(dtd)
+                            {
+                              var tasks = function(){<br />
+                            alert("执行完毕！");<br />
+                            dtd.resolve(); // 改变deferred对象的执行状态
+                              };<br />
+                            setTimeout(tasks,5000);<br />
+                            return dtd;                          
+                            }<br />
+                            <br />
+                            // 现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。
+                            <br />
+                            $.when(wait(dtd))<br />
+                            .done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); });
+                        </div>
+                        <h4>deferred.resolve()方法和deferred.reject()方法</h4>
+                        <p>
+                            引入一个新概念"执行状态"。jQuery规定，deferred对象有三种执行状态----未完成，已完成和已失败。如果执行状态是"已完成"（resolved）,deferred对象立刻调用done()方法指定的回调函数；如果执行状态是"已失败"，调用fail()方法指定的回调函数；如果执行状态是"未完成"，则继续等待，或者调用progress()方法指定的回调函数.
+                        </p>
+                        <p>
+                            前面部分的ajax操作时，deferred对象会根据返回结果，自动改变自身的执行状态；但是，在wait()函数中，这个执行状态必须由程序员手动指定。dtd.resolve()的意思是，将dtd对象的执行状态从"未完成"改为"已完成"，从而触发done()方法。类似的，还存在一个deferred.reject()方法，作用是将dtd对象的执行状态从"未完成"改为"已失败"，从而触发fail()方法。
+                        </p>
+                        <div>
+                            var wait = function(dtd){<br />
+                            var tasks = function(){<br />
+                            alert("执行完毕！");<br />
+                            dtd.reject(); // 改变Deferred对象的执行状态<br />
+                            };<br />
+                            setTimeout(tasks,5000);<br />
+                            return dtd;<br />
+                            };
+                        </div>
+                        <h4>deferred.promise()方法</h4>
+                        <p>
+                            上面这种写法，还是有问题。那就是dtd是一个全局对象，所以它的执行状态可以从外部改变。
+                        </p>
+                        <div>
+                            $.when(wait(dtd))<br />
+                            .done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); });<br />
+                            dtd.resolve();
+                            <br />
+                        </div>
+                        <p>
+                            在代码的尾部加了一行dtd.resolve()，这就改变了dtd对象的执行状态，因此导致done()方法立刻执行。为了避免这种情况，jQuery提供了deferred.promise()方法。它的作用是，在原来的deferred对象上返回另一个deferred对象，后者只开放与改变执行状态无关的方法（比如done()方法和fail()方法）。屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），从而使得执行状态不能被改变。
+
+                        </p>
+                        <div>
+                            var dtd=$.Deferred();
+                            var wait=function(dtd)
+                            {
+                              var tasks = function(){<br />
+                            alert("执行完毕！");<br />
+                            dtd.resolve(); // 改变deferred对象的执行状态<br />
+                            };<br />
+                            setTimeout(tasks,5000);<br />
+                            return dtd.promise(); // 返回promise对象                         
+                            }<br />
+                            <br />
+                            // 现在，wait()函数返回的是deferred对象，这就可以加上链式操作了。
+                            <br />
+                            var d = wait(dtd); // 新建一个d对象，改为对这个对象进行操作<br />
+                            $.when(d)<br />
+                            .done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); });<br />
+                            d.resolve(); // 此时，这个语句是无效的
+                        </div>
+                        <p>
+                            wait()函数返回的是promise对象。然后，我们把回调函数绑定在这个对象上面，而不是原来的deferred对象上面。这样的好处是，无法改变这个对象的执行状态，要想改变执行状态，只能操作原来的deferred对象。将dtd对象变成wait(）函数的内部对象。
+                        </p>
+                        <div>
+                            var wait = function(dtd){<br />
+                            var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象<br />
+                            ....<br />
+                            ....<br />
+                        </div>
+                        <p>
+                            另一种防止执行状态被外部改变的方法，是使用deferred对象的建构函数$.Deferred()。
+                            这时，wait函数还是保持不变，我们直接把它传入$.Deferred()：
+                        </p>
+                        <div>
+                            $.Deferred(wait)<br />
+                            .done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); });
+                        </div>
+                        <p>jQuery规定，$.Deferred()可以接受一个函数名（注意，是函数名）作为参数，$.Deferred()所生成的deferred对象将作为这个函数的默认参数</p>
+                        <p>
+                            除了上面两种方法以外，我们还可以直接在wait对象上部署deferred接口。
+                        </p>
+                        <div>
+                            var dtd=$.Deferred();//// 生成Deferred对象
+                            var wait = function(){<br />
+                            var tasks = function(){<br />
+                            alert("执行完毕！");<br />
+                            dtd.resolve();// 改变Deferred对象的执行状态<br />
+                            };<br />
+                            setTimeout(tasks,5000);<br />
+                            };<br />
+                            <br />
+                            dtd.promise(wait);<br />
+                            wait.done(function(){ alert("哈哈，成功了！"); })<br />
+                            .fail(function(){ alert("出错啦！"); });
+                        </div>
+                        <p>这里的关键是dtd.promise(wait)这一行，它的作用就是在wait对象上部署Deferred接口。正是因为有了这一行，后面才能直接在wait上面调用done()和fail()。</p>
+                        <p>
+                            deferred对象的多种方法，下面做一个总结：<br />
+                            （1） $.Deferred() 生成一个deferred对象。<br />
+                            （2） deferred.done() 指定操作成功时的回调函数<br />
+                            （3） deferred.fail() 指定操作失败时的回调函数<br />
+                            （4） deferred.promise() 没有参数时，返回一个新的deferred对象，该对象的运行状态无法被改变；接受参数时，作用为在参数对象上部署deferred接口。<br />
+                            （5） deferred.resolve() 手动改变deferred对象的运行状态为"已完成"，从而立即触发done()方法。<br />
+                            （6）deferred.reject() 这个方法与deferred.resolve()正好相反，调用后将deferred对象的运行状态变为"已失败"，从而立即触发fail()方法。<br />
+                            （7） $.when() 为多个操作指定回调函数。Deferred对象还有二个重要方法，上面的教程中没有涉及到。<br />
+                            （8）deferred.then()<br />
+                            有时为了省事，可以把done()和fail()合在一起写，这就是then()方法。在jQuery 1.8之前，then()只是.done().fail()写法的语法糖，两种写法是等价的。在jQuery 1.8之后，then()返回一个新的deferred对象，而done()返回的是原有的deferred对象。如果then()指定的回调函数有返回值，该返回值会作为参数，传入后面的回调函数。
+                        </p>
+                        <div>
+                            $.when($.ajax( "/main.php" )).then(successFunc, failureFunc );
+                        </div>
+                        <p>
+                            如果then()有两个参数，那么第一个参数是done()方法的回调函数，第二个参数是fail()方法的回调方法。如果then()只有一个参数，那么等同于done()。<br />
+                            （9）deferred.always()<br />
+                            这个方法也是用来指定回调函数的，它的作用是，不管调用的是deferred.resolve()还是deferred.reject()，最后总是执行。
+                        </p>
+                        <div>$.ajax("test.html").always(function() {alert("已执行！");});</div>
+                        <h3>延迟对象的作用：
+                        </h3>
+                        <h4>1.解决时序以及动态添加执行函数的问题
+                        </h4>
+                        <div>
+                            function a(){alert(1)};<br />
+                            function b(){alert(2)};<br />
+                            function c(){alert(3)};<br />
+                            a();<br />
+                            setTimeout(function(){b();},0);<br />
+                            c();<br />
+                        </div>
+                        <p>很明显函数执行顺序是a->c->b,而不是按照函数添加的顺序执行。如果我要保证函数按顺序执行，那么c 必须写紧跟在b后面执行,setTimeout(function(){b(); c();},0);</p>
+                        <div>
+                            var defer = $.Deferred(); //构建异步对象<br />
+                            function a(){alert(1)};<br />
+                            function b(){alert(2)};<br />
+                            function c(){alert(3)}<br />
+                            //添加函数<br />
+                            defer.done(a);<br />
+                            //添加函数<br />
+                            defer.done(b);<br />
+                            //或者 defer.done(a,b)<br />
+                            setTimeout(function(){<br />
+                            defer.resolve();//alert(1),alert(2)<br />
+                            },0);<br />
+                            defer.done(c);//alert(3)<br />
+                            c(); //最先执行
+                        </div>
+                        <h4>2.解决参数传递的问题
+                        </h4>
+                        <p>所有的执行函数需要的参数相同，我希望我只传递一个参数就将所有的结果执行出来，特别是后续添加的函数执行我也希望使用原来的参数。如上，如果函数a和b都需要传递参数，那么dtd,resolve(3)，通过这个传就行了</p>
+                    </li>
+                </ul>
+            </li>          
+        </ul>
+
+        <ul class="item f4 Jhide">
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/jQuery.Callbacks/">jQuery.Callbacks(flags)</a>
+                <ul>
+                    <li><span>一个多用途的回调列表对象，提供了强大的的方式来管理回调函数列表。</span></li>
+                    <li>
+                        <p>
+                            $.Callbacks()的内部提供了jQuery的$.ajax() 和 $.Deferred() 基本功能组件。它可以用来作为类似基础定义的新组件的功能。$.Callbacks() 支持的方法，包括 callbacks.add(),callbacks.remove(), callbacks.fire() and callbacks.disable().
+                        </p>
+                        <div>
+                            function fn1( value ) {<br />
+                            console.log( value );<br />
+                            }
+                            <br />
+                            function fn2( value ) {<br />
+                            fn1("fn2 says: " + value);<br />
+                            return false;<br />
+                            }<br />
+                            <br />
+                            var callbacks = $.Callbacks();<br />
+                            callbacks.add( fn1 );<br />
+                            callbacks.fire( "foo!" );// outputs: foo!<br />
+                            callbacks.add( fn2 );<br />
+                            callbacks.fire( "bar!" );// outputs: bar!, fn2 says: bar!<br />
+                            callbacks.remove( fn2 );<br />
+                            callbacks.fire( "cco!" );// outputs: cco!<br />
+                        </div>
+                        <h4>flags:once,memory,unique,stopOnFalse</h4>
+                        <p>
+                            (1)once: 确保这个回调列表只执行（ .fire() ）一次(像一个递延 Deferred).<br />
+                            (2)memory: 保持以前的值，将添加到这个列表的后面的最新的值立即执行调用任何回调 (像一个递延 Deferred).<br />
+                            (3)unique: 确保一次只能添加一个回调(所以在列表中没有重复的回调).<br />
+                            (4)stopOnFalse: 当一个回调返回false 时中断调用
+                        </p>
+                        <div>
+                            若是 var callbacks = $.Callbacks( "once" );<br />
+                            callbacks.add(fn1);<br />
+                            callbacks.fire("foo");<br />
+                            callbacks.add(fn2);<br />
+                            callbacks.fire("bar");<br />
+                            callbacks.remove(fn2);<br />
+                            callbacks.fire("foobar");<br />
+                            //foo 只最后执行一次fire
+                        </div>
+                        <p>
+                            若是 var callbacks = $.Callbacks( "memory" );<br />
+                            foo<br />
+                            fn2 says:foo //这是对之前参数的保存，后来添加的也应用一次之前的参数<br />
+                            bar<br />
+                            fn2 says:bar<br />
+                            foobar
+                        </p>
+                        <p>
+                            若是 var callbacks = $.Callbacks( "stopOnFalse" );<br />
+                            //就是遇到回调函数中有return false，之后的加上的回调都不执行<br />
+                            output:<br />
+                            foo<br />
+                            bar<br />
+                            foobar
+                        </p>
+                        <p>
+                            若是 var callbacks = $.Callbacks("unique");<br />
+                            callbacks.add( fn1 );<br />
+                            callbacks.fire( "foo" );<br />
+                            callbacks.add( fn1 ); // repeat addition<br />
+                            callbacks.add( fn2 );<br />
+                            //就是现在回调函数中都是唯一的
+                        </p>
+                        <p>
+                            $.Callbacks() 支持设置几个flags（标识），有一个累积效应<br />
+                            $.Callbacks("unique memory")).
+                        </p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.add/">callbacks.add(callbacks)</a>
+                <ul>
+                    <li><span>回调列表中添加一个回调或回调的集合。</span></li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.disable/">callbacks.disable()</a>
+                <ul>
+                    <li><span>禁用回调列表中的回调</span>
+                        <p>使用 callbacks.disable() 禁止回调列表中的回调进一步的调用.</p>
+                    </li>
+
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.empty/">callbacks.empty()</a>
+                <ul>
+                    <li><span>从列表中删除所有的回调.</span></li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.fire/">callbacks.fire(arguments)</a>
+                <ul>
+                    <li><span>传入指定的参数调用所有的回调.</span></li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.fired/">callbacks.fired()</a>
+                <ul>
+                    <li><span>确定回调是否至少已经调用一次.</span>
+                        <div>
+                            console.log(callbacks.fired());
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.fireWith/">callbacks.fireWith([context],[args])</a>
+                <ul>
+                    <li><span>访问给定的上下文和参数列表中的所有回调。</span>
+                        <div>
+                            var log = function( value1, value2 ) {<br />
+                            console.log( "Received: " + value1 + "," + value2 );<br />
+                            };<br />
+                            <br />
+                            var callbacks = $.Callbacks();<br />
+                            callbacks.add(log);<br />
+                            callbacks.fireWith(window,["foo","bar"]);
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.has/">callbacks.has(callback)</a>
+                <ul>
+                    <li><span>确定列表是否有绑定任何回调.如果回调作为一个参数提供，那么可以确定其是否在列表中。</span>
+                        <div>
+                            console.log( callbacks.has(foo));
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.lock/">callbacks.lock()</a>
+                <ul>
+                    <li><span>锁定回调列表的当前状态。</span>
+                        <p>如果回调对象被创建，用"memory"标志作为它的参数，绑定函数可能会在回调列表中被锁定后增加并且触发。就是说lock不会清空lock以前的参数，依然存储着的，新add个，依然会调用以前的参数</p>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.locked/">callbacks.disabled()</a>
+                <ul>
+                    <li><span>确定回调列表是否已被锁定。</span>
+                        <p>使用 callbacks.disabled() 确定回调列表是否已被锁定</p>
+                        <div>
+                            callbacks.disable();<br />
+                            console.log(callbacks.disabled());
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li><i>1.7</i><a target="_blank" href="http://www.css88.com/jqapi-1.9/callbacks.locked/">callbacks.remove(callbacks)</a>
+                <ul>
+                    <li><span>从回调列表中的删除一个回调或回调集合。</span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+
+</body>
+</html>
+<!--<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>-->
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#ChooseVersion").change(function () {
+            var selectVersion = $(this).val();
+            $("ul.item > li").each(function (index, data) {
+                var getVersion = parseFloat($(data).children("i").text());
+                if (selectVersion > getVersion) {
+                    $(data).css("display", "none");
+                }
+                else {
+                    $(data).css("display", "block");
+                }
+            })
+        })
+        $("ul.item > li").each(function (index, data) {
+            $(data).unbind("click");
+            $(data).unbind("touchend");
+            $(data).on("click touchend", function () {
+                var Obj = $(data).find("ul");
+                // $(Obj).parent().find("ul").slideUp();
+                $(Obj).slideToggle();
+
+                return false;
+            })
+        })
+        $(".header>ul>li").each(function (index, data) {
+            $(data).on("click", function () {
+                $("ul.item").each(function (index, data) {
+                    $(data).hide();
+                })
+                $(this).parent().children("li").removeClass("active");
+                $(this).addClass("active");
+                $("ul." + $(data).attr("id")).show();
+
+            })
+
+        })
+    })
+</script>

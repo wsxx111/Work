@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h3>依赖倒置</h3>
+        <h4>概念</h4>
+        <p>MVC设计模式最重要的功能之一就是关注点分离。因此，我们的应用程序的模块应该尽可能的保持独立，也就是保持松耦合。它促使更容易的对应用程序进行测试和维护。通过使用Dependency Injection （DI，依赖注入）可以帮忙我们实现应用程序各个模块之间的松耦合。</p>
+        <h5>什么是Dependency Inversion Principle (DIP，依赖倒置原则)和IoC（控制反转）?</h5>
+        <p>依赖倒置原则讲的是：</p>
+        <p>高层模块不应该依赖低层模块，它们都应该依赖于抽象。</p>
+        <p>抽象不应该依赖于细节（具体的实现）。但细节应该依赖于抽象。</p>
+        <p>依赖倒置原则帮助我们开发松耦合的代码，并确保了高层模块依赖于抽象而不是低层模块具体的实现。</p>
+        <h5>控制反转</h5>
+        <p>IOC是用来提供抽象，改变控制。IOC提供了一些方式来实现DIP。控制反转模式是对DIP的一种实现。如果想让高层模块独立于低层模块，你需要反转控制才能使低层模块不去控制接口并创建对象。</p>
+        <p>IOC指的是一种框架或运行时的编程风格，用来控制程序流程。IOC意味着我们可以改变常规的控制方式。它在DIP下得以实现。许多基于.net框架的软件开发都使用IOC。</p>
+        <p>IOC更多的是一个通用术语，不仅仅局限于DI。DI和Service Locator（服务定位器）模式是对IOC模式的一种实现方式。</p>
+        <img src='http://pic.027cgb.cn/20170305/2017319579452045706.png' />
+        <h5>依赖注入DI</h5>
+        <p>依赖注入模式使用构造器对对象初始化并提供需要的依赖给对象，也就意味着允许你从类外部注入一个依赖项。</p>
+        <p>通过使用Dependency Injection （DI，依赖注入）可以帮忙我们实现应用程序各个模块之间的松耦合。</p>
+        <h5>什么是服务定位器</h5>
+        <p>Service Locator也是一种模式，实现了DIP准则，模式引入了一个locator（定位器）的对象，该对象用来解决依赖，意味着通过在类中引用该定位器对象就可以解决类的依赖项。</p>
+        <pre><code>
+        public interface IService {
+            void Serve();
+        }
+
+
+        public class Service: IService {
+            public void Serve() {
+                Console.WriteLine("Service Called");
+                //To Do: Some Stuff
+            }
+        }
+
+
+        public static class LocateService {
+            public static IService _Service {
+                get;
+                set;
+            }
+            public static IService GetService() {
+                if (_Service == null) _Service = new Service();
+                return _Service;
+            }
+        }
+
+
+        public class Client {
+            private IService _service;
+            public Client() {
+                this._service = LocateService.GetService();
+            }
+            public void Start() {
+                Console.WriteLine("Service Started");
+                this._service.Serve();
+                //To Do: Some Stuff
+            }
+        }
+
+
+        class Program {
+            static void Main(string[] args) {
+                var client = new Client();
+                client.Start();
+                Console.ReadKey();
+            }
+        }
+             </code></pre>
+        <h4>实现依赖注入方式</h4>
+        <p><em>构造函数注入</em></p>
+        <p>最常用的注入方式。当实例化类的时候通过给类的构造函数提供依赖项来实现依赖注入。注入的依赖可以在类的任何地方直接使用。适用于类需要一个或多个依赖时。</p>
+        <pre><code>
+        public interface IService {
+            void Serve();
+        }
+        public class Service: IService {
+            public void Serve() {
+                Console.WriteLine("Service Called");
+            }
+        }
+        public class Client {
+            private IService _service;
+            public Client(IService service) {
+                this._service = service;
+            }
+            public void Start() {
+                Console.WriteLine("Service Started");
+                this._service.Serve();
+                //To Do: Some Stuff
+            }
+        }
+        //Builder
+        class Program {
+            static void Main(string[] args) {
+                Client client = new Client(new Service());
+                client.Start();
+                Console.ReadKey();
+            }
+        }
+             </code></pre>
+        <p><em>属性注入</em></p>
+        <p>适用于类需要可选的依赖时，或者需要可交换的实现时,这种方式不需要增加或修改构造函数。</p>
+        <pre><code>
+        public class Client {
+            private IService _service;
+            public IService Service {
+                set {
+                    this._service = value;
+                }
+            }
+            public void Start() {
+                Console.WriteLine("Service Started");
+                this._service.Serve();
+                //To Do: Some Stuff
+            }
+        }
+        //Builder
+        class Program {
+            static void Main(string[] args) {
+                Client client = new Client();
+                client.Service = new Service();
+                client.Start();
+                Console.ReadKey();
+            }
+        }
+             </code></pre>
+        <p><em>方法注入</em></p>
+        <p>这种方式注入依赖到单一的方法，改依赖仅仅被注入的方法使用。适用于整个类不需要依赖项，而仅仅某个方法需要。</p>
+        <pre><code>
+        public class Client {
+            private IService _service;
+            public void Start(IService service) {
+                this._service = service;
+                Console.WriteLine("Service Started");
+                this._service.Serve();
+                //To Do: Some Stuff
+            }
+        }
+        //Builder
+        class Program {
+            static void Main(string[] args) {
+                Client client = new Client();
+                client.Start(new Service());
+                Console.ReadKey();
+            }
+        }
+             </code></pre>
+        <h4>依赖注入的好处</h4>
+        <ul>
+            <li>减少类间耦合</li>
+            <li>增加代码重用</li>
+            <li>提高代码可维护性</li>
+            <li>利于应用程序测试</li>
+        </ul>
+        <p>IOC和DI描述的是同一个设计模式，通常可以交互使用。因此有人说IOC容器，有人说DI容器，其实它们都指的是同一个东西.一个DI容器是一个机制用来创建依赖并当需要依赖的时候自动注入。当需要依赖时它自动基于请求创建对象并注入。DI容器用一种简单容易的方式帮助我们管理应用程序的依赖。</p>
+
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="WebUI/Resource/Javascript/jquery.min.js"><\/script>')</script>
+

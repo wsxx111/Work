@@ -1,0 +1,374 @@
+﻿
+.detail li, a {
+    background-color: #f19855 !important; 
+}
+
+
+body {
+    width: 100%;
+    font-family: 'Microsoft YaHei';
+    margin: 0px;
+    padding: 0px;
+}
+
+.container {
+    margin: 18px auto;
+    padding: 5px;
+    max-width: 900px;
+    position: relative;
+}
+
+    .container pre i {
+        font-style: normal;
+        display: inline-block;
+        position: absolute;
+        right: 0px;
+        top: 2px;
+        cursor: pointer;
+        /*background-color:#20860c;*/
+        height: 20px;
+    }
+
+        .container pre i .copy_code {
+            margin: 2px 4px;
+            border-radius: 4px;
+            padding: 3px;
+            border: 1px solid white;
+            display: inline-block;
+            line-height: 20px;
+            font-size: 13px;
+            color: white;
+        }
+
+        .container pre i:hover .copy_code {
+            color: red;
+        }
+
+        .container pre i > .copy_title {
+        }
+
+    .container pre code {
+        overflow-x: auto;
+        overflow-y: hidden;
+        width: auto;
+        word-break: break-all !important;
+    }
+
+
+    .container pre {
+        max-width: 900px;
+        position: relative;
+        box-shadow: 0px 0px 4px #262525;
+        padding: 5px;
+        border-radius: 4px;
+        background-color: #e8e6e6;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-family: 'Microsoft YaHei';
+    }
+
+    .container h3 {
+        margin-top: 80px;
+        padding: 10px;
+        color: white;
+        background-color: #20860c;
+        border-radius: 3px;
+        -moz-box-shadow: 1px 1px 1px #000000;
+        -webkit-box-shadow: 1px 1px 1px #000000;
+        box-shadow: 1px 1px 1px #000000;
+    }
+
+    .container h4 {
+        padding: 5px;
+        color: white;
+        background-color: #936a2a;
+        margin-right: 60px;
+        border-radius: 3px;
+        -moz-box-shadow: 1px 1px 1px #000000;
+        -webkit-box-shadow: 1px 1px 1px #000000;
+        box-shadow: 1px 1px 1px #000000;
+    }
+
+    .container .fun-list {
+        border: 1px solid #e8e6e6;
+        padding: 3px;
+        margin: 0px 30px 0px 0px;
+        border-radius: 4px;
+        background-color: #eee;
+    }
+
+        .container .fun-list > a {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 20px;
+            padding: 6px;
+            background-color: #936a2a;
+            color: white;
+            margin: 5px;
+        }
+
+        .container .fun-list ~ h5 {
+            font-weight: bold;
+        }
+
+    .container .forMore {
+        padding: 10px;
+        border-bottom: 1px solid black;
+    }
+
+        .container .forMore a {
+            display: inline-block;
+            background: #ff6a00;
+            margin: 5px;
+            line-height: 25px;
+            padding: 6px;
+            color: white;
+            text-decoration: none;
+        }
+
+    .container p {
+        text-align: justify;
+        text-indent: 20px;
+        word-break: break-all !important;
+    }
+
+    .container img { 
+        display:block;      
+        padding: 5px;
+        width: 100%;
+        max-width: 800px;
+        margin: 10px auto;
+    }
+
+        .container img.little {
+            display: inline-block;
+            padding: 3px;
+            width: 40%;
+            max-width: 340px;
+            margin: 10px;
+        }
+
+    .container ul {
+        list-style: decimal;
+    }
+        .container ul li {
+        margin:4px;       
+        }
+
+    .container em {
+        font-style: normal;
+        background-color: #fef2d2;
+        color: red;
+        padding: 0px 6px;
+        border-radius: 3px;
+        margin: 0px 2px;
+        -moz-box-shadow: 0px 0px 2px #000000;
+        -webkit-box-shadow: 0px 0px 2px #000000;
+        box-shadow: 0px 0px 2px #000000;
+        cursor:pointer;
+    }
+
+/*导航开始*/
+.sideMenu {
+    position: fixed;
+    top: 6px;
+    left: 3%;
+    width: 100%;
+    display: block;
+}
+
+    .sideMenu .cover-white {
+        display: block;
+        top: -6px;
+        left: 0px;
+        position: absolute;
+        height: 38px;
+        background-color: white;
+        width: 100%;
+        z-index: 998;
+    }
+
+    .sideMenu > label {
+        display: inline-block;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        z-index: 999;
+    }
+
+    .sideMenu > label {
+        margin-left: 50px;
+        background: #000;
+        color: #FFF;
+        cursor: pointer;
+        display: inline-block;
+        font-family: Courier New;
+        font-size: 25px;
+        font-weight: bold;
+        width: 30px;
+        height: 30px;
+        line-height: 35px;
+        text-align: center;
+        text-shadow: 0 -4px;
+        border-radius: 3px;
+    }
+
+@media screen and (max-width:1349px) {
+    .sideMenu {
+        left: 0px;
+        top: -2px;
+    }
+
+        .sideMenu > label {
+            margin-left: 0px;
+            border-radius: 4px;
+            /*border-bottom-right-radius: 6px;*/
+        }
+
+        /*.sideMenu #sideToggle:checked ~ .nav-leftlist {
+            left: 0;
+        }*/
+
+        .sideMenu .nav-leftlist .tickbar {
+            width: 0;
+            height: 0;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-bottom: 10px solid #1e1e1e;
+            margin-left: -18px;
+        }
+}
+
+
+.sideMenu #sideToggle {
+    display: none;
+}
+
+@media screen and (min-width:1350px) {
+    .sideMenu {
+        left: 3%;
+    }
+
+        .sideMenu #sideToggle:checked ~ .nav-list {
+            display: block;
+        }
+
+        .sideMenu #sideToggle ~ .nav-leftlist {
+            left: -300px;
+        }
+
+        .sideMenu .nav-list .tickbar {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 12px solid #1e1e1e;
+            margin-left: 58px;
+        }
+}
+
+.sideMenu > label:hover {
+    background: #f1103a;
+}
+
+.sideMenu .nav-leftlist {
+    margin-top: 0px;
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    left: -200px;
+    min-width: 100px;
+    transition: 0.2s ease-out;
+    -webkit-transition: 0.2s ease-out;
+    z-index: 999;
+}
+
+    .sideMenu .nav-leftlist ul {
+        padding: 10px 4px;
+        margin-top: 0px;       
+        border-top-right-radius: 7px;
+        border-bottom-right-radius: 7px;
+        background-color: #1e1e1e;
+        list-style: none;
+        /*height: 700px;*/
+        max-height: 700px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+.sideMenu .menuTxt {
+    position: relative;
+    display: inline-block;
+    line-height: 30px;
+    font-weight: bold;
+    z-index: 999;
+}
+
+.sideMenu .nav-list {
+    position: relative;
+    display: none;
+    transition: 0.2s ease-out;
+    -webkit-transition: 0.2s ease-out;
+    margin-top: -2px;
+    display: none;
+}
+
+    .sideMenu .nav-list ul {
+        border-radius: 6px;
+        padding: 4px;
+        margin: 0px;
+        background-color: #1e1e1e;
+        list-style: none;
+        max-height: 700px;
+        max-width: 130px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+
+
+.sideMenu .nav-list, .nav-leftlist li {
+    padding: 0px;
+    margin: 0px;
+    /*border-bottom: 1px solid white;*/
+}
+
+    .sideMenu .nav-list a {
+        background-color: #1e1e1e !important;
+        width: 120px;
+        border-radius: 3px;
+        color: wheat;
+        padding: 5px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+.sideMenu .nav-leftlist a {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-color: #262020 !important;
+    min-width: 100px;
+    color: wheat;
+    padding: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.sideMenu .nav-list a:hover {
+    color: white;
+    background-color: #f1103a !important;
+}
+
+.sideMenu .nav-leftlist a:hover {
+    color: white;
+    background-color: #f1103a !important;
+}
+
+
+.sideMenu .menuTxt:hover {
+    color: #f1103a;
+}
+
+/*导航结束*/

@@ -1,0 +1,21 @@
+﻿*{margin:0;padding:0;}
+html, body{_height:100%;_overflow:hidden;}
+body{_overflow:auto;font-family:Arial, sans-serif;font-size:14px;background:#f4f4f4;color:#333;}
+#header{position:fixed;_position:absolute;left:0px;text-align:center;display:block;height:35px;clear:both;background:#000;margin-bottom:30px;border-bottom:7px solid #ccc;font-size:14px;line-height:35px;text-align:right;font-style:italic;width:100%;}
+#header a{color:#aaa;text-shadow:1px 1px 1px #000;padding:0px 20px;outline:none;}
+#header a:hover{color:#fff;}
+#header a.back{color:#1B80B5;font-weight:bold;display:block;float:right;}
+#header a.back:hover{color:#fff;}
+.left{float:left;}
+.right{float:right;}
+h1{font-size:42px;font-family:'Cantarell';font-weight:100;letter-spacing:-1px;}
+h2{font-size:20px;text-indent:4px;font-weight:normal;font-style:italic;color:#a1a1a1;padding:5px 0px 20px 0px;}
+h2 span{color:#444;}
+a{color:#777;text-decoration:none;}
+a:hover{color:#222;}
+p{padding:5px 0px;}
+/*仅用于此DEMO*/
+.content{padding:70px;width:80%;margin:0 auto;}
+.item{background:#bebebe;color:#333;border-radius:3px;padding:10px;word-break:break-all;word-wrap:break-word;white-space:pre;white-space:pre-wrap;}
+.item img{width:100%;height:auto;}
+.item p{text-align:center;margin-top:5px;}

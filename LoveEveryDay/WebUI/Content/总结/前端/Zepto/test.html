@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <ul>
+            <li>list item 1</li>
+            <li class="yaotaiyang">list item 2</li>
+            <li>list item 3</li>
+        </ul>
+    </div>
+    <p>sdsa</p>
+</body>
+</html>
+<script src="zepto.js"></script>
+<script type="text/javascript">
+    $(function () {
+        alert($('li').filter('.yaotaiyang').length);  //1
+        alert($('li').not('.yaotaiyang').length); // 2
+        $('li').hasClass('yaotaiyang');//true
+        $('ul').has('li.yaotaiyang');  //true
+        $('ul').after('<li>haha</li>')
+        $('ul').before('<li>haha</li>')
+        $('ul').append('<li>haha</li>')
+        $('ul').prepend('<li>haha</li>')
+        $('<li>haha</li>').insertAfter('ul');
+        $('<li>haha</li>').insertBefore('ul');
+        $('li').eq(2).index();
+        $('li').eq(2).next();
+        $('li').eq(2).prev();
+        $('li').closest('ul');
+        $('ul').offsetParent();
+        $('ul').unwrap();
+        $('ul').wrap('p');
+        $('ul').wrapAll('div');
+        $('ul').wrapInner('<ul><li>ccc</li></ul>');
+    })
+</script>

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <p>CSRF(Cross-site request forgery跨站请求伪造，也被称成为“one click attack”或者session riding，通常缩写为CSRF或者XSRF，是一种对网站的恶意利用。</p>
+        <h3>CSRF攻击原理</h3>
+        <p>CSRF攻击原理比较简单，如图1所示。其中Web A为存在CSRF漏洞的网站，Web B为攻击者构建的恶意网站，User C为Web A网站的合法用户。</p>
+        <img src="http://s3.51cto.com/wyfs01/M01/16/0C/wKioOVIRjQvjAVsIAABvQu7p_VI704.jpg" />
+        <ul>
+            <li>用户C打开浏览器，访问受信任网站A，输入用户名和密码请求登录网站A;</li>
+            <li>在用户信息通过验证后，网站A产生Cookie信息并返回给浏览器，此时用户登录网站A成功，可以正常发送请求到网站A;</li>
+            <li>用户未退出网站A之前，在同一浏览器中，打开一个TAB页访问网站B;</li>
+            <li>网站B接收到用户请求后，返回一些攻击性代码，并发出一个请求要求访问第三方站点A;</li>
+            <li>浏览器在接收到这些攻击性代码后，根据网站B的请求，在用户不知情的情况下携带Cookie信息，向网站A发出请求。网站A并不知道该请求其实是由B发起的，所以会根据用户C的Cookie信息以C的权限处理该请求，导致来自网站B的恶意代码被执行。</li>
+        </ul>
+        <p>为执行CSRF攻击，黑客需要把一个特别伪造的到达公司应用程序的链接放置到其它网页上或放到电子邮件中。但黑客并不把此链接作为一个超级链接，而是将它放在一个图像或脚本标签中，从而隐藏链接，将链接作为图像或脚本的源。</p>
+        <pre><code>
+                <img src="http://bank.example.com/withdraw?account=bob&amount=100000&for=mallory" />
+             </code></pre>
+        <p>在实践中，黑客有可能使用一个更为通用的链接，可适用于碰巧登录到企业Web应用程序的任何潜在受害者。但对黑客来说，伪造一次成功的CSRF攻击并不容易，因为在攻击过程中，黑客并不能从Web应用程序获得任何反馈。这意味着，只有从你的Web应用程序发出的响应完全可预测时，这种攻击才可能发生。所以说，一个易于遭受攻击的Web应用程序必须 准许用户用一个合法的cookie进行访问，其到期时间必须足够长,在提交适当的URL（可从外部站点发送）时，准许执行交易。以一种可预测的方法进行响应</p>
+        <h3>CSRF漏洞防御</h3>
+        <p>CSRF漏洞防御主要可以从三个层面进行，即服务端的防御、用户端的防御和安全设备的防御。</p>
+        <h4>服务端的防御</h4>
+        <h5>验证HTTP Referer字段</h5>
+        <p>根据HTTP协议，在HTTP头中有一个字段叫Referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限页面的请求必须来自于同一个网站</p>
+        <p>比如某银行的转账是通过用户访问http://bank.test/test?page=10&userID=101&money=10000页面完成，用户必须先登录bank.test，然后通过点击页面上的按钮来触发转账事件。</p>
+        <p>当用户提交请求时，该转账请求的Referer值就会是转账按钮所在页面的URL(本例中，通常是以bank. test域名开头的地址)。而如果攻击者要对银行网站实施CSRF攻击，他只能在自己的网站构造请求，当用户通过攻击者的网站发送请求到银行时，该请求的Referer是指向攻击者的网站。</p>
+        <p>因此，要防御CSRF攻击，银行网站只需要对于每一个转账请求验证其Referer值，如果是以bank. test开头的域名，则说明该请求是来自银行网站自己的请求，是合法的。如果Referer是其他网站的话，就有可能是CSRF攻击，则拒绝该请求。</p>
+        <pre><code>
+        string referer = HttpContext.Request.UrlReferrer.DnsSafeHost;
+        if((referer!=null) &&(referer.StartsWith("http://baidu.com"))){
+         //继续操作
+         }
+        else{
+          //不操作，跳转
+         } 
+             </code></pre>
+        <h5>在请求地址中添加token并验证</h5>
+        <p>CSRF攻击之所以能够成功，是因为攻击者可以伪造用户的请求，该请求中所有的用户验证信息都存在于Cookie中，因此攻击者可以在不知道这些验证信息的情况下直接利用用户自己的Cookie来通过安全验证。由此可知，抵御CSRF攻击的关键在于：在请求中放入攻击者所不能伪造的信息，并且该信息不存在于Cookie之中。鉴于此，系统开发者可以在HTTP请求中以参数的形式加入一个随机产生的token，并在服务器端建立一个拦截器来验证这个token，如果请求中没有token或者token内容不正确，则认为可能是CSRF攻击而拒绝该请求。</p>
+        <pre><code>
+             string getToken = HttpContext.Session["token"] as string;
+            if (getToken == null)
+            {
+                getToken = Guid.NewGuid().ToString();
+                HttpContext.Session["token"] = getToken;
+            }
+            else {
+                var getRequestSession = HttpContext.Request.Headers["token"];
+                if (getRequestSession == null || getRequestSession != getToken)
+                {
+                    //不执行，跳转
+                }
+                else { 
+                //继续执行
+                }
+            }   
+                   
+            $.ajax({
+                  url: "/Home/GetData",
+                  dataType: "json",
+                  beforeSend: function (XMLHttpRequest) {
+                      XMLHttpRequest.setRequestHeader("token", token);
+                  },
+              ...
+             </code></pre>
+        <h5>在HTTP头中自定义属性并验证</h5>
+        <p>自定义属性的方法也是使用token并进行验证，和前一种方法不同的是，这里并不是把token以参数的形式置于HTTP请求之中，而是把它放到HTTP头中自定义的属性里。通过XMLHttpRequest这个类，可以一次性给所有该类请求加上csrftoken这个HTTP头属性，并把token值放入其中。这样解决了前一种方法在请求中加入token的不便，同时，通过这个类请求的地址不会被记录到浏览器的地址栏，也不用担心token会通过Referer泄露到其他网站。</p>
+        <h4>其他防御方法</h4>
+        <p>CSRF攻击是有条件的，当用户访问恶意链接时，认证的cookie仍然有效，所以当用户关闭页面时要及时清除认证cookie，对支持TAB模式(新标签打开网页)的浏览器尤为重要。</p>
+        <p>尽量少用或不要用request()类变量，获取参数指定request.form()还是request. querystring ()，这样有利于阻止CSRF漏洞攻击，此方法只不能完全防御CSRF攻击，只是一定程度上增加了攻击的难度。</p>
+
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></&lr;script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>
+

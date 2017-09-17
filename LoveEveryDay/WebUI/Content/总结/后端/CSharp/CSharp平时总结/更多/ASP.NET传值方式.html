@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <p>页面之间传值的几种形式和方法，并阐述他们的原理和过程</p>
+        <p>关于这道题，从大家的回答来看，结果并不是很理想，从种类上来说，大部分人回答5种左右，极少部分能回答8种，没有超过8种的，但从深度上来说，很少有人能透彻的分析每种方法的原理和过程，（当然，要想透彻的分析这些原理和过程，需要研究底层的东西，如page 生命周期和page原理，反射，IIS如何解析请求等，CLR，GC，反编译等）。鉴于此，我今天花些时间来总结一下，方面。</p>
+        <p>ASP.NET 页面之间传递值得方式大致可以分为如下几种：<em>Request.QueryString["name"]</em>,<em>Request.Form("name")</em>,<em>Session</em>,<em>Cookie</em>,<em>Cache</em>,<em>Application</em>,<em>Server.Transfer</em>,<em>Database</em>,<em>HttpContext的Item属性</em>，<em>Files</em>等等。</p>
+        <h4>Request.QueryString</h4>
+        <pre><code>
+        protected void getQueryString_Click(object sender, EventArgs e)
+        {
+              string QueStr = Request.QueryString["name"];
+              Response.Write(QueStr);
+        }
+             </code></pre>
+        <p>Request.QueryString:获取http查询字符串变量集合。有两重载，即Request.QueryString[string name]和Request.QueryString[int index];</p>
+        <p>Request.QueryString主要是获取url中的“？”之后的参数，如url:a.aspx?name="queryString"，则Request.QueryString["name"]的值为“queryString”。</p>
+        <h4>Request.Form</h4>
+        <pre><code>
+        protected void getQueryString_Click(object sender, EventArgs e)
+        {
+            string strQueForm = Request.Form["TextBox1"];
+            Response.Write(strQueForm);
+        }
+             </code></pre>
+        <p>
+            Request.Form 获取窗体变量集合。有两重载，即Request.Form[string name]和Requst.Form[int index]。获取表单指定名字的参数值。
+        </p>
+        <h4>Session</h4>
+        <pre><code>
+        //创建Session
+        public void createSession(string[] arrStr)
+        {
+            //创建数组
+            string[] str=new string[arrStr.Length];
+            for (int i = 0; i < arrStr.Length; i++)
+            {
+                str[i] = i.ToString();
+                Session[str[i]] = arrStr[i];
+            }
+        }
+
+            //获取
+        string  getSessionValue=Session["name"].ToString()；
+
+
+        //遍历Session
+        public void getSession()
+        {
+            IEnumerator sessionEnum = Session.Keys.GetEnumerator();
+            while (sessionEnum.MoveNext())
+            {
+                Response.Write(Session[sessionEnum.Current.ToString()].ToString()+";");
+            }
+        }
+
+        //清空Session，但不结束会话
+        public void clearSession()
+        {
+            Session.Clear();
+        }
+
+        //结束Session会话
+        public void abandonSession()
+        {
+            Session.Abandon();
+        }
+
+           
+
+             </code></pre>
+        <pre><code>
+        //Session数据存放形式和位置
+        &lt;system.web&gt;
+          &lt;sessionState mode="Off|InProc|StateServer|SQLServer"  cookieless="true|false"  timeout="number of minutes"  
+          stateConnectionString="tcpip=server:port"  sqlConnectionString="sql connection string"  stat   eNetworkTimeout="number   of seconds"/&gt;  
+        &lt;/system.web&gt;
+
+        注解：
+        mode:表示设置存储Session形式和位置; 
+        a、Off：禁用Session;
+        b、Inproc:In Process缩写，表示将Session存储在IIS进程内，但注意，该种方式虽然性能高，但IIS重启是，丢失Session信息;（默认值）   
+        c、SateServer：将Session存储在ASP.NET状态服务进程中（重新启动Web运用程序时保留会话状态，并使会话状态可以用于网络中的多个Web服    务器）;
+        d、将Session存储在SQL Server中
+        cookieless：设置客户端存储Session形式和位置
+        a、true:使用cookieless模式，这时客户端的Session信息就不再使用Cookie存储了，而是将其通过URL存储;
+        b、false：使用kookie模式，默认值。 
+        timeout 设置经过多少分钟后服务器自动放弃Session信息。默认为20分钟;
+        stateConnectionString 设置将Session信息存储在状态服务中时使用的服务器名称和端口号，例如："tcpip=127.0.0.1:42424”。当mode    的   值是StateServer是，这个属性是必需的。（默认端口42424）;
+        sqlConnectionString 设置与SQL Server连接时的连接字符串。例如"data source=localhost;Integrated Security=SSPI;Initial    Catalog=joye"。当mode的值是SQLServer时，这个属性是必需的;
+        stateNetworkTimeout 设置当使用StateServer模式存储Session状态时，经过多少秒空闲后，断开Web服务器与存储状态信息的服务器的TCP/        IP连接的。默认值是10秒钟;
+             </code></pre>
+        <h5>Session原理</h5>
+        <p>为什么引入Session？大家知道，因为http是一种无状态协议，因此，Session正弥补了这一缺陷.Session在ASP.NET中，表示客户端（Goggle,Firefox,IE等）与服务器端的会话，用来存储特定会话信息，准确来说，是用来存储特定用户信息。当客户端向服务器发送一个请求时，如登陆用户ID，服务器接收到该请求，服务器端Session产生一个与该登陆用户相关的SessionID,并将SessioID返回给客户端（Goggle,Firefox,IE等），在新会话开始时，服务器将SessionID当做cookie存储在用户的浏览器中。</p>
+        <p><em>System.Web.SessionState.HttpSessionState</em>  <em>Page.Session</em> //获取ASP.NET提供的当前Session对象。</p>
+        <p>Session中文意思为“会话”，在ASP.NET中，表示客户端和服务器之间的会话，web中常用会话之一。</p>
+        <p>Session存储在服务器端内存中。Session可以存储任何类型的数据，包括自定义对象。Session与Session间是相互独立的，互不干扰。</p>
+        <p>Session与Cookie配对使用，Session在服务器端产生SessionID，并将该SessionID返回给客户端（IE,FireFox,Google等），客户端Cookie来存储该SessionID，整过会话过程中，只要保存SessionID的Cookie不丢失，则Session的信息就不会丢失</p>
+        <p>Session保存的数据可以跨页访问，即跨页面是全局的。Session不能跨进程访问，只能由该会话用户访问。可以在不结束会话的条件下，清除Session信息，即调用Session.Clear();当会话结束，过期，服务器就会清除Session对象。Session常用于保存登录用户的ID.</p>
+        <p></p>
+        <h4>Application</h4>
+        <pre><code>
+        //a.aspx
+        private void Button1_Click(object sender, System.EventArgs e) 
+        { 
+        　　Application["name"] = Label1.Text; 
+        }
+             </code></pre>
+        <pre><code>
+        private void Page_Load(object sender, EventArgs e) 
+        { 
+        　　string name; 
+        　　Application.Lock(); 
+        　　name = Application["name"].ToString(); 
+        　　Application.UnLock(); 
+        }
+             </code></pre>
+        <p>
+            Application对象的作用范围是整个全局，也就是说对所有用户都有效。它在整个应用程序生命周期中都是有效的，类似于使用全局变量一样，所以可以在不同页面中对它进行存取.它和Session变量的区别在于，前者是所有的用户共用的全局变量，后者是各个用户独有的全局变量。可能有人会问，既然所有用户都可以使用application变量，那他可以用在什么场合呢？这里举个例子：网站访问数。多个请求访问时都可以对它进行操作。常用lock和unlock方法用来锁定和解锁，为了防止并发修改。
+        </p>
+        <p>优点：使用简单，消耗较少的服务器资源;不仅能传递简单数据，还能传递对象;数据量大小是不限制的。</p>
+        <p>缺点：作为全局变量容易被误操作。所以单个用户使用的变量一般不能用application。</p>
+        <h4>Cache</h4>
+        <pre><code>
+        //Class1
+        Cache["id"] = TextBox1.Text;
+        Response.Redirect("~/WebForm1.aspx");
+        //Class2
+        if (Cache["id"]!=null)
+        {
+             Label1.Text = Cache["id"].ToString();
+        }
+        //移除缓存
+        Cache.Remove("id");
+        //如果 Cache["id"]为空，则传值失败。可使用如下方法实
+        //限期为10分钟
+        Cache.Insert("id",TextBox1.Text,null,Cache.NoAbsoluteExpiration,new TimeSpan(0,10,0));
+             </code></pre>
+        <p>应用程序中的缓存机制用于将需要大量服务器资源来创建的对象存储在内存中，以此大大改进应用程序的性能。这个机制同样可以用来传值。</p>
+        <p>与其他方法不同的是，该方法需要设置缓存项优先级和缓存时间。因为当系统内存缺乏时，缓存机制会自动移除很少使用或优先级较低的项，从而造成传值失败。</p>
+        <p>该方法的优点是传递数据的大小和数量无限制，速度快。缺点是缓存机制的操作相对比较复杂。</p>
+        <h4>Cookie</h4>
+        <pre><code>
+        //Class1
+        HttpCookie httpCookie = new HttpCookie("testCookie","Page transfers by Cookie");
+        Response.Redirect("~/Class2.aspx");
+        //Class2
+        Label1.Text = Request.Cookies["testCookie"].Value;
+             </code></pre>
+        <p>Cookie用于在用户浏览器上存储小块的信息，保存用户的相关信息，比如用户访问某网站时用户的ID，用户的偏好等，用户下次访问就可以通过检索获得以前的信息。所以Cookie也可以在页面间传递值。</p>
+        <p>Cookie通过HTTP头在浏览器和服务器之间来回传递的。Cookie只能包含字符串的值，如果想在Cookie存储整数值，那么需要先转换为字符串的形式。</p>
+        <p>与Session一样，其是什对每一个用户而言的，但是有个本质的区别，即Cookie是存放在客户端的，而session是存放在服务器端的。而且Cookie的使用要配合ASP.NET内置对象Request来使用。</p>
+        <p>使用简单，是保持用户状态的一种非常常用的方法。比如在购物网站中用户跨多个页面表单时可以用它来保持用户状态。常常被人认为用来收集用户隐私而遭到批评。安全性不高，容易伪造。 </p>
+        <h4>Context.Items["id"]</h4>
+        <pre><code>
+        //Class1
+        Context.Items["id"]=TextBox1.Text;
+        Server.Transfer("~/Class2.aspx");
+        //Class2
+        Label1.Text=Context.Items["id"].ToString();
+        Context.Items.Remove("id"); //移除项
+             </code></pre>
+        <p>Context 对象包含与当前页面相关的信息，提供对整个上下文的访问，包括请求、响应、以及上文中的Session 和Application 等信息。可以使用此对象在网页之间共享信息，从而实现页面间的传值。与使用 Form 的方法类似，该方法也能保持大量的数据，缺点也相同，但使用方法相对比较简单。 </p>
+        <h4>ViewState</h4>
+        <pre><code>
+        //Class1
+        ViewState["id"]=TextBox1.Text; //数据保存
+        Label1.Text=ViewState["id"].ToString(); //数据取出
+        ViewState.Remove("id"); //数据移除
+             </code></pre>
+        <p>ViewState 是ASP.NET 用来在同一页面的多个请求之间保存和还原服务器控件视图状态的一种机制。与传统的“同一页面”不同，ASP.NET 中“同一页面”的每一个请求都会导致服务器重新生成该页面，但是新生成的页面并不包含原来页面的数据。(页面无状态性)</p>
+        <p>ViewState 的任务就是保存原来页面中服务器控件视图状态的数据供新页面使用。从这个意义上讲，ViewState 也可以看作是一种在页面间传递数据的工具。</p>
+        <p>ViewState 的工作原理是：作为一个隐藏的窗体字段在客户端和服务器之间传递，可见，滥用ViewState 会加重页面回传的负担，从而降低应用程序的性能。此外，ViewState 也能被控件、页面和应用程序禁用。</p>
+        <h4>web.config和machine.config</h4>
+        <pre><code>
+        //Class1
+        using System.Web.Configuration;
+        WebConfigurationManager.AppSettings.Set("userName",TextBox1.Text);
+        Response.Redirect("~/Class2.aspx");
+        //Class2
+        using System.Web.Configuration;
+        Label1.Text = WebConfigurationManager.AppSettings["userName"];
+             </code></pre>
+        <p>每个Web运用程序继承web.config文件和machine.config文件的设置。</p>
+        <p>web.config和machine.config这两种文件保存数据一般都很小，多为明文，特别适合保存一些字符串常量，如数据库连接信息。此外，web.config文件是可以扩展的，因此，也可以用来传递变量。由于这两种文件会被自动缓存，所以不存在因磁盘IO产生的性能瓶颈等问题。要注意的是文件中某些设置会导致文件被修改后Web运用程序的重启。</p>
+        <p>web.config:你可以向单个Web运用程序运用设置。例如，你可能会希望设置特定的验证方法、调试的类型、默认语言或自定义的错误页面。但如果你要使用这些设置，必须把web.config文件放到web运用程序的根虚拟目录下。要想在Web运用程序中进一步配置自己的子目录，需要 在这些文件夹中放置附加的web.config。</p>
+        <p>machine.config：从c:\Windows\Microsoft.NET\Framework\Framework\[Version]\Config目录中的一个叫macine.config的文件开始 配置。machine.config文件定义支持的配置文件节，配置ASP.NET工作者进程，注册可用于高级特性（如配置文件、成员资格以及基于角色的安全等）提供程序。   </p>
+        <h4>Static</h4>
+        <pre><code>
+        //class1
+        public static string userName;//在class1中定义静态全局变量
+        userName=txtBoxUserName.Text;
+        Response.Redirect("~/class2.aspx");
+        //class2
+        Label1.Text=Src.id;
+             </code></pre>
+        <p>这个应该是非常容易理解的，在ASP.NET中，每个页面对应一个具体的类，既然如此，那么页面之间的传递，我们就可以归结为：类与类之间数据的传递。想到这一步，问题应该就迎刃而解了， 因为我们可以利用类之间的公关静态变量来解决这个问题。</p>
+        <h4>补充常用页面之间跳转</h4>
+        <p>最常用的页面跳转（原窗口被替代）：Response.Redirect("XXX.aspx");</p>
+        <p>4.效果同1中的另一种写法：Response.Write("&lt;script&gt;window.location = 'XXX.aspx'&lt;/script&gt;");</p>
+        <p>利用url地址打开本地网页或互联网：Respose.Write("&lt;script language='javascript'&gt;window.open('"+ url+"');&lt;/script&gt;");</p>
+        <p>原窗口保留再新打开另一个页面（浏览器可能阻止，需要解除）：Response.Write("&lt;script&gt;window.open('XXX.aspx', '_blank')&lt;/script&gt;");</p>
+        <p>也是原窗口被替代的 （常用于传递session变量的页面跳转）：Server.Transfer("XXX.aspx");</p>
+        <p>原窗口保留，以对话框形式打开新窗口：Response.Write("&lt;script&gt;window.showModelessDialog('XXX.aspx')&lt;/script&gt;");</p>
+        <p>对话框形式打开新窗口，原窗口被代替：Response.Write("&lt;script&gt;window.showModelDialog('XXX.aspx')&lt;/script&gt;");</p>
+        <p>打开简洁窗口：Respose.Write("&lt;script language='javascript'&gt;window.open('"+url+"', '', 'resizable=1,scrollbars=0,status=1,menubar=no,toolbar=no,location=no, menu=no');&lt;/script&gt;");</p>
+        <p>利用vs2008端口：System.Diagnostics.Process.Start</p>
+        <p>关于页面之间传值，还有很多方法，如文件传值、数据库传值，ViewBag等等,文中某些内容不应该归为页面间的传值，如web.config,数据库等。</p>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="WebUI/Resource/Javascript/jquery.min.js"><\/script>')</script>
+

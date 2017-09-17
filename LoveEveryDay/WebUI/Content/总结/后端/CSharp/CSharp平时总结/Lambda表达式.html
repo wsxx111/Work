@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body> 
+    <div class="container">+
+        <h3>Lambda的前世今生</h3>
+        <p>早在<em>C# 1.0</em> 时，C#中就引入了委托（delegate）类型的概念。通过使用这个类型，我们可以将函数作为参数进行传递。在某种意义上，委托可理解为一种托管的强类型的函数指针。</p>
+        <p>通常情况下，使用委托来传递函数需要一定的步骤：</p>
+        <ul>
+            <li>定义一个委托，包含指定的参数类型和返回值类型。</li>
+            <li>在需要接收函数参数的方法中，使用该委托类型定义方法的参数签名。</li>
+            <li>为指定的被传递的函数创建一个委托实例。</li>
+        </ul>
+        <p>可能这听起来有些复杂，不过本质上说确实是这样。上面的第 3 步通常不是必须的，C# 编译器能够完成这个步骤，但步骤 1 和 2 仍然是必须的。</p>
+        <pre><code>
+        //自定义四个委托
+        public delegate void NonReturnNonParam();   //不带参数没有返回值
+        public delegate int WithReturnNonParam();  //不带参数有返回值
+        public delegate void NonReturnWithParam(int count);  //带参数没有返回值
+        public delegate string WithReturnWithParam(int count, string name);  //带参数有返回值
+             </code></pre>
+        <p>可以看出，委托和一般的方法比较类似，形式区别在于加了个delegate关键字，和没有方法体以分号结束</p>
+        <pre><code>
+            //符合WithReturnWithParam的约束
+        public static string TestWithReturnWithParam(int count, string name)
+        {           
+            return name+count.ToString();
+        }
+
+        WithReturnWithParam deleg1 = new WithReturnWithParam(TestWithReturnWithParam);
+                      
+        int getReturn =deleg1.Invoke(10, "wakw");
+         //或者
+        int getReturn = deleg1(10,"wakw");
+             </code></pre>
+        <p>那么，如果我只是想执行一些代码该怎么办（或者一些不需要其他调用，就委托调用，这样没必要再单独写个方法）？</p>
+        <p>在 <em>C# 2.0</em> 中提供了一种方式，创建<em>匿名函数</em>。</p>
+        <pre><code>
+        WithReturnWithParam deleg1 = delegate(int c,string n)
+        {
+             return n+c.ToString();
+        };
+        //这个就把方法和委托的声明整到一起了
+             </code></pre>
+        <p>在C# 2.0中，通过方法组转换和匿名方法，使委托的实现得到了极大的简化。但是，匿名方法仍然有些臃肿，而且当代码中充满了匿名方法的时候，可读性可能就会受到影响，这种语法并没有流行起来。C# 3.0中出现的Lambda表达式在不牺牲可读性的前提下，进一步简化了委托。</p>
+        <p>为了改进这些语法，在 .NET 3.5 框架和 C# 3.0 中引入了Lambda 表达式。</p>
+        <h4>Lambda表达式</h4>
+        <p>首先我们先了解下 Lambda 表达式名字的由来。实际上这个名字来自微积分数学中的 &lambda;，其涵义是声明为了表达一个函数具体需要什么。更确切的说，它描述了一个数学逻辑系统，通过变量结合和替换来表达计算。所以，基本上我们有 0-n 个输入参数和一个返回值。而在编程语言中，我们也提供了无返回值的 void 支持。</p>
+        <p>Lambda表达式可以看作是C# 2.0的匿名方法的进一步演变，所以匿名方法能做的几乎一切事情都可以用Lambda表达式来完成（注意，匿名方法可以忽略参数，Lambda表达式不具备这个特性）。</p>
+        <pre><code>
+        //演变        
+
+        WithReturnWithParam deleg1 = new WithReturnWithParam(TestWithReturnWithParam);
+
+        //采用匿名方法
+        WithReturnWithParam deleg2 =new WithReturnWithParam(delegate(int c, string n)
+        {
+            return n + c.ToString();
+        });
+      
+        
+        //把关键字delegate去掉 换成括号后面的=&gt;
+        WithReturnWithParam deleg4 =new WithReturnWithParam((int c, string n) =&gt;
+        {
+            return n + c.ToString();
+        });
+
+        //进一步吧参数类型去掉（因为约束是内定的）
+        WithReturnWithParam deleg5 = new WithReturnWithParam((c, n) =&gt;
+        {
+            return n + c.ToString();
+        });
+
+         //可以省略掉new WithReturnWithParam
+        WithReturnWithParam deleg3 = delegate(int c, string n)
+        {
+            return n + c.ToString();
+        };
+
+        WithReturnWithParam deleg6 = (int c, string n) =&gt;
+        {
+            return n + c.ToString();
+        };
+                
+        WithReturnWithParam deleg7 = (c, n) =&gt;
+        {
+            return n + c.ToString();
+        };
+
+        //对于后面如果执行一句可以省括号，这时对于有返回值的可以省略和return
+        WithReturnWithParam deleg8 = (c, n) =&gt;n + c.ToString();
+
+        //如果仅有一个参数，还可以省略掉小括号
+        NonReturnWithParam  deleg9=m=&gt;{};
+            
+        //其他形式     
+        WithReturnNonParam deleg10 = ()=&gt; "唔拉拉";
+        NoneReturnNonParam deleg11 = ()=&gt; {};
+
+        //以上都是正确的
+             </code></pre>
+        <p><em>Lambda表达式本质就是匿名方法</em>，是编译器帮我们进行了转换工作，使我们可以直接使用Lambda表达式来进一步简化创建委托实例的代码。</p>
+        <p>在 <em>C# 2.0</em> 中引入了泛型。现在我们能够编写泛型类、泛型方法和最重要的：<em>泛型委托</em>。如下：</p>
+        <pre><code>
+        public delegate void WithReturnWithTParam&lt;T&gt;(T param,int s,string add); 
+            
+        WithReturnWithTParam&lt;WithReturnWithParam&gt; deleg11 = (d,i,s) =&gt; d.Invoke(i, s);
+        string getStr=deleg11.Invoke(deleg8, 4);
+         </code></pre>
+        <p>尽管如此，直到 .NET 3.5，微软才意识到实际上仅通过两种泛型委托就可以满足 99% 的需求，所以基本上不用自定位委托了</p>
+        <ul>
+            <li><em>Action</em>：无输入参数，无返回值</li>
+            <li><em>Action&lt;T1, ..., T16&gt;</em>：支持1-16个输入参数，无返回值</li>
+            <li><em>Func&lt;T1, ..., T16, Tout&gt;</em>：支持1-16个输入参数，有返回值</li>
+        </ul>
+        <p>Action 委托返回 void 类型，Func 委托返回指定类型的值。通过使用这两种委托，在绝大多数情况下，上述的步骤 1 可以省略了。但是步骤 2 仍然是必需的，但仅是需要使用 Action 和 Func。</p>
+        <pre><code>
+            Action a1=()=&gt;{};   //无参数不返回
+
+            Action&lt;int&gt; a2=(s)=&gt;{};   //带参数不返回
+
+            Action&lt;int,T&gt; a2=(s,t)=&gt;{};  //带参数不返回
+
+            Func&lt;string&gt; b1=()=&gt;"";  //无参数带返回值 最后一个是参数返回类型，即string
+            Func&lt;T,string&gt; b1=(d,c)=&gt;"";  //带参数带返回string类型的值
+             </code></pre>
+        <p>这些自定义委托可以用系统定义的泛型委托Action和Func实现</p>
+        <pre><code>
+        //自定义四个委托
+        public delegate void NonReturnNonParam();   //不带参数没有返回值
+        public delegate int WithReturnNonParam();  //不带参数有返回值
+        public delegate void NonReturnWithParam(int count);  //带参数没有返回值
+        public delegate string WithReturnWithParam(int count, string name);  //带参数有返回值            
+
+        NonReturnNonParam a1=()=&gt;{};
+        Action a1=()=&gt;{}; 
+
+        NonReturnWithParam a2=(s)=&gt;{};
+        Action&lt;int&gt; a1=(s)=&gt;{}; 
+        
+        WithReturnNonParam b1=()=&gt;2;
+        Func&lt;int&gt; b1=()=&gt;2;
+
+        WithReturnWithParam b2=(d,q)=q;
+        Func&lt;int,string,string&gt; b1=(d,q)=&gt;q;
+             </code></pre>
+        <h4>Lambda表达式的示例</h4>
+        <p>让我们来看一些 Lambda 表达式的示例：</p>
+        <pre><code>
+         Action dummyLambda = () =&gt;
+        {
+          Console.WriteLine("Hello World from a Lambda expression!");
+        };
+
+        Action&lt;double, double&gt; printProduct = (x, y) =&gt; { Console.WriteLine(x * y); };
+
+        Func&lt;double, double&gt; square = x =&gt; x * x;
+
+        Func&lt;double, double, double&gt; product = (x, y) =&gt; x * y;
+
+        //大多数情况下，var 声明可能无法使用，会报错，仅在一些特殊的情况下可以使用。
+            var square=(double x)=&gt;x*x;  //报错
+             </code></pre>
+        <pre><code>
+          var a = 5;
+          Func&lt;int, int&gt; multiplyWith = x =&gt; x * a;
+        
+          var result1 = multiplyWith(10); // 50
+          a = 10;
+          var result2 = multiplyWith(10); // 100
+
+            //可以看到，在 Lambda 表达式中可以使用外围的变量，也就是闭包。
+             </code></pre>
+        <pre><code>
+        static void DoSomeStuff()
+        {
+          var coeff = 10;
+          Func&lt;int, int&gt; compute = x =&gt; coeff * x;
+          Action modifier = () =&gt;
+          {
+            coeff = 5;
+          };
+
+          var result1 = DoMoreStuff(compute); // 50
+
+          ModifyStuff(modifier);
+
+          var result2 = DoMoreStuff(compute); // 25
+        }
+
+        static int DoMoreStuff(Func&lt;int, int&gt; computer)
+        {
+          return computer(5);
+        }
+
+        static void ModifyStuff(Action modifier)
+        {
+          modifier();
+        }
+             </code></pre>
+        <p>第二个 Lambda 表达式展示了在 Lambda 表达式中能够修改外围变量的能力。这就意味着通过在函数间传递 Lambda 表达式，我们能够在其他方法中修改其他作用域中的局部变量。因此，我认为闭包是一种特别强大的功能，但有时也可能引入一些非期望的结果。</p>
+        <pre><code>
+         var buttons = new Button[10];
+         
+         for (var i = 0; i &lt; buttons.Length; i++)
+         {
+           var button = new Button();
+           button.Text = (i + 1) + ". Button - Click for Index!";
+           button.OnClick += (s, e) =&gt; { Messagebox.Show(i.ToString()); };
+           buttons[i] = button;
+         }
+         
+         //What happens if we click ANY button?!  答案是：所有的 Button 都显示 10！
+         //因为随着 for 循环的遍历，局部变量 i 的值已经被更改为 buttons 的长度 10。一个简单的解决办法类似于：
+
+         var button = new Button();
+         var index = i;
+         button.Text = (i + 1) + ". Button - Click for Index!";
+         button.OnClick += (s, e) =&gt; { Messagebox.Show(index.ToString()); };
+         buttons[i] = button;
+             </code></pre>
+        <p>List&lt;T&gt;的方法，例如FindAll方法，参数是Predicate&lt;&lt;T&gt;类型的 委托，返回结果是一个筛选后的新列表；Foreach方法获取一个Action&lt;T&gt;类型的委托，然后对每个元素设置行为。下面就看看在 List&lt;T&gt;中使用Lambda表达式</p>
+        <pre><code>
+        public class Book
+        {
+            public string Name { get; set; }
+            public int Year { get; set; }
+        }
+         
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                var books = new List&lt;Book&gt;
+                {
+                    new Book{Name="C# learning guide",Year=2005},
+                    new Book{Name="C# step by step",Year=2005},
+                    new Book{Name="Java learning guide",Year=2004},
+                    new Book{Name="Java step by step",Year=2004},
+                    new Book{Name="Python learning guide",Year=2003},
+                    new Book{Name="C# in depth",Year=2012},
+                    new Book{Name="Java in depth",Year=2014},
+                    new Book{Name="Python in depth",Year=2013},
+                };
+         
+                //创建一个委托实例来表示一个通用的操作
+                Action&lt;Book&gt; printer = book =&gt; Console.WriteLine("Name = {0}, Year = {1}", book.Name, book.Year);
+         
+                books.ForEach(printer);
+         
+                //使用Lambda表达式对List&lt;T&gt;进行筛选
+                books.FindAll(book =&gt; book.Year &gt; 2010).ForEach(printer);
+         
+                books.FindAll(book =&gt; book.Name.Contains("C#")).ForEach(printer);
+         
+                //使用Lambda表达式对List&lt;T&gt;进行排序
+                books.Sort((book1, book2) =&gt; book1.Name.CompareTo(book2.Name));
+                books.ForEach(printer);
+         
+                Console.Read();
+            }
+        }
+             </code></pre>
+        <p>从上面例子可以看到，当我们要经常使用一个操作的时候，我们最好创建一个委托实例，然后反复调用，而不是每次使用的时候都使用Lambda表达式</p>
+        <p>到此为止，我们可以看到 Lambda可以用来创建委托实例，除此以外,还可以由编译器转换成<em>表达式树</em>，使代码可以在程序之外执行</p>
+        <h4>表达式树</h4>
+        <p>表达式树也称表达式目录树，将代码以一种抽象的方式表示成一个对象树，树中每个节点本身都是一个表达式。表达式树不是可执行代码，它是一种数据结构。</p>
+        <p>System.Linq.Expressions命名空间中包含了代表表达式的各个类，所有类都从Expression派生，我们可以通过这些类中的静态方法来创建表达式类的实例。Expression类包括两个重要属性：</p>
+        <ul>
+            <li>Type属性代表求值表达式的.NET类型，可以把它视为一个返回类型</li>
+            <li>NodeType属性返回所代表的表达式的类型</li>
+        </ul>
+        <p>下面看一个构建表达式树的简单例子</p>
+        <pre><code>
+        Expression numA = Expression.Constant(6);
+        Console.WriteLine("NodeType: {0}, Type: {1}", numA.NodeType, numA.Type);
+        Expression numB = Expression.Constant(3);
+        Console.WriteLine("NodeType: {0}, Type: {1}", numB.NodeType, numB.Type);
+         
+        BinaryExpression add = Expression.Add(numA, numB);
+        Console.WriteLine("NodeType: {0}, Type: {1}", add.NodeType, add.Type);
+         
+        Console.WriteLine(add);
+        Console.Read();
+             </code></pre>
+        <p>通过例子可以看到，我们构建了一个(6+3)的表达式树，并且查看了各个节点的Type和NodeType属性。</p>
+        <p>Expression有很多派生类，有很多节点类型。例如，BinaryExpression就代表了具有两个操作树的任意操作。这正是NodeType属性重要的地方，它能区分由相同的类表示的不同种类的表达式。其他的节点类型就不介绍了，有兴趣可以参考MSDN。</p>
+        <h5>将表达式编译成委托</h5>
+        <p>LambdaExpression是从Expression派生的类型之一。泛型类型Expression&lt;TDelegate&gt;又是从LambdaExpress派生的。</p>
+        <p>Expression和Expression&lt;TDelegate&gt;的区别在于，泛型类以静态类型的方式标志了它是什么种类的表达式，也就是说，它确定了返回类型和参数。例如上面的加法例子，返回值是一个int类型，没有参数，所以我们可以使用签名Func&lt;int&gt;与之匹配，所以可以用Expression&lt;Func&lt;int&gt;&gt;以静态类型的方式来表示该表达式。</p>
+        <p>这样做的目的在于，LambdaExpression有一个Compile方法，该方法能创建一个恰当类型的委托。 Expression&lt;TDelegate&gt;也有一个同名方法，该方法可以返回TDelegate类型的委托。获得了委托之后，我们就可以使 用普通委托实例调用的方式来执行这个表达式。</p>
+        <p>接着上面加法的例子，我们把上面的加法表达式树转换成委托，然后执行委托：</p>
+        <pre><code>
+            Func&lt;int&gt; addDelegate = Expression.Lambda&lt;Func&lt;int&gt;&gt;(add).Compile();
+Console.WriteLine(addDelegate());
+             </code></pre>
+        <p>从这个例子中我们看到怎么构建一个表达式树，然后把这个对象树编译成真正的代码。在.NET 3.5中的表达式树只能是单一的表达式，不能表示完整的类、方法。这在.NET 4.0中得到了一定的改进，表达式树可以支持动态类型，我们可以创建块，为表达式赋值等等。</p>
+        <h5>将Lambda表达式转换为表达式树</h5>
+        <p>Lambda表达式不仅可以创建委托实例，C# 3.0对于将Lambda表达式转换成表达式树提供了内建的支持。我们可以通过编译器把Lambda表达式转换成一个表达式树，并创建一个Expression&lt;TDelegate&gt;的一个实例。</p>
+        <p>下面的例子中我们将一个Lambda表达式转换成一个表达式树，并通过代码查看表达式树的各个部分：</p>
+        <pre><code>
+        static void Main(string[] args)
+        {
+            //将Lambda表达式转换为类型Expression&lt;T&gt;的表达式树
+            //expression不是可执行代码
+            Expression&lt;Func&lt;int, int, int&gt;&gt; expression = (a, b) =&gt; a + b;
+         
+            Console.WriteLine(expression);
+            //获取Lambda表达式的主体
+            BinaryExpression body = (BinaryExpression)expression.Body;
+            Console.WriteLine(expression.Body);
+            //获取Lambda表达式的参数
+            Console.WriteLine(" param1: {0}, param2: {1}", expression.Parameters[0], expression.Parameters[1]);
+            ParameterExpression left = (ParameterExpression)body.Left;
+            ParameterExpression right = (ParameterExpression)body.Right;
+            Console.WriteLine(" left body of expression: {0}{4} NodeType: {1}{4} right body of expression: {2}{4} Type: {3}{4}", left.Name, body.NodeType, right.Name, body.Type, Environment.NewLine);
+         
+            //将表达式树转换成委托并执行
+            Func&lt;int, int, int&gt; addDelegate = expression.Compile();
+            Console.WriteLine(addDelegate(10, 16));
+            Console.Read();
+        }
+             </code></pre>
+        <h5>表达式树的用途</h5>
+        <p>前面看到，通过Expression的派生类中的各种节点类型，我们可以构建表达式树；然后可以把表达式树转换成相应的委托类型实例，最后执行委托实例的代码。但是，我们不会绕这么大的弯子来执行委托实例的代码。</p>
+        <p>表达式树主要在LINQ to SQL中使用，我们需要将LINQ to SQL查询表达式（返回IQueryable类型）转换成表达式树。之所以需要转换是因为LINQ to SQL查询表达式不是在C#代码中执行的，LINQ to SQL查询表达式被转换成SQL，通过网络发送，最后在数据库服务器上执行。</p>
+        <h5>编译器对Lambda表达式的处理</h5>
+        <p>前面我们了解到，Lambda可以用来创建委托实例，也可以用来生成表达式树，这些都是编译器帮我们完成的。</p>
+        <p>编译器如何决定生成可执行的IL还是一个表达式树：</p>
+        <ul>
+            <li>当Lambda表达式赋予一个委托类型的变量时，编译器生成与匿名方法同样的IL（可执行的委托实例）</li>
+            <li>当Lambda表达式赋予一个Expression类型的变量时，编译器就将它转换成一个表达式树</li>
+        </ul>
+        <p>下图展示了LINQ to Object和LINQ to SQL中Lambda表达式的不同处理方式：</p>
+        <h4>总结</h4>
+        <p>本文中介绍了Lambda表达式，在匿名方法的基础上进一步简化了委托实例的创建，编写更加简洁、易读的代码。匿名函数不等于匿名方法，匿名函数包含了匿名方法和lambda表达式这两种概念</p>
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {     
+
+    })
+</script>
+

@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <style type="text/css">
+        .listlittle {
+            font-size: 12px;
+        }
+    </style>
+    <title></title>
+</head>
+<body>  
+    <div class="container">
+       <p>表达式树以树形数据结构表示代码,它提供了一个将可执行代码转换成数据的方法，其中每一个节点都是一种表达式，比如方法调用和 x < y 这样的二元运算等。你可以对表达式树中的代码进行编辑和运算，这样能够动态修改可执行代码、在不同数据库中执行 LINQ 查询以及创建动态查询。表达式树是.NET 3.5之后引入的，它是一个强大灵活的工具（比如用在LINQ中构造动态查询）；表达式树还能用于动态语言运行时 (DLR) 以提供动态语言和 .NET Framework 之间的互操作性。</p>
+        <p>先来看看Expression类的API接口</p>
+        <pre><code>
+        using System.Collections.ObjectModel;
+         
+        namespace System.Linq.Expressions
+        {         
+            public sealed class Expression&lt;tdelegate&gt; : LambdaExpression
+            {             
+                public TDelegate Compile();
+            }
+        }
+             </code></pre>
+        <p>表达式树的语法如下:</p>
+        <pre><code>
+        Expression&lt;Func&lt;type,returnType&gt;&gt; = (param) => lamdaexpresion;
+             </code></pre>
+        <p>先来看一个简单例子</p>
+        <pre><code>
+        Expression&lt;Func&lt;int, int, int&gt;&gt; expr = (x, y) => x+y;
+             </code></pre>
+        <img src="http://images.cnitblog.com/blog/143668/201305/28222936-16eb54944b5f4ea38d7878d2c0ef69bd.png" />
+        <p>表达式树主要由下面四部分组成</p>
+        <ul>
+            <li>Body 主体部分</li>
+            <li>Parameters 参数部分</li>
+            <li>NodeType 节点类型
+                <p>获取树的节点的ExpressionType.共45种不同的值,包含所有表达式节点各种可能的类型,例如返货常量,例如返回参数,例如取两个值的小值(<),例如取两个值的大值(>),例如将值相加(+),等等</p>
+            </li>
+            <li>Lambda表达式类型,获取表达式的一个静态类型.在这个例子里,表达式的类型是Func&lt;int,int,int&gt;</li>
+        </ul>
+        <h4>Lambda 表达式创建表达式树</h4>
+        <p>若 lambda 表达式被分配给 Expression&lt;TDelegate&gt; 类型的变量，则编译器可以发射代码以创建表示该 lambda 表达式的表达式树。</p>
+        <p>C# 编译器只能从表达式 lambda （或单行 lambda）生成表达式树。</p>
+        <p>下列代码示例使用关键字 Expression创建表示 lambda 表达式：</p>
+        <pre><code>
+        Expression&lt;Action&lt;int&gt;&gt; actionExpression = n => Console.WriteLine(n);
+        Expression&lt;Func&lt;int, bool&gt;&gt; funcExpression1 = (n) => n < 0;
+        Expression&lt;Func&lt;int, int, bool&gt;&gt; funcExpression2 = (n, m) => n - m == 0;
+            //下面这个会报错
+        Expression&lt;Func&lt;int, int, bool&gt;&gt; funcExpression3 = (n, m) => { return n - m == 0 };
+             </code></pre>
+        <h4>API 创建表达式树</h4>
+        <p>通过 API 创建表达式树需要使用Expression 类</p>
+        <p>下列代码示例展示如何通过 API 创建表示 lambda 表达式：num => num == 0,代码使用Expression 类的静态方法进行创建。</p>
+        <pre><code>
+        //通过 Expression 类创建表达式树
+        // lambda：num => num == 0
+        ParameterExpression pExpression = Expression.Parameter(typeof(int)); //参数：num
+        ConstantExpression cExpression = Expression.Constant(0); //常量：0
+        BinaryExpression bExpression = Expression.MakeBinary(ExpressionType.Equal, pExpression, cExpression); 
+            //表达式：num == 0
+        Expression&lt;Func&lt;int, bool&gt;&gt; lambda = Expression.Lambda&lt;Func&lt;int, bool&gt;&gt;(bExpression, pExpression); 
+            //lambda 表达式：num => num == 0
+             </code></pre>
+        <h4>解析表达式树</h4>
+        <p>下列代码示例展示如何分解表示 lambda 表达式 num => num == 0 的表达式树。</p>
+        <pre><code>
+        Expression&lt;Func&lt;int, bool&gt;&gt; funcExpression = num => num == 0;
+        //开始解析
+        ParameterExpression pExpression = funcExpression.Parameters[0]; //lambda 表达式参数
+        BinaryExpression body = (BinaryExpression)funcExpression.Body; //lambda 表达式主体：num == 0
+        Console.WriteLine($"解析：{pExpression.Name} => {body.Left} {body.NodeType} {body.Right}");
+        // 解析：num => num Equal 0
+             </code></pre>
+        <h4>编译表达式树</h4>
+        <p>Expression&lt;TDelegate&gt; 类型提供了 Compile 方法以将表达式树表示的代码编译成可执行委托。</p>
+        <pre><code>
+        //创建表达式树
+        Expression&lt;Func&lt;string, int&gt;&gt; funcExpression = msg => msg.Length;
+        //表达式树编译成委托
+        var lambda = funcExpression.Compile();
+        //调用委托
+        Console.WriteLine(lambda("Hello, World!"));
+        //语法简化
+        Console.WriteLine(funcExpression.Compile()("Hello, World!"));
+             </code></pre>
+        <p>Compile调用过程涉及动态代码生成，所以出于性能考虑最好只调用一次，然后缓存起来。或者像下面这样在静态构造块中使用（也只会调用一次）</p>
+        <pre><code>
+        public static class Operator&lt;T&gt;
+        {
+            private static readonly Func&lt;T, T, T&gt; add;
+            public static T Add(T x, T y)
+            {
+                return add(x, y);
+            }
+            static Operator()
+            {
+                var x = Expression.Parameter(typeof(T), "x");
+                var y = Expression.Parameter(typeof(T), "y");
+                var body = Expression.Add(x, y);
+                add = Expression.Lambda&lt;Func&lt;T, T, T&gt;&gt;(body, x, y).Compile(); 
+            }
+        }
+             </code></pre>
+        <h4>LINQ to SQL</h4>
+        <p>现在至少你有一个抽象的概念理解表达式树,现在是时候回来理解其在LINQ中的关键作用了,有其是在LINQ to SQL中.如下面这个标准的LINQ to SQL查询表达式</p>
+        <pre><code>
+        var query = from c in db.Customers 
+            where c.City == "Nantes" 
+            select new { c.City, c.CompanyName };
+             </code></pre>
+        <p>这里LINQ表达式返回的变量query是IQuerable类型,这里是IQueryable类型的定义:</p>
+        <pre><code>
+        public interface IQueryable:IEnumerable
+        {       
+            Type ElementType{get;}
+        
+            Expression Expression{get;}
+        
+            IQueryProvider Provider{get;}       
+        }
+             </code></pre>
+        <p>可以看到,IQueryable包含一个类型为Expression的属性,Expression是Expression&lt;T&gt;的基类.IQueryable的实例被设计成拥有一个相关的表达式树.它是一个等同于查询表达式中的可执行代码的数据结构.</p>
+        <h5>为什么要将LINQ to SQL查询表达式转换成表达式树呢?</h5>
+        <p>表达式树是一个用来表示可执行代码的数据结构.一个LINQ to SQL查询不是在你的C#程序里执行的.相反,他被转换成SQL,通过网络发送,最后在数据库服务器上执行.换句话说,上面那段代码实际上从来不会在你的程序里执行</p>
+        <p>他首先被转换成下面的SQL语句然后在服务器上执行</p>
+        <pre><code>
+        SELECT [t0].[City], [t0].[CompanyName]
+
+        FROM [dbo].[Customers] AS [t0] 
+
+        WHERE [t0].[City] = @p0
+             </code></pre>
+        <p>解析LINQ to SQL表达式树的算法很复杂,但规则是一样的,一旦了解了表达式树的各部分,那么LINQ开始斟酌以最好的方式生成返回被请求的数据的SQL语句</p>
+        <p>表达式树被创建是为了制造一个像查询表达式转换成字符串以传递给其他程序并在那里执行这样的转换任务,就是这么简单.没有什么特别的.只是简单的:把代码,转换成数据,然后分析数据发现其组成部分,最后转换成可以传递到其他程序的字符串.</p>
+        <h5>IQueryable&lt;T&gt;和IEnumerable&lt;T&gt;</h5>
+        <p>LINQ to Objects的查询表达式返回IEnumerable&lt;T&gt;而不是IQueryable&lt;T&gt;.为什么LINQ to Objects使用IEnumerable&lt;T&gt;而LINQ to SQL使用IQueryable&lt;T&gt;</p>
+        <p>&lt;T&gt;</p>
+        <pre><code>
+        public interface IEnumerable&lt;T&gt; : IEnumerable 
+        { 
+            IEnumerator&lt;T&gt; GetEnumerator();
+        }
+             </code></pre>
+        <p>正如你看到的，IEnumerable&lt;T&gt;并不包含类型为Expression的属性。这指出LINQ to Objects和LINQ to SQL的根本区别。后者大量使用了表达式树，但LINQ to Objects很少使用</p>
+        <p>为什么表达式树不是LINQ to Objects的标准部分</p>
+        <pre><code>
+        List&lt;int&gt; list = new List&lt;int&gt;() { 1, 2, 3 };
+        var query = from number in list
+            where number < 3 
+            select number;
+             </code></pre>
+        <p>这个LINQ查询返回在我们的list中比3小的数字；就是说，这里返回数字1和2。显然没有必要将查询转换成字符串来顺序传递给其他程序并获取正确的结果。相反，可以直接转换查询表达式为可执行的.NET代码</p>
+        <p>总体上讲规则相当简单:如果代码可以在程序里执行那么可以使用名为IEnumerable&lt;T&gt;的简单类型完成任务，如果你需要将查询表达式转换成将传递到其他程序的字符串，那么应该使用IQueryable&lt;T&gt;和表达式树。</p>
+        <h4>总结</h4>
+        <p>本文覆盖了表达式树的一些基本情况。通过将代码转换成数据，这些数据结构揭示并描绘表达式的组成部分。从最小的概念上讲，理解表达式树是相当简单的。它获取可执行表达式并获取其组成部分放入树形数据结构。你同样可以看到表达式树在LINQ to SQL里扮演非常重要的角色。尤其，他们是LINQ to SQL查询表达式用来获取逻辑的数据抽象。解析并分析此数据得到SQL语句，然后发送到服务器。</p>
+        <p>LINQ使查询C#语言的一个普通类即有类型检查也有智能感知。其代码是类型检查和智能感知的，必须使用正确的C#语法，它能直接转换到可执行代码，就像任何其他C#代码一样被转换和执行。表达式树使将可执行代码转换成能传递到服务器的SQL语句相对容易。</p>
+        <p>查询返回IEnumerable&lt;T&gt;优于IQueryable&lt;T&gt;表示不使用表达式树。作为一般性规则，可以这么说：LINQ查询在程序内执行时不需要表达式树，当代码在程序外执行时可以利用表达式树。</p>
+
+
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    $(function () {
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+    })
+</script>
+
+

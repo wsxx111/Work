@@ -1,0 +1,764 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!--  <link type="text/less" rel="stylesheet/less"  href="test.less" />  
+     <script src="less.js"></script>
+    <script>less.watch();</script>-->
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+
+    <div class="sideMenu">
+        <input type='checkbox' id='sideToggle' />
+        <div class="cover-white"></div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#variables">变量</a></li>
+                <li><a href="#mixins">混合</a></li>
+                <li><a href="#extend">继承</a></li>
+                <li><a href="#functions">函数</a></li>
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#variables">变量</a></li>
+                <li><a href="#mixins">混合</a></li>
+                <li><a href="#extend">继承</a></li>
+                <li><a href="#functions">函数</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <p>Less 是一个Css 预编译器,意思指的是它可以扩展Css语言,添加功能如允许变量(variables),混合(mixins),函数(functions) 和许多其他的技术，让你的Css更具维护性，主题性，扩展性。</p>
+        <p>Less要CSS语法的基础上进行了扩展，主要包含：Variables，Mixins、Nested Rules、Functions & Operations、Client-side usage、Server-side usage等等</p>
+        <div class="forMore">
+            <a href="http://less.bootcss.com/features/" target="_blank">官网</a>
+            <a href="http://www.cnblogs.com/fsjohnhuang/p/4187675.html" target="_blank">教程2</a>
+            <a href="http://www.softwhy.com/forum.php?mod=viewthread&tid=14865" target="_blank">教程3</a>
+            <a href="http://www.bootcss.com/p/lesscss/" target="_blank">教程4</a>
+        </div>
+        <h3 id="variables">1.变量——Variables</h3>
+        <pre><code>
+    Less中的变量有以下规则：
+    以@作为变量的起始标识，变量名由字母、数字、_和-组成
+    没有先定义后使用的规定；
+    以最后定义的值为最终值；
+    可用于rule值、rule属性、rule属性部件、选择器、选择器部件、字符串拼接；
+    定义时 "@变量名: 变量值;" 的形式；引用时采用 "@变量名" 或 "@{变量名}" 的形式；
+    存在作用域，局部作用域优先级高于全局作用域。
+    </code></pre>
+        <pre><code>
+                /*======== 定义变量===========*/
+				@color: #4d926f;
+				/*======== 应用到元素中 ========*/
+				#header {
+					color: @color;
+				}
+				h2 {
+					color: @color;
+				}
+   </code></pre>
+        <p>Less中的变量还具有计算功能</p>
+        <pre><code>
+                @nice-blue: #5b83ad;
+				@light-blue: @nice-blue + #111;
+				#header {
+					color: @light-blue;
+				}
+    </code></pre>
+        <p>我们还可以定义一个变量名为变量,在Less中的变量实际上就是一个“常量”，因为它们只能被定义一次。后的@color可以覆盖前面的@color</p>
+        <pre><code>
+            @color: #253636;
+			@highlight: "color";
+			#header {color: @@highlight;}
+    </code></pre>
+        <h3 id="mixins">混入——Mixins</h3>
+        <p>混入其实就是一种嵌套，它充许你将一个类嵌入到另一个类中，而被嵌入的这个类也称为是一个变量。换句话说，你可以用一个类定义CSS，然后把整个为当作一个变量来使用，嵌入到另一个类中当作他的属性；另外混入也像一个带有参数的functions.这样任何CSS的类或ID下的样式都可以当作变量，使用混入模式用来当作另一个元素的属性值。</p>
+        <pre><code>
+                .roundedCorners(@radius:5px) {
+					-moz-border-radius: @radius;
+					-webkit-border-radius: @radius;
+					border-radius: @radius;
+				}
+				/*＝＝＝＝＝＝＝＝＝＝ 定义的类应用到另个一个类中 ＝＝＝＝＝＝＝＝＝＝＝*/
+				＃header {
+					.roundedCorners; //等同于.roundedCorners();
+				}
+				#footer {
+					.roundedCorners(10px);
+				}
+    </code></pre>
+        <p>
+            还有一种方法就是给Mixins不定我任何参数，特别是在你想隐藏输出的CSS规则，但又想在别的规则中包含他的属性，使用这种不带参数的Mixins将非常有用的
+        </p>
+        <pre><code>
+                .wrap(){
+					text-wrap: wrap;
+					white-space: pre-wrap;
+					white-space: -moz-pre-wrap;
+					word-wrap: break-word;
+				}
+				pre {
+					.wrap; !important; //对pre引用内的都加上 !important
+				}
+    </code></pre>
+        <pre><code>
+                .wrap(){
+					text-wrap: wrap;
+					white-space: pre-wrap;
+					white-space: -moz-pre-wrap;
+					word-wrap: break-word;
+                   &:hover
+                   {
+                   color:red;
+                   }
+				}
+				pre {
+					.wrap;  //这里 也包含有pre的hover样式
+				}
+    </code></pre>
+        <pre><code>
+        .aa()
+        {
+            .inn
+            {
+             color:blue;
+            }
+        }
+        .cc
+        {
+            .aa > .inn; //可以这样引用，以下都是等价的
+            .aa > .inn();
+            //.aa.inn();
+            //.aa.inn
+        }
+    </code></pre>
+        <pre><code>
+        .mixin(@color) {
+          color-1: @color;
+        }
+        .mixin(@color; @padding:2) {
+          color-2: @color;
+          padding-2: @padding;
+        }
+        .mixin(@color; @padding; @margin: 2) {
+          color-3: @color;
+          padding-3: @padding;
+          margin: @margin @margin @margin @margin;
+        }
+        .some .selector div {
+          .mixin(#008000);
+        }
+
+        //输出：
+        .some .selector div {
+        color-1: #008000;
+        color-2: #008000;
+        padding-2: 2;
+        }
+        //如果是.mixin(#008000,4);
+        //输出：
+        .some .selector div {
+         color-2: #008000;
+         padding-2: 4;
+         color-3: #008000;
+         padding-3: 4;
+         margin: 2 2 2 2;
+        } 
+    </code></pre>
+        <p>上面这个不是太好理解，可以使用命名参数</p>
+        <pre><code>
+        .mixin(@color: black; @margin: 10px; @padding: 20px) 
+        {
+          color: @color;
+          margin: @margin;
+          padding: @padding;
+        }
+        .class1 {
+          .mixin(@margin: 20px; @color: #33acfe);
+        }
+        .class2 {
+          .mixin(#efca44; @padding: 40px);
+        }
+    </code></pre>
+        <p>@argument在混合中有特殊的意义，它包含了所有的参数传递。这是有用的，如果你不想处理个别参数</p>
+        <pre><code>
+        .box-shadow(@x: 0; @y: 0; @blur: 1px; @color: #000) {
+        -webkit-box-shadow: @arguments;
+        -moz-box-shadow: @arguments;
+        box-shadow: @arguments;
+       }
+        .big-block {
+        .box-shadow(2px; 5px);
+        }
+        //如下
+        .big-block {
+        -webkit-box-shadow: 2px 5px 1px #000;
+        -moz-box-shadow: 2px 5px 1px #000;
+        box-shadow: 2px 5px 1px #000;
+        }
+    </code></pre>
+        <p>对于...的参数形式，表示不定个数的参数</p>
+        <pre><code>
+        .mixin(...) {        // matches 0-N arguments
+        .mixin() {           // matches exactly 0 arguments
+        .mixin(@a: 1) {      // matches 0-1 arguments
+        .mixin(@a: 1; ...) { // matches 0-N arguments
+        .mixin(@a; ...) {    // matches 1-N arguments
+        .mixin(@a; @rest) {  //使用这个变量名后，将这些参数分配给变量。
+    </code></pre>
+        <p>还有一个@switch进行复合利用</p>
+        <pre><code>
+        .mixin(dark; @color) {
+          color: darken(@color, 10%);
+        }
+        .mixin(light; @color) {
+          color: lighten(@color, 10%);
+        }
+        .mixin(@_; @color) { //匹配任意
+          display: block;
+        }
+
+        @switch:light;
+        .class
+        {
+        .mixin(@switch;#999);
+        }
+        //得到
+        .class {
+            color: #a2a2a2;
+             display: block;
+        }
+    </code></pre>
+        <p>作为函数的混合形式</p>
+        <pre><code>
+        .mixin() {
+         @width:  100%;  //这个体只是用来定义变量，
+         @height: 200px;
+        }
+
+        .caller {
+         .mixin();
+         width:  @width;
+         height: @height;
+        }
+        //得到
+        .caller {
+         width:  100%;
+         height: 200px;
+        }
+    </code></pre>
+        <pre><code>
+         .average(@x, @y) {
+          @average: ((@x + @y) / 2);
+          }
+
+           div {
+           .average(16px, 50px); // "call" the mixin
+           padding: @average;    // use its "return" value
+         }
+        //得到
+        div {
+        padding: 33px;
+        }
+    </code></pre>
+        <p>导入less：标准的css必须提前导入再使用，但less不要求，可以在后面导入</p>
+        <pre><code>
+        .foo {
+         background: #900;
+        }
+        @import "dssd/.less";
+    </code></pre>
+        <p>
+            less分支判断<br />
+            .dd (@a) when (@a){}
+        <br />
+            .dd (@a) when (@a>=3){...}<br />
+            .mixin (@a) when (@a > 10), (@a < -10) { ... }<br />
+            .max (@a; @b) when (@a < @b) { width: @b }<br />
+            .mixin (@a; @b: 0) when (isnumber(@b)) { ... }<br />
+            default()函数只是剩余分支的情况<br />
+            .mixin (@a) when (@a > 0) { ...  }<br />
+            .mixin (@a) when (default()) { ... } // 这里就是  when @a <= 0<br />
+            when not进行反转<br />
+            .mixin (@b) when not (@b > 0) { ... }
+
+        </p>
+        <p>循环:珊格</p>
+        <pre><code>
+        .generate-columns(4);
+        .generate-columns(@n;@i:1) when (@i=<@n)
+        {
+           .column-@{i}
+            {
+               width:(@i*100%/@n);
+            }         
+          .generate-columns(@n,(@i+1));
+        }
+
+        //得到
+        .column-1 {
+         width: 25%;
+        }
+        .column-2 {
+          width: 50%;
+        }
+        .column-3 {
+          width: 75%;
+        }
+        .column-4 {
+          width: 100%;
+        }
+    </code></pre>
+        <p>合并特性：性能够聚合多个属性从而形成一个用逗号分隔的单一属性</p>
+        <pre><code>
+        .mixin() {
+          box-shadow+: inset 0 0 10px #555;
+        }
+        .myclass {
+          .mixin();
+          box-shadow+: 0 0 20px black;
+        }
+
+        // 为了避免意外的合并，merge 需要在每个需要合并的属性名后面添加一个 + 以作标示
+        // 输出
+        .myclass {
+            box-shadow: inset 0 0 10px #555, 0 0 20px black;
+        }
+    </code></pre>
+        <p>父选择器&</p>
+        <pre><code>
+        a 
+        {
+          color: blue;
+          &:hover {
+            color: green;
+           }
+         }
+        // 又如
+        .button 
+        {
+            &-ok {
+             background-image: url("ok.png");
+            }
+
+            &-cancel {
+              background-image: url("cancel.png");
+            }
+
+            &-custom {
+              background-image: url("custom.png");
+            }
+        }
+
+        //又如
+         .link
+        {
+           & + & {
+             color: red;
+           }
+
+           & & {
+            color: green;
+           }
+
+           && {
+             color: blue;
+           }
+
+           &, &ish {
+           color: cyan;
+           }
+        }
+        //等于于
+        .link + .link {
+             color: red;
+            }
+
+            .link .link {
+              color: green;
+            }
+
+            .link.link {
+              color: blue;
+            }
+
+            .link, .linkish {
+              color: cyan;
+            }
+    </code></pre>
+        <p>对于多个&</p>
+        <pre><code>
+       .grand 
+        {
+            .parent 
+           {
+             & > & {
+             color: red;
+            }
+        }
+        //等于于
+       .grand .parent > .grand .parent {
+             color: red;
+            }
+    </code></pre>
+        <p>多项组合</p>
+        <pre><code>
+        p,a
+        {
+        border:1px solid #222;
+         &+&
+         {
+          color:red;
+         }
+        }
+        //等价于
+        p,a
+        {
+        border:1px solid #222;
+        }
+        p+p
+        {
+        color:red;
+        }
+        p+a
+        {
+        color:red;
+        }
+        a+p
+        {
+        color:red;
+        }
+        a+a
+        {
+        color:red;
+        }
+    </code></pre>
+        <h3 id="extend">继承 &：extend()</h3>
+        <pre><code>
+        .e:extend(.f) {}
+        .e:extend(.g) {}
+
+        //等价于
+        .e:extend(.f, .g) {}
+
+        对于
+        pre:hover,
+          .some-class {
+          &:extend(div pre);
+        }
+        //等价于
+        pre:hover:extend(div pre),
+        .some-class:extend(div pre) {}
+
+        对于
+        .my-inline-block() {
+        display: inline-block;
+        font-size: 0;
+        }
+        .thing1 {
+         .my-inline-block;
+        }
+        .thing2 {
+        .my-inline-block;
+        }
+
+        //输出
+        .thing1 {
+            display: inline-block;
+            font-size: 0;
+        }
+        .thing2 {
+            display: inline-block;
+            font-size: 0;
+        }
+        
+        //而这还不是最简的
+         .my-inline-block() {
+            display: inline-block;
+            font-size: 0;
+        }
+        .thing1 {
+           &：extend(.my-inline-block);
+        }
+        .thing2 {
+           &：extend(.my-inline-block);
+        }
+        //输出
+        .my-inline-block,
+        .thing1,
+        .thing2 {
+            display: inline-block;
+            font-size: 0;
+        }
+    </code></pre>
+        <h3 id="functions">函数
+        </h3>
+        <div class="fun-list">
+            <a href="#zxhs">杂项函数</a>
+            <a href="#zfchs">字符串函数</a>
+            <a href="#lbhs">列表函数</a>
+            <a href="#sxhs">数学函数</a>
+            <a href="#lxhs">类型函数</a>
+            <a href="#yshs">颜色函数</a>
+        </div>
+        <h4 id="zxhs">1.杂项函数</h4>
+        <h5>1.color:将代表颜色的字符串转换为颜色值.color("#aaa")</h5>
+        <h5>2.将数字从一种单位转换到另一种单位</h5>
+        <p>
+            convert(9s, "ms")<br />
+            convert(14cm, mm)<br />
+            convert(8, mm)<br />
+        </p>
+        <h5>3.data-uri:将资源内联进样式表</h5>
+        <p>
+            data-uri('../data/image.jpg');<br />
+            输出： url('data:image/jpeg;base64,bm90IGFjdHVhbGx5IGEganBlZyBmaWxlCg==');<br />
+            浏览器端输出： url('../data/image.jpg');
+        </p>
+        <h5>4.deafult()</h5>
+        <p>
+            .mixin(1) {x: 11}<br />
+            .mixin(2) {y: 22}<br />
+            .mixin(@x) when (default()) {z: @x}
+        </p>
+        <h5>5.unit:删除或更换单位。</h5>
+        <p>
+            unit(5, px) 输出 5px<br />
+            unit(5em) 输出 5
+        </p>
+
+        <h4 id="zfchs">2.字符串函数</h4>
+        <h5>1.escape:对字符串中的特殊字符做 URL-encoding 编码</h5>
+        <p>
+            这些字符不会被编码：,, /, ?, @, &, +, ', ~, ! and $。<br />
+            被编码的字符是：\&lt;space\&gt;, #, ^, (, ), {, }, |, :, >, <, ;, ], [ and =。
+        </p>
+        <h5>2.%： 格式化占位符</h5>
+        <h5>3.replace：用一个字符串替换一段文本。</h5>
+        <p>
+            //字符串 要换的 新的 规则（正则）<br />
+            replace("Hello, Mars?", "Mars\?", "Earth!");<br />
+            replace("One + one = 4", "one", "2", "gi");<br />
+            replace('This is a string.', "(string)\.$", "new $1.");<br />
+            replace(~"bar-1", '1', '2');
+        </p>
+        <h4 id="lbhs">3.列表函数</h4>
+        <h5>1.length:返回列表中元素的个数</h5>
+        <p>
+            @list: "banana", "tomato", "potato", "peach";<br />
+            n: length(@list);
+        </p>
+        <h5>2.extract:返回列表中指定位置的元素。</h5>
+        <p>
+            @list: apple, pear, coconut, orange;<br />
+            value: extract(@list, 3);
+        </p>
+        <h4 id="sxhs">4.数学函数</h4>
+        <h5>1.ceil：向上取整。ceil(2.5)=3</h5>
+        <h5>2.floor:向下取整。floor(2.5)=2</h5>
+        <h5>3.percentage:将浮点数转换为百分比字符串。percentage(0.5)=50%</h5>
+        <h5>4.round:四舍五入取整。精度默认为0.round(1.67)=2 round(1.67, 1)=1.7</h5>
+        <h5>5.sqrt:计算一个数的平方根，并原样保持单位。sqrt(25cm)=5cm</h5>
+        <h5>6.abs:计算数字的绝对值，并原样保持单位。</h5>
+        <h5>7.sin:正弦函数。asin/cos/acos/tan/atan</h5>
+        <h5>8.pi:返回圆周率 π pi()=3.141592653589793</h5>
+        <h5>9.pow:设第一个参数为A，第二个参数为B，返回A的B次方。</h5>
+        <h5>10.mod:返回第一个参数对第二参数取余的结果。</h5>
+        <h5>11.min:返回一系列值中最小的那个。min(3px, 42px, 1px, 16px)=1px /max</h5>
+        <h4 id="lxhs">5.类型函数</h4>
+        <h5>1.isnumber：如果待验证的值为数字则返回 true ，否则返回 false 。</h5>
+        <p>
+            isnumber(#ff0);     // false<br />
+            isnumber(blue);     // false<br />
+            isnumber("string"); // false<br />
+            isnumber(1234);     // true<br />
+            isnumber(56px);     // true<br />
+            isnumber(7.8%);     // true<br />
+            isnumber(keyword);  // false<br />
+            isnumber(url(...)); // false
+        </p>
+        <h5>2.isstring:如果待验证的值是字符串则返回 true ，否则返回 false 。</h5>
+        <p>
+            isstring(#ff0);     // false<br />
+            isstring(blue);     // false<br />
+            isstring("string"); // true<br />
+            isstring(1234);     // false<br />
+            isstring(56px);     // false<br />
+            isstring(7.8%);     // false<br />
+            isstring(keyword);  // true<br />
+            isstring(url(...)); // true
+        </p>
+        <h5>3.iscolor:如果待验证的值为颜色则返回 true ，否则返回 false 。</h5>
+        <p>
+            iscolor(#ff0);     // true<br />
+            iscolor(blue);     // true<br />
+            iscolor("string"); // false<br />
+            iscolor(1234);     // false<br />
+            iscolor(56px);     // false<br />
+            iscolor(7.8%);     // false<br />
+            iscolor(keyword);  // false<br />
+            iscolor(url(...)); // false
+        </p>
+        <h5>4.iskeyword:如果待验证的值为关键字则返回 true ，否则返回 false 。</h5>
+        <p>
+            iskeyword(#ff0);     // false<br />
+            iskeyword(blue);     // false<br />
+            iskeyword("string"); // false<br />
+            iskeyword(1234);     // false<br />
+            iskeyword(56px);     // false<br />
+            iskeyword(7.8%);     // false<br />
+            iskeyword(keyword);  // true<br />
+            iskeyword(url(...)); // false
+        </p>
+        <h5>5.isurl:如果待验证的值为 url 则返回 true ，否则返回 false 。</h5>
+        <p>
+            isurl(#ff0);     // false<br />
+            isurl(blue);     // false<br />
+            isurl("string"); // false<br />
+            isurl(1234);     // false<br />
+            isurl(56px);     // false<br />
+            isurl(7.8%);     // false<br />
+            isurl(keyword);  // false<br />
+            isurl(url(...)); // true
+        </p>
+        <h5>6.ispixel:如果待验证的值为像素数则返回 true ，否则返回 false 。</h5>
+        <p>
+            ispixel(#ff0);     // false<br />
+            ispixel(blue);     // false<br />
+            ispixel("string"); // false<br />
+            ispixel(1234);     // false<br />
+            ispixel(56px);     // true<br />
+            ispixel(7.8%);     // false<br />
+            ispixel(keyword);  // false<br />
+            ispixel(url(...)); // false
+        </p>
+        <h5>7.isem:如果待验证的值的单位是 em 则返回 true ，否则返回 false 。</h5>
+        <p>
+            isem(#ff0);     // false<br />
+            isem(blue);     // false<br />
+            isem("string"); // false<br />
+            isem(1234);     // false<br />
+            isem(56px);     // false<br />
+            isem(7.8em);     // true<br />
+            isem(keyword);  // false<br />
+            isem(url(...)); // false
+        </p>
+        <h5>8.ispercentage:如果待验证的值为百分比则返回 true ，否则返回 false 。</h5>
+        <p>
+            ispercentage(#ff0);     // false<br />
+            ispercentage(blue);     // false<br />
+            ispercentage("string"); // false<br />
+            ispercentage(1234);     // false<br />
+            ispercentage(56px);     // false<br />
+            ispercentage(7.%);      // true<br />
+            ispercentage(keyword);  // false<br />
+            ispercentage(url(...)); // false
+        </p>
+        <h5>9.isunit:如果待验证的值为指定单位的数字则返回 true ，否则返回 false 。</h5>
+        <p>
+            isunit(11px, px);  // true
+        isunit(2.2%, px);  // false
+        isunit(33px, rem); // false
+        isunit(4rem, rem); // true
+        isunit(56px, "%"); // false
+        isunit(7.8%, '%'); // true
+        isunit(1234, em);  // false
+        isunit(#ff0, pt);  // false
+        isunit("mm", mm);  // false
+        </p>
+        <h4 id="yshs">6.颜色函数</h4>
+        <h5>1.rgb/rgba</h5>
+        <h5>2.rgnb:创建格式为 #AARRGGBB 的十六进制颜色值 (注意不是 #RRGGBBAA！)</h5>
+        <p>argb(rgba(90, 23, 148, 0.5)),这种格式被用于 IE 、.NET 和 Android 的开发中</p>
+        <h5>3.hsl/hsla:通过色相 (hue)，饱和度 (saturation)，亮度 (lightness) 三种值 (HSL) 创建不透明的颜色对象</h5>
+        <p>hsl(90, 100%, 50%),hsla(90, 100%, 50%, 0.5)</p>
+        <h5>4.hsv/hsva:通过色相 (hue)、饱和度 (saturation)、色调 (value) 三种值 (HSV) 创建不透明的颜色对象。</h5>
+        <p>hsv(90, 100%, 50%),hsva(90, 100%, 50%, 0.5)</p>
+        <h5>5.red/green/blue：从颜色对象中提取颜色通道值</h5>
+        <p>
+            green(rgb(10, 20, 30))
+        </p>
+        <h5>6.alpha:从颜色对象中提取 alpha 通道值 alpha(rgba(10, 20, 30, 0.5))=0.5</h5>
+        <h5>7.saturate/desaturate:增加/减少颜色饱和度 saturate(hsl(90, 80%, 50%), 20%)=#80ff00</h5>
+        <h5>8.lighten/darken:增加/减少颜色亮度 lighten(hsl(90, 80%, 50%), 20%)=#b3f075</h5>
+        <h5>9.fadeout/fadein:增加/减少透明度fadein(hsla(90, 90%, 50%, 0.5), 10%)=hsla(90, 90%, 50%, 0.6)</h5>
+        <h5>10.fade:设置透明度fade(hsl(90, 90%, 50%), 10%)=hsla(90, 90%, 50%, 0.1)</h5>
+        <h5>11.spin:在任一方向旋转颜色的色调角 @c: spin(saturate(#aaaaaa, 10%), 10);</h5>
+        <h5>12.multiply：正片叠底 multiply(#ff6600, #cccccc);</h5>
+        <h5>13.screen：变色/滤色 screen(#ff6600, #666666);</h5>
+        <h5>14.overlay：叠加 overlay(#ff6600, #000000);</h5>
+        <h5>15.softlight：柔光 softlight(#ff6600, #333333);</h5>
+        <h5>16.hardlight:强光 hardlight(#ff6600, #666666);</h5>
+        <h5>17.difference：排除 difference(#ff6600, #333333);</h5>
+        <h5>18.average：分别对 RGB 的三种颜色值取平均值，然后输出结果。average(#ff6600, #ff0000);</h5>
+    </div>          
+</body>
+</html>
+<!--<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>-->
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".txtbar").click(function () {
+            $(this).siblings().slideToggle();
+        })
+    })
+</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script src="/WebUI/Resource/Javascript/plugins/clipboard/clipboard.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+       
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {               
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {                  
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })     
+        $(".container pre i .copy_code").click(function () {
+            var data = $(this).closest('pre').text();          
+            $(this).attr("data-clipboard-text", data);         
+            var clipboard = new Clipboard($(this).get(0));
+
+            clipboard.on('success', function (e) {
+                console.log(e);
+            });
+
+            clipboard.on('error', function (e) {
+                console.log(e);
+            });
+        });
+    })
+</script>

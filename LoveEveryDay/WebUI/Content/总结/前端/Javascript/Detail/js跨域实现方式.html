@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="forMore">
+            <a href="https://segmentfault.com/a/1190000003882126" target="_blank">教程</a>
+        </div>
+        <p>
+            以下的例子包含的文件均为为<em>http://www.a.com/a.html</em>、<em>http://www.a.com/c.html</em> 与<em>http://www.b.com/b.html</em> ，要做的都是从a.html获取b.html里的数据
+        </p>
+        <h3>1. JSNOP</h3>
+        <p>jsonp是利用script标签没有跨域限制的特性，通过在src的url的参数上附加回调函数名字，然后服务器接收回调函数名字并返回一个包含数据的回调函数</p>
+        <pre><code>
+         function doSomething(data) {
+             // 对data处理
+         }
+         var script = document.createElement("script");
+         script.src = "http://www.b.com/b.html?callback=doSomething";
+         document.body.appendChild(script);
+        
+         // 1.生成一个script标签，将其append在body上，向服务器发出请求
+         // 2.服务器根据 callback 这个参数生成一个包含数据的函数 doSomething({"a", "1"})
+         // 3.页面事先已声明doSomething函数，此时执行 doSomething(data) 这个函数，获得数据
+             </code></pre>
+        <h3>2. HTML5的postMessage</h3>
+        <p>
+            假设在a.html里嵌套个<em>&lt;iframe src="http://www.b.com/b.html" frameborder="0"&gt;&lt;/iframe&gt;</em>,在这两个页面里互相通信
+        </p>
+        <pre><code>
+        //  a.html
+
+        window.onload = function() {
+            window.addEventListener("message", function(e) {
+              alert(e.data);
+            });
+
+            window.frames[0].postMessage("b data", "http://www.b.com/b.html");
+        }
+             </code></pre>
+        <pre><code>
+        // b.html
+
+        window.onload = function() {
+            window.addEventListener("message", function(e) {
+                alert(e.data);
+            });
+            window.parent.postMessage("a data", "http://www.a.com/a.html");
+        }
+             </code></pre>
+        <p>这样打开a页面就先弹出 a data,再弹出 b data</p>
+        <h3>3. window.name + iframe
+        </h3>
+        <p>window.name的原理是利用同一个窗口在不同的页面共用一个window.name，这个需要在a.com下建立一个代理文件c.html,使同源后a.html能获取c.html的window.name</p>
+        <pre><code>
+        //  a.html
+
+        var iframe = document.createElement("iframe");
+        iframe.src = "http://www.b.com/b.html";
+        document.body.appendChild(iframe); // 现在a.html里建一个引用b.html的iframe，获得b的数据
+
+        var flag = true;
+        iframe.onload = function() {
+            if (flag) {
+                iframe.src = "c.html";  
+        // 判断是第一次载入的话，设置代理c.html使和a.html在同目录同源，这样才能在下面的else取到data
+                flag = false;
+            } else { // 第二次载入由于a和c同源，a可以直接获取c的window.name
+                alert(iframe.contentWindow.name);
+
+                iframe.contentWindow.close();
+                document.body.removeChild(iframe);
+                iframe.src = '';
+                iframe = null;
+            }
+        }
+             </code></pre>
+        <pre><code>
+        //b.html
+
+        window.name = "这是 b 页面的数据";
+             </code></pre>
+        <h3>4. window.location.hash + iframe
+        </h3>
+        <p>
+            b.html将数据以hash值的方式附加到c.html的url上，在c.html页面通过location.hash获取数据后传到a.html(这个例子是传到a.html的hash上，当然也可以传到其他地方)
+        </p>
+        <pre><code>
+        //  a.html
+
+
+        var iframe = document.createElement("iframe");
+        iframe.src = "http://www.b.com/b.html";
+        document.body.appendChild(iframe); // 在a页面引用b
+        function check() { // 设置个定时器不断监控hash的变化，hash一变说明数据传过来了
+            var hashs = window.location.hash;
+            if (hashs) {
+                clearInterval(time);
+                alert(hashs.substring(1));
+            }
+        }
+        var time = setInterval(check, 30);
+             </code></pre>
+        <pre><code>
+        //  b.html
+
+        window.onload = function() {
+            var data = "this is b's data"; 
+            var iframe = document.createElement("iframe");
+            iframe.src = "http://www.a.com/c.html#" + data;
+            document.body.appendChild(iframe); // 将数据附加在c.html的hash上
+        }
+             </code></pre>
+        <pre><code>
+        //  c.html
+
+        // 获取自身的hash再传到a.html的hash里，数据传输完毕
+        parent.parent.location.hash = self.location.hash.substring(1); 
+             </code></pre>
+        <h3>5. CORS</h3>
+        <p>
+            CORS是XMLHttpRequest Level 2 里规定的一种跨域方式。在支持这个方式的浏览器里，javascript的写法和不跨域的ajax写法一模一样，只要服务器需要设置Access-Control-Allow-Origin: *
+        </p>
+        <h3>6.  document.domain
+        </h3>
+        <p>
+            这种方式适用于主域相同，子域不同，比如http://www.a.com和http://b.a.com
+假如这两个域名下各有a.html 和b.html,
+        </p>
+        <pre><code>
+        //  a.html
+
+        document.domain = "a.com";
+        var iframe = document.createElement("iframe");
+        iframe.src = "http://b.a.com/b.html";
+        document.body.appendChild(iframe);
+        iframe.onload = function() {
+            console.log(iframe.contentWindow....); // 在这里操作b.html里的元素数据
+        }
+        </code></pre>
+        <pre><code>
+        //  b.html
+
+        document.domain = "a.com";
+             </code></pre>
+        <p>注意：document.domain需要设置成自身或更高一级的父域，且主域必须相同。</p>
+
+
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>

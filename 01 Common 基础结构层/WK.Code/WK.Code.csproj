@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BB719759-977C-4ED6-A8E9-40A180DF5A4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WK.Code</RootNamespace>
+    <AssemblyName>WK.Code</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\packages\PDF\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Memcached.ClientLibrary">
+      <HintPath>..\..\packages\MemCache\Memcached.ClientLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json_New\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\..\..\..\MyWork\LoveEveryDay\packages\NPOI.2.1.3.1\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Common">
+      <HintPath>..\..\packages\Redis\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\..\packages\Redis\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis">
+      <HintPath>..\..\packages\Redis\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\..\packages\Redis\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BusinessBar\BarCodeToHTML.cs" />
+    <Compile Include="Cache\AspnetCache.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Calendar\CNDate.cs" />
+    <Compile Include="CheckCode\YZMHelper.cs" />
+    <Compile Include="Chinese2Spelling\EcanConvertToCh.cs" />
+    <Compile Include="Chinese2Spelling\PinYin.cs" />
+    <Compile Include="FTP\FTPClient.cs" />
+    <Compile Include="FTP\FTPHelper.cs" />
+    <Compile Include="FTP\FTPOperater.cs" />
+    <Compile Include="JS\JSHelper.cs" />
+    <Compile Include="MemCache\MemCacheClient.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="Configs\Configs.cs" />
+    <Compile Include="Configs\DBConnection.cs" />
+    <Compile Include="Email\MailHelper.cs" />
+    <Compile Include="Excel\ExcelBaseForNPOI.cs" />
+    <Compile Include="Excel\ExcelUtilsForNPOI.cs" />
+    <Compile Include="Excel\NPOIExcel.cs" />
+    <Compile Include="Extend\Ext.Format.cs" />
+    <Compile Include="Extend\ExtLinq.cs" />
+    <Compile Include="Extend\ExtLinq.SortBy.cs" />
+    <Compile Include="Extend\ExtTable.cs" />
+    <Compile Include="File\FileDownHelper.cs" />
+    <Compile Include="File\FileHelper.cs" />
+    <Compile Include="Operator\OperatorModel.cs" />
+    <Compile Include="Operator\OperatorProvider.cs" />
+    <Compile Include="QueueHelper\QueueHelper.cs" />
+    <Compile Include="RMB\RMB.cs" />
+    <Compile Include="Sort\SortHelper.cs" />
+    <Compile Include="Zip\GZip.cs" />
+    <Compile Include="Json\Json.cs" />
+    <Compile Include="Licence.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Log\LogExt.cs" />
+    <Compile Include="Log\LogFactory.cs" />
+    <Compile Include="MemCache\MemcachedTool.cs" />
+    <Compile Include="MemCache\SlMemCached.cs" />
+    <Compile Include="Mime\MailMessageEx.cs" />
+    <Compile Include="Mime\MediaTypes.cs" />
+    <Compile Include="Mime\MimeEntity.cs" />
+    <Compile Include="Mime\MimeHeaders.cs" />
+    <Compile Include="Mime\MimeReader.cs" />
+    <Compile Include="Mime\QuotedPrintableEncoding.cs" />
+    <Compile Include="Net\HttpMethods.cs" />
+    <Compile Include="PDF\PDFOperation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Random\BaseRandom.cs" />
+    <Compile Include="Random\RandomHelper.cs" />
+    <Compile Include="Random\RandomOperate.cs" />
+    <Compile Include="Redis\RedisHelper.cs" />
+    <Compile Include="Redis\RedisNOSQLConfigInfo.cs" />
+    <Compile Include="Security\AESEncrypt.cs" />
+    <Compile Include="Security\DESEncrypt.cs" />
+    <Compile Include="Security\Md5.cs" />
+    <Compile Include="Security\SafeFilter.cs" />
+    <Compile Include="SerializeHelper.cs" />
+    <Compile Include="TypeHelper.cs" />
+    <Compile Include="Validate\Validate.cs" />
+    <Compile Include="VerifyCode.cs" />
+    <Compile Include="Web\WebHelper.cs" />
+    <Compile Include="XML\XmlHelper.cs" />
+    <Compile Include="XML\XMLProcess.cs" />
+    <Compile Include="Zip\SharpZip.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Configs\RedisNOSQLConfigInfo.config" />
+    <Compile Include="Extend\Ext.Array.cs" />
+    <Compile Include="Extend\Ext.String.cs" />
+    <Compile Include="Extend\Ext.Enum.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extend\Ext.Convert.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Extend\Ext.DateTime.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

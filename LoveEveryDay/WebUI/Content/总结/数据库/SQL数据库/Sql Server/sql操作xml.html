@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h3>一、前言</h3>
+        <p>
+            SQL Server 2005 引入了一种称为 XML 的本机数据类型。用户可以创建这样的表，它在关系列之外还有一个或多个 XML 
+类型的列；此外，还允许带有变量和参数。为了更好地支持 XML 模型特征（例如文档顺序和递归结构），XML 值以内部格式存储为大型二进制对象 
+(BLOB)。
+        </p>
+        <p>
+            用户将一个XML数据存入数据库的时候，可以使用这个XML的字符串，SQL Server会自动的将这个字符串转化为XML类型，并存储到数据库中。
+        </p>
+        <p>
+            随着SQL Server 对XML字段的支持，相应的，T-SQL语句也提供了大量对XML操作的功能来配合SQL Server中XML字段的使用。本文主要说明如何使用SQL语句对XML进行操作。
+        </p>
+        <h3>二、定义XML字段</h3>
+         <p>
+            在进行数据库的设计中，我们可以在表设计器中，很方便的将一个字段定义为XML类型。需要注意的是，XML字段不能用来作为主键或者索引键。同样，
+我们也可以使用SQL语句来创建使用XML字段的数据表，下面的语句创建一个名为“docs”的表，该表带有整型主键“pk”和非类型化的 XML 
+列“xCol”：
+        </p>
+        <p>
+            CREATE TABLE docs (pk INT PRIMARY KEY, xCol XML not null)
+        </p>
+        <p>
+            XML类型除了在表中使用，还可以在存储过程、事务、函数等中出现。下面我们来完成我们对XML操作的第一步，使用SQL语句定义一个XML类型的数据，并为它赋值：
+        </p>
+        <pre><code>
+            declare @xmlDoc xml;
+            set @xmlDoc='&lt;book id="0001"&gt;
+            &lt;title&gt;C Program&lt;/title&gt;
+            &lt;author&gt;David&lt;/author&gt;
+            &lt;price&gt;21&lt;/price&gt;
+            &lt;/book&gt;'
+        </code></pre>
+        <h3>三、查询操作</h3> 
+         <p>
+            在定义了一个XML类型的数据之后，我们最常用的就是查询操作，下面我们来介绍如何使用SQL语句来进行查询操作的。
+        </p>
+        <p>
+            在T-Sql中，提供了两个对XML类型数据进行查询的函数，分别是query(xquery)和value(xquery, 
+dataType)，其中，query(xquery)得到的是带有标签的数据，而value(xquery, 
+dataType)得到的则是标签的内容。接下类我们分别使用这两个函数来进行查询。
+        </p>
+        <h4>1.使用query(xquery) 查询</h4>   
+        <p>
+            我们需要得到书的标题（title），使用query(xquery)来进行查询，查询语句为：
+        </p>
+        <pre><code>
+            select @xmlDoc.query('/book/title')
+             </code></pre>  
+        <p>
+            运行结果如图：
+            <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image001_thumb.jpg" />
+        </p>
+        <h4>2.使用value(xquery, dataType) 查询</h4>
+        <p>
+            同样是得到书的标题，使用value函数，需要指明两个参数，一个为xquery， 另一个为得到数据的类型。看下面的查询语句：
+        </p>
+        <pre><code>
+            select @xmlDoc.value('(/book/title)[1]', 'nvarchar(max)')
+             </code></pre>
+        <p>运行结果如图：
+            <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image002_thumb.jpg" />
+        </p>
+        <h4>3.查询属性值</h4>
+        <p>
+            无论是使用query还是value，都可以很容易的得到一个节点的某个属性值，例如，我们很希望得到book节点的id，我们这里使用value方法进行查询，语句为：
+        </p>
+        <pre><code>
+            select @xmlDoc.value('(/book/@id)[1]', 'nvarchar(max)')
+             </code></pre>
+        <p>运行结果如图：
+            <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image003_thumb.jpg" />
+        </p>
+        <h4>4.使用xpath进行查询</h4>
+        <p>
+            xpath是.net平台下支持的，统一的Xml查询语句。使用XPath可以方便的得到想要的节点，而不用使用where语句。例如，我们在@xmlDoc中添加了另外一个节点，重新定义如下：
+        </p>
+        <pre><code>
+            set @xmlDoc='&lt;root&gt;
+            &lt;book id="0001"&gt;
+            &lt;title&gt;C# Program&lt;/title&gt;
+            &lt;author&gt;Jerry&lt;/author&gt;
+            &lt;price&gt;50&lt;/price&gt;
+            &lt;/book&gt;
+            &lt;book id="0002"&gt;
+            &lt;title&gt;Java Program&lt;/title&gt;
+            &lt;author&gt;Tom&lt;/author&gt;
+            &lt;price&gt;49&lt;/price&gt;
+            &lt;/book&gt;
+            &lt;/root&gt;'
+             </code></pre>
+         <p>
+            --得到id为0002的book节点
+        </p>
+        <pre><code>
+            select @xmlDoc.query('(/root/book[@id="0002"])')
+             </code></pre>
+         <p>
+            上面的语句可以独立运行，它得到的是id为0002的节点。运行结果如下图：
+        </p>
+        <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image001%5B6%5D_thumb.jpg" />
+        <h3>四、修改操作</h3>
+        <p> SQL的修改操作包括更新和删除。SQL提供了modify()方法，实现对Xml的修改操作。modify方法的参数为XML修改语言。XML修改语言类似于SQL 的Insert、Delete、UpDate，但并不一样。</p>
+        <h4>1.修改节点值</h4>
+        <p>
+            我们希望将id为0001的书的价钱(price)修改为100， 我们就可以使用modify方法。代码如下：
+        </p>
+        <pre><code>
+            set @xmlDoc.modify('replace value of (/root/book[@id=0001]/price/text())[1] with "100"')
+             </code></pre>
+        <p>--得到id为0001的book节点</p>
+        <pre><code>
+            select @xmlDoc.query('(/root/book[@id="0001"])')
+             </code></pre>
+        <p>
+            注意：modify方法必须出现在set的后面。运行结果如图：
+             <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image005_thumb.jpg" />
+        </p>
+        <h4>2.删除节点</h4>
+        <p>接下来我们来删除id为0002的节点，代码如下：</p>
+        <pre><code>
+            --删除节点id为0002的book节点
+            set @xmlDoc.modify('delete /root/book[@id=0002]')
+            select @xmlDoc
+             </code></pre>
+        <p>
+            运行结果如图：
+            <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image007_thumb.jpg" />
+        </p>
+       <h4>3.添加节点</h4>
+        <pre><code>
+            set @xmlDoc.modify('insert &lt;isbn&gt;78-596-134&lt;/isbn&gt; before (/root/book[@id=0001]/price)[1]')
+            select @xmlDoc.query('(/root/book[@id="0001"]/isbn)')
+             </code></pre>
+        <p>运行结果如图：
+            <img class="little" alt="" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image008_thumb.jpg" />
+        </p>
+        <h4>4.添加和删除属性</h4>
+        <p> 当你学会对节点的操作以后，你会发现，很多时候，我们需要对节点进行操作。这个时候我们依然使用modify方法，例如，向id为0001的book节点中添加一个date属性，用来存储出版时间。代码如下：</p>
+        <pre><code>
+            --添加属性
+            set @xmlDoc.modify('insert attribute date{"2008-11-27"} into (/root/book[@id=0001])[1]')
+            select @xmlDoc.query('(/root/book[@id="0001"])')
+             </code></pre>
+        <p>
+            运行结果如图：
+            <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image010_thumb.jpg" />
+        </p>
+        <p>
+            如果你想同时向一个节点添加多个属性，你可以使用一个属性的集合来实现，属性的集合可以写成：(attribute date{"2008-11-27"}, attribute year{"2008"})，你还可以添加更多。这里就不再举例了。
+        </p>
+        <h4>5.删除属性</h4>
+        <p> 删除一个属性，例如删除id为0001 的book节点的id属性，我们可以使用如下代码：</p>
+        <pre><code>
+            --删除属性
+            set @xmlDoc.modify('delete root/book[@id="0001"]/@id')
+             select @xmlDoc.query('(/root/book)[1]')
+             </code></pre>
+        <p>
+            运行结果如图：
+            <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image011_thumb.jpg" />
+        </p>
+        <h4>修改属性</h4>
+        <p>修改属性值也是很常用的，例如把id为0001的book节点的id属性修改为0005，我们可以使用如下代码：</p>
+        <pre><code>
+            --修改属性
+            set @xmlDoc.modify('replace value of (root/book[@id="0001"]/@id)[1] with "0005"')
+            select @xmlDoc.query('(/root/book)[1]')
+             </code></pre>
+        <p>
+             运行结果如图：
+            <img alt="" class="little" src="http://images.cnblogs.com/cnblogs_com/youring2/WindowsLiveWriter/SQLXml_12290/clip_image012_thumb.jpg" />
+        </p>
+        <p>
+            OK，经过上面的学习，相信你已经可以很好的在SQL中使用Xml类型了，下面是我们没有提到的，你可以去其它地方查阅：exist()方法，用来
+判断指定的节点是否存在，返回值为true或false； 
+nodes()方法，用来把一组由一个查询返回的节点转换成一个类似于结果集的表中的一组记录行。
+        </p>
+
+
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>

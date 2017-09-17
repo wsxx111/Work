@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="forMore">
+            <a href="https://github.com/zenorocha/clipboard.js" target="_blank">github主页</a>
+        </div>
+        <p>clipboard.js是一个github上的开源项目，可以实现纯 JavaScript （无 Flash）的浏览器内容复制到系统剪贴板的功能。</p>
+        <h3>用法</h3>
+        <pre><code>
+                &lt;script type="text/javascript" src="script/clipboard.min.js"&lt;script&gt;  
+             </code></pre>
+        <p>第一种：</p>
+        <pre><code>         
+          &lt;div id="btn" data-clipboard-text="1"&gt;
+          &lt;div id="btn" data-clipboard-text="2"&gt;
+          &lt;span&gt;Copy&lt;/span&gt;
+          &lt;/div&gt;
+
+
+          //js脚本
+          &lt;script&gt;
+    var btn = document.getElementById('btn');
+    var clipboard = new Clipboard(btn);
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+ &lt;/script&gt;
+             </code></pre>
+        <p>第二种：</p>
+        <pre><code>
+     &lt;button class="btn"&gt;Copy&lt;/button&gt;
+     &lt;div&gt;hello&lt;/div&gt;
+
+     &lt;script&gt;
+     var clipboard = new Clipboard('.btn', {
+     target: function() {
+            return document.querySelector('div');
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    &lt;/script&gt;
+            </code></pre>
+        <p>第三种：</p>
+        <pre><code>
+       &lt;input id="foo" type="text" value="hello"&gt;
+       &lt;button class="btn" data-clipboard-action="copy" data-clipboard-target="#foo"&gt;Copy&lt;/button&gt;
+
+       &lt;script&gt;
+       var clipboard = new Clipboard('.btn');
+
+       clipboard.on('success', function(e) {
+          console.log(e);
+       });
+     
+       clipboard.on('error', function(e) {
+          console.log(e);
+       });
+       &lt;/script&gt;
+            </code></pre>
+        <p>第四种：</p>
+        <pre><code>
+    &nbsp;&lt;textarea id="bar"&gt;hello&lt;/textarea&gt;<br />
+    &lt;button class="btn" data-clipboard-action="cut" data-clipboard-target="#bar"&gt;Cut&lt;/button&gt;
+    
+    &lt;script&gt;
+    var clipboard = new Clipboard('.btn');
+    
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    &lt;/script&gt;
+</code></pre>
+        <p>第五种：</p>
+        <pre><code>
+    &lt;button class="btn"&gt;Copy&lt;/button&gt;
+    
+    &lt;script&gt;
+    var clipboard = new Clipboard('.btn', {
+        text: function() {
+            return 'to be or not to be';
+        }
+    });
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    &lt;/script&gt;
+</code></pre>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>

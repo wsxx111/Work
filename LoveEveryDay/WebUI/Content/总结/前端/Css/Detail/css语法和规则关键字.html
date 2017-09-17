@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div>
+
+        <p>
+            <img src="data:image/png;base64,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" alt="" />
+        </p>
+        <p>
+            <strong>1./* 这里是注释内容 */&nbsp;&nbsp; ：&nbsp; <strong>用于注释CSS中的某些内容。</strong></strong>
+        </p>
+        <p>
+            <strong><strong>2.<strong> @import: 指定导入的外部样式表及目标媒体。</strong></strong></strong>
+        </p>
+        <blockquote>
+            <p>
+                <span style="color: #006600;">@import url("global.css"); </span>
+            </p>
+            <p>
+                <span style="color: #006600;">@import url(global.css); </span>
+            </p>
+            <p>
+                <span style="color: #006600;">@import "global.css";</span>
+            </p>
+        </blockquote>
+        <p>
+            <strong><strong><strong></strong></strong></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 以上3种方式都有效。当使用url(url)的方式时，包住路径的引号可有可无；当直接使用url时，包住路径的引号必须保留。
+        </p>
+        <blockquote>
+            <p>
+                <span style="color: #006600;">@import url("style.css") screen, print;</span>
+            </p>
+            <p>
+                <span style="color: #006600;">@import url(example.css) screen and (min-width:800px); </span>
+            </p>
+            <p>
+                <span style="color: #006600;">@import url(example.css) screen and (width:800px),(color); </span>
+            </p>
+            <p>
+                <span style="color: #006600;">@import url(example.css) screen and (min-device-width:500px) and (max-device-width:1024px);</span>
+            </p>
+        </blockquote>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;">3.</span><strong><span style="color: #000000;">@charset :<strong> 在外部样式表文件内使用。指定该样式表使用的字符编码。</strong></span></strong></span>
+        </p>
+        <blockquote>
+            <p>
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@charset "utf-8";</span></span></span>
+            </p>
+        </blockquote>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;">3.</span><strong><span style="color: #000000;">@media :<strong> 指定样式表规则用于指定的媒体类型和查询条件。</strong></span></strong></span></span></span></span>
+        </p>
+        <blockquote>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><strong><span style="color: #000000;"><span style="color: #006600;">@media screen and (width:800px){}</span></span></strong></span></span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@i</span><span style="color: #006600;">mport url(example.css){}</span></span></span></span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">&lt;link media="screen and (width:800px)" rel="stylesheet</span><span style="color: #006600;">" href="example.css"</span><span style="color: #006600;">/</span><span style="color: #006600;">&gt;</span></span></span></span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;"></span></span>@media all and (width:1024px){
+	body{color:#f00;}
+}
+                    <br />
+                </span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@media all and (device-height:800px){ … }
+                    <br />
+                </span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@media all and (orientation:landscape){ … }
+                    <br />
+                </span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@media all and (device-aspect-ratio:16/10){ … }
+                    <br />
+                </span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@media all and (min-color:1){ … }
+                    <br />
+                </span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@media all and (monochrome:0){ … }
+                    <br />
+                </span></span></span>
+            </p>
+            <p align="left">
+                <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;">@media all and (grid:0){ … }<br />
+                </span></span></span>
+            </p>
+        </blockquote>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"></span><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;">4.</span><strong><span style="color: #000000;">@font-face <strong>：设置嵌入HTML文档的字体。</strong></span></strong></span></span></span></span></span></span>
+        </p>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;">需要兼容当前的主流浏览器，需同时使用TureTpe(.ttf)、Web Open Font Format(.woff)、Embedded Open Type(.eot)、SVG(.svg)四种字体格式。<br />
+            </span></span></span></span></span></span></span>
+        </p>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;"></span></span></span></span></span>嵌入HTML文档的字体是指将OpenType字体（压缩的TrueType字体）文件映射到客户端系统，用来提供HTML文档使用该字体，或取代客户端系统已有的同名字体。即让客户端显示客户端所没有安装的字体。</span></span>.eot(Embedded Open Type)为IE的私有字体格式。Safari3.1开始支持.ttf(TrueType)和.otf(OpenType)。未来.woff(Web Open Font Format)将会取代.ttf(TrueType)和.otf(OpenType)两种字体格式。
+        </p>
+        <blockquote>
+            <p>
+                <span style="color: #006600;">@font-face {</span>
+            </p>
+            <p>
+                <span style="color: #006600;">&nbsp;&nbsp;&nbsp;&nbsp; font-family: 'diyfont';</span>
+            </p>
+            <p>
+                <span style="color: #006600;">&nbsp;&nbsp;&nbsp;&nbsp; src: url('diyfont.eot');&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* IE9+ */ </span>
+            </p>
+            <p>
+                <span style="color: #006600;">&nbsp;&nbsp;&nbsp;&nbsp; src: url('diyfont.eot?#iefix')&nbsp; format('embedded-opentype'), &nbsp; &nbsp;&nbsp; /* <span style="color: #006600;">IE6-IE8 */</span></span>
+            </p>
+            <p>
+                <span style="color: #006600;">&nbsp;&nbsp;&nbsp;&nbsp; url('diyfont.woff')&nbsp; format('woff'),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* chrome、firefox */ </span>
+            </p>
+            <p>
+                <span style="color: #006600;">&nbsp;&nbsp;&nbsp;&nbsp; url('diyfont.ttf')&nbsp; format('truetype'),&nbsp;&nbsp;&nbsp;&nbsp; /* </span><span style="color: #006600;">chrome、firefox、opera、Safari, Android, iOS 4.2+*/ </span>
+            </p>
+            <p>
+                <span style="color: #006600;">&nbsp;&nbsp;&nbsp;&nbsp; url('diyfont.svg#fontname')&nbsp; format('svg'); /* iOS 4.1- */ </span>
+            </p>
+            <p>
+                <span style="color: #006600;">}</span>
+            </p>
+        </blockquote>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000;">4.</span><strong><span style="color: #000000;">@page : <strong>设置页面容器的版式，方向，边空等。</strong></span></strong></span></span></span></span></span></span></span></span>
+        </p>
+        <blockquote>
+            <p>
+                <span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;">@page:first{margin:300px;}</span></span></span></span></span></span></span></span></span>
+            </p>
+            <p>
+                <span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #006600;"><span class="con"><span style="color: #000000;">@page规则选择页面框。在其内部，设计者可指定各页面的大小、版面布局、取向和页边距。页面框是矩形区域，大约
+为打印页的大小，它包含页面区域和页边距。页面区域包括要显示的内容，框边缘作为一种容器，页面版面就处于分页符之间。与其他框不同，页面框没有边界线或
+贴边，只有页边距。</span><br />
+                    <span style="color: #000000;">@page规则选择文档中的每一页面。可使用下面的页面伪类属性之一:first、:left或:right来为各页面类指定不同属性。</span><br />
+                    <span style="color: #000000;">由
+于@page规则不知道含有字体的页面内容，所以无法理解以em和ex为单位的尺寸。所有的其他度量单位（包括百分数）都是可以接受的。用于设置页边距的
+百分数也是总页面框的百分数。页边距可为负值，表示把内容放在通常应用程序或打印机可访问的区域之外。在大多数情况下，只保留可见或可打印区域内的信息。</span></span><br />
+                </span></span></span></span></span></span></span></span></span>
+            </p>
+        </blockquote>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><strong><span style="color: #000000;"><strong></strong><strong></strong></span></strong></span></span></span></span></span></span>
+                <br />
+            </span></span>
+        </p>
+        <p>
+            <span style="color: #006600;"><strong><span style="color: #000000;"></span></strong></span>
+        </p>
+
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000; font-size: 16px;">5.</span><strong><span style="color: #000000;"><span style="font-size: 16px;">@keyframe: </span><strong><span id="__kindeditor_bookmark_start_4__"></span></strong></span></strong></span></span></span></span></span></span></span></span><strong><span style="font-size: 16px;">指定动画名称和动画效果</span></strong>
+        </p>
+        <blockquote>
+            <p>
+                <a href="http://www.css88.com/book/css/rules/@keyframes.htm">@keyframes</a>定义的动画名称用来被<a href="http://www.css88.com/book/css/properties/animation/animation-name.htm">animation-name</a>所使用。<strong>定义动画时，简单的动画可以直接使用关键字from和to，即从一种状态过渡到另一种状态：</strong>
+            </p>
+            <p>
+                <span style="color: #006600;"><span style="font-size: 14px;">@keyframes testanim</span><span style="font-size: 14px;">ations {
+	from { opacity: 1; }
+	to { opacity: 0; }
+}</span></span>
+            </p>
+            <p>
+                <br />
+                <strong>如果复杂的动画，可以混合<a href="http://www.css88.com/book/css/values/numeric/percentage.htm">&lt;percentage&gt;</a>去设置某个时间段内的任意时间点的样式：</strong>
+            </p>
+            <p>
+                <br />
+                <span style="color: #006600; font-size: 16px;">@keyframes testanimations {<br />
+                </span>
+            </p>
+            <p>
+                <span style="color: #006600; font-size: 16px;">from { transform: translate(0, 0); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="color: #006600; font-size: 16px;">20% { transform: translate(20px, 20px); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="color: #006600; font-size: 16px;">40% { transform: translate(40px, 0); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="color: #006600; font-size: 16px;">60% { transform: translate(60px, 20); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="color: #006600; font-size: 16px;">80% { transform:</span><span style="color: #006600; font-size: 16px;"> translate(80px, 0); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="color: #006600; font-size: 16px;">to { transform: translate(100px, 20px); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="color: #006600; font-size: 16px;">}</span>
+            </p>
+            <p>
+                <br />
+                <strong>当然，也可以不使用关键字from和to，而都使用<a href="http://www.css88.com/book/css/values/numeric/percentage.htm">&lt;percentage&gt;</a>：</strong>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">@keyframes testanimations{</span>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">0% { transform: translate(0, 0); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">20% { transform: translate(20px, 20px); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">40% { transform: translate(40px, 0); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">60% { transform: translate(60px, 20px); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">80% { transform: translate(80px, 0); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">100% { transform: translate(100px, 20px); }
+                    <br />
+                </span>
+            </p>
+            <p>
+                <span style="font-size: 16px; color: #006600;">}</span>
+            </p>
+            <p>
+                <br />
+                注意，这里的0%不能简写成0，0是非标准语法（虽然被某些浏览器所支持）。
+            </p>
+        </blockquote>
+        <p>
+            <span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><span style="color: #000000; font-size: 16px;">6.</span><strong><span style="color: #000000;"><span style="font-size: 16px;">@</span></span></strong></span></span></span></span></span></span></span></span><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #000000;"><span style="color: #006600;"><span style="color: #006600;"><strong><span style="color: #000000;"><span style="font-size: 16px;"><strong>supports</strong> : </span><strong><span id="Span1"></span></strong></span></strong></span></span></span></span></span></span></span></span><strong><span style="font-size: 14px;">检测是否支持某CSS特性</span></strong>
+        </p>
+        <blockquote>
+            <span style="color: #006600; font-size: 14px;">@supports ( 如果支持某css样式 ) {css样式}<br />
+                @supports ( display: flex ) {<br />
+                &nbsp;body { display: flex; } #aside { width: 210px; } #main { flex: auto; }
+                <br />
+                }<br />
+                @supports not ( display: flex ) {<br />
+                &nbsp;#aside { float: left; width: 210px; } #main { overflow: hidden; *zoom: 1; }
+                <br />
+                }<br />
+                @supports ( box-shadow: 2px 2px )
+                <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or ( -moz-box-shadow: 2px 2px )
+                <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; or ( -webkit-box-shadow: 2px 2px )<br />
+                &nbsp;{<br />
+                &nbsp; &nbsp;&nbsp; .demo { -moz-box-shadow: 2px 2px 0 rgba(0, 0, 0, .3);<br />
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -webkit-box-shadow: 2px 2px 0 rgba(0, 0, 0, .3);<br />
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; box-shadow: 2px 2px 0 rgba(0, 0, 0, .3); }
+                <br />
+                &nbsp;}<br />
+                <br />
+            </span>
+        </blockquote>
+        <p>
+            <br />
+        </p>
+
+    </div>
+</body>
+</html>

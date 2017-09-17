@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <h3>什么是连接查询呢</h3>
+        <p><em>概念：</em>根据两个表或多个表的列之间的关系，从这些表中查询数据。</p>
+        <p><em>目的：</em>实现多个表查询操作。</p>
+        <h3>分类</h3>
+        <p>首先划分一下，连接分为三种：<em>内连接</em>、<em>外连接</em>、<em>交叉连接</em>  </p>
+        <h5>内连接(INNER JOIN)：</h5>
+        分为三种：等值连接、自然连接、不等连接  
+       <h5>外连接(OUTER JOIN)： </h5>
+        分为三种：
+        <ul>
+            <li>左外连接(LEFT OUTER JOIN或LEFT JOIN)
+            </li>
+            <li>右外连接(RIGHT OUTER JOIN或RIGHT JOIN)  </li>
+            <li>全外连接(FULL OUTER JOIN或FULL JOIN)  </li>
+        </ul>
+        <h5>交叉连接(CROSS JOIN)：</h5>
+        没有WHERE 子句，它返回连接表中所有数据行的笛卡尔积 
+        <h3>具体使用介绍</h3>
+        <p>book表a：</p>
+        <img class="little" src="http://dataunion.org/wp-content/uploads/2015/03/641_thumb.png" />
+        <p>stu表b：</p>
+        <img class="little" src="http://dataunion.org/wp-content/uploads/2015/03/640_thumb.png" />
+        <h4>1、内联接</h4>
+        <p>定义：仅将两个表中满足连接条件的行组合起来作为结果集。
+在内连接中，只有在两个表中匹配的行才能在结果集中出现</p>
+        <pre><code>
+            SELECT 列名表 FROM 表名1 [INNER] JOIN 表名2 ON或WHERE 条件表达式
+             </code></pre>
+        <h5>内连接分类：</h5>
+        <ul>
+            <li><em>等值连接</em>：在连接条件中使用等于号(=)运算符比较被连接列的列值，其查询结果中列出被连接表中的所有列，包括其中的重复列。</li>
+            <li><em>不等值连接</em>：在连接条件使用除等于运算符以外的其它比较运算符比较被连接的列的列值。这些运算符包括&gt;、&gt;=、&lt;=、&lt;、!&gt;、!&lt;和&lt;&gt;。</li>
+            <li><em>自然连接</em>：在连接条件中使用等于(=)运算符比较被连接列的列值，但它使用选择列表指出查询结果集合中所包括的列，并删除连接表中的重复列。</li>
+        </ul>
+        <p>SQL语句：</p>
+        <pre><code>
+        1、select * from book as a,stu as b where a.sutid = b.stuid  
+        2、select * from book as a inner join stu as b on a.sutid = b.stuid  
+        //内连接可以使用上面两种方式，其中第二种方式的inner可以省略。
+             </code></pre>
+        <p>结果：展示结果相同的id列</p>
+        <img class="little" src="http://dataunion.org/wp-content/uploads/2015/03/642_thumb.png" />
+        <h4>外联接</h4>
+        <p>外联接可以是左向外联接、右向外联接或完整外部联接。</p>
+        <p>大概意思就是：在内连接的基础上，还包含表中所有不符合条件的数据行，并将相对应的表列填写NULL  （左--对应右NULL）</p>
+        <p>在 FROM子句中指定外联接时，可以由下列几组关键字中的一组指定</p>
+        <h5>LEFT  JOIN或LEFT OUTER JOIN  </h5>
+        <p>左向外联接的结果集包括  LEFT OUTER子句中指定的左表的所有行，而不仅仅是联接列所匹配的行。如果左表的某行在右表中没有匹配行，则在相关联的结果集行中右表的所有选择列表列均为空值。</p>
+        <pre><code>
+        select * from book as a left join stu as b on a.sutid = b.stuid  
+             </code></pre>
+         <img class="little" src="http://dataunion.org/wp-content/uploads/2015/03/643_thumb.png" />
+        <h5>RIGHT  JOIN 或 RIGHT  OUTER  JOIN  </h5>
+        <p>右向外联接是左向外联接的反向联接。将返回右表的所有行。如果右表的某行在左表中没有匹配行，则将为左表返回空值。</p>
+        <pre><code>
+        select * from book as a right join stu as b on a.sutid = b.stuid
+             </code></pre>
+         <img class="little" src="http://dataunion.org/wp-content/uploads/2015/03/644_thumb.png" />
+        <h5>FULL  JOIN 或 FULL OUTER JOIN</h5>
+        <p>完整外部联接返回左表和右表中的所有行。当某行在另一个表中没有匹配行时，则另一个表的选择列表列包含空值。如果表之间有匹配行，则整个结果集行包含基表的数据值。   </p>
+        <pre><code>
+        select * from book as a full outer join stu as b on a.sutid = b.stuid  
+             </code></pre>
+         <img class="little" src="http://dataunion.org/wp-content/uploads/2015/03/645_thumb.png" />
+        <h4>交叉联接</h4>
+        <p>交叉联接返回左表中的所有行，左表中的每一行与右表中的所有行组合。交叉联接也称作笛卡尔积。</p>
+        <pre><code>
+        select * from book as a cross join stu as b order by a.id  
+             </code></pre>
+        <img class="little" src="http://dataunion.org/wp-content/uploads/2015/03/646_thumb.png" />
+        <h3>图解：</h3>
+        <img src="http://dataunion.org/wp-content/uploads/2015/03/Visual_SQL_JOINS_small.jpg" />
+        <ul>
+            <li>上图（来源网上大神）左边两个为左连接的例子图解</li>
+            <li>上图右边两个为右连接的例子图解</li>
+            <li>上图中间一个为内连接的例子图解</li>
+            <li>上图下面两个为全连接的例子图解</li>
+        </ul>
+
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {
+
+
+    })
+</script>
+

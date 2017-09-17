@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="~/Resource/md5/jquery.md5.js"></script>
+    <style type="text/css">
+        .login-form {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table style="login-form">
+            <tr>
+                <td>
+                    <label for="userName">姓名：</label></td>
+                <td>
+                    <input name="userName" type="text" id="userName" /></td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="userPwd">密码：</label></td>
+                <td>
+                    <input name="userPwd" type="password" id="userPwd" /></td>
+            </tr>
+            <tr>
+                <td>验证码：
+                </td>
+                <td>
+                    <input id="txt_code" maxlength="4" type="text" placeholder="验证码" style="width: 60px;">
+                    <a id="switchCode" href="javascript:void();" style="text-decoration: none;">换一张</a>
+                    <img id="imgcode" class="authcode" src="~/Login/GetAuthCode" width="80" height="25" />
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="button" id="btnLogin" value="登录" /></td>
+            </tr>
+        </table>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        $("#btnLogin").on("click", function () {
+            var getname = $.trim($("#userName").val());
+            var getpwd = $.trim($("#userPwd").val());
+            var getcode=$("#txt_code").val();
+            if (checkInput(getname, getpwd, getcode)) {
+                $.ajax({
+                    url: "/Login/UserLogin",
+                    type: "post",
+                    dataType: 'json',
+                    data: { 'username': getname, 'pwd': $.md5($.trim(getpwd)), 'code': getcode },
+                    success: function (msg) {
+                        if (msg.state = "success") {
+                            window.location.href = "/Main/Index";
+                        }
+                        $("#switchCode").trigger("click");
+                        alert(msg.message);
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                })
+            }
+
+        })
+
+        $("#switchCode").click(function () {
+            $("#imgcode").attr("src", "/Login/GetAuthCode?time=" + Math.random());
+        });
+
+    })
+
+
+
+    function checkInput(name, pwd,code) {
+        if (name == '') {
+            alert('请输入姓名');
+            $("#userName").focus();
+            return false;
+        }
+        if (pwd == '') {
+            alert('请输入密码');
+            $("#userPwd").focus();
+            return false;
+        }
+        if (code == '') {
+            alert('请输入验证码');
+            $("#txt_code").focus();
+            return false;
+        }
+        return true;
+    }
+</script>

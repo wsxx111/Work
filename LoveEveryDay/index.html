@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <title>凯的世界</title>
+    <link rel="shortcut icon" href="WebUI/Resource/Images/wk.ico" />
+    <link href="http://apps.bdimg.com/libs/bootstrap/3.3.4/css/bootstrap.css" rel="stylesheet" />    
+    <!--<link href="WebUI/Resource/Css/bootstrap.css" rel="stylesheet" />-->
+    <link href="WebUI/Resource/Css/bootstrap_amend.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/WebUI/Resource/Css/siteCss/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/WebUI/Resource/Css/siteCss/demo.css" />
+    <link href="/WebUI/Resource/Css/siteCss/font-css.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/siteCss/icons.css" rel="stylesheet" />
+    
+    
+    <link rel="stylesheet" type="text/css" href="/WebUI/Resource/Css/siteCss/component.css" />
+
+</head>
+<body>
+    <div class="container">
+        <div class="mp-pusher" id="mp-pusher">
+            <nav id="mp-menu" class="mp-menu">
+            </nav>
+
+            <div class="scroller">
+                <div class="scroller-inner">
+                    <div class="content-main" style="height: 100%;">
+                        <div style="height: 50px; background-color: #3d3d3d; padding-left: 20px; position: absolute; width: 100%; font-family: 'Microsoft YaHei';">
+                            <div style="line-height: 50px; display: inline-block; cursor: pointer;" id="trigger">目录</div>
+                            <div style="position: absolute; right: 70px; top: 0px; line-height: 50px; cursor: pointer; font-size: 14px; font-weight: bold; color: #ffd800;" onclick="javascript:window.location.href='default.html';">PC版</div>
+                            <div style="position: absolute; right: 20px; top: 0px; line-height: 50px; cursor: pointer;" onclick="javascript:history.back(-1);">返回</div>
+                        </div>
+                        <iframe id="frameRight" name="frameRight" height="100%" width="100%" style="padding: 55px 10px 5px 10px;" src="WebUI/Content/MainPage.html" frameborder="0" seamless></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script src="/WebUI/Resource/Javascript/menulist.js?v=1.0"></script>
+<script src="/WebUI/Resource/Javascript/site-menu.js"></script>
+<script src="/WebUI/Resource/Javascript/sitejs/modernizr.custom.js"></script>
+<script src="/WebUI/Resource/Javascript/sitejs/classie.js"></script>
+<script src="/WebUI/Resource/Javascript/sitejs/mlpushmenu.js"></script>
+
+<script>
+    var bbb = new mlPushMenu(document.getElementById('mp-menu'), document.getElementById('trigger'));
+    $(".do_href").on("click", function () {
+        bbb._resetMenu();
+    })
+
+</script>
+

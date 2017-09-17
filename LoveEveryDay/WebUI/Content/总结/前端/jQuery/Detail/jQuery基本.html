@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" />
+    <link href="/WebUI/Resource/Css/bootstrap.css" rel="stylesheet" />
+    <title></title>
+    <style type="text/css">
+        .J_Area > div {
+            cursor: pointer;
+            display: inline-block;
+            line-height: 20px;
+            margin: 6px;
+            background-color: #ccf8ad;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+
+        .J_active {
+            background-color: #000000;
+            color: white;
+        }
+
+        .J_Detail > div {
+            border: 1px solid #808080;
+            border-radius: 4px;
+            padding: 5px;
+            background-color: #ccf8ad;
+            display: none;
+        }
+
+            .J_Detail > div > div {
+                padding: 5px;
+                font-size: 12px;
+                background-color: #e0e0e0;
+                border: 1px solid #808080;
+                border-radius: 3px;
+                min-height: 20px;
+                margin-bottom: 5px;
+            }
+
+            .J_Detail > div h4 {
+                font-size: 14px;
+                text-indent: 5px;
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="J_Area">
+                <div id="L_clone">.clone()</div>
+                <div id="L_wrap">.wrap()</div>
+                <div id="L_wrapAll">.wrapAll()</div>
+                <div id="L_wrapInner">.wrapInner()</div>
+                <div id="L_prependTo">.prependTo()</div>
+                <div id="L_html">.html()</div>
+                <div id="L_remove">.remove()</div>
+                <div id="L_detach">.detach()</div>
+                <div id="L_empty">.empty()</div>
+                <div id="L_unwrap">.unwrap()</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="J_Area">
+                <div id="L_JData">jQuery.data()</div>
+                <div id="L_Data">.data()</div>
+                <div id="L_HasData">jQuery.hasData(elem)</div>
+                <div id="L_RemoveData">jQuery.removeData(elem,[name])</div>
+                <div id="L_ReData">jQuery.removeData([name])</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="J_Detail">
+                <div class="L_clon">
+                    <h4></h4>
+                    <p>
+                    </p>
+                </div>
+                <div class="L_wrap">
+                    <h4>集合中匹配的每个元素周围包裹一个HTML结构。</h4>
+                    <div>
+                        &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        <br />
+                        经过 $('.inner').wrap('&lt;div class="new" /&gt;');后变成<br />
+                        <br />
+                        &lt;div class="new" /&gt;<br />
+                        &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        &lt;/div&gt;                       
+                    </div>
+                    <div>
+                        还可以<br />
+                        $('.inner').wrap(function() {<br />
+                        return '&lt;div class="' + $(this).text() + '" /&gt;';<br />
+                        });
+                        &lt;div class="Hello" /&gt;<br />
+                        &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        &lt;/div&gt;    
+                    </div>
+                </div>
+                <div class="L_wrapAll">
+                    <h4>在集合中所有匹配元素的外面包裹一个HTML结构。
+                    </h4>
+                    <p>.wrapAll()函数可以接受任何字符串或对象，可以传递给$()工厂函数来指定一个DOM结构。这种结构可以嵌套多层，但是最内层只能有一个元素。所有匹配元素将会被当作是一个整体，在这个整体的外部用指定的 HTML 结构进行包裹。</p>
+                    <div>
+                        &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        <br />
+                        经过 $('.inner').wrapAll('&lt;div class="new" /&gt;');后变成<br />
+                        <br />
+                        '&lt;div class="new" /&gt;'
+                          &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        &lt;/div&gt;  
+                    </div>
+                </div>
+                <div class="L_wrapInner">
+                    <h4>在匹配元素里的内容外包一层结构。</h4>
+                    <div>
+                        &lt;div class="inner"&gt;Hello&lt;/&lt;div&gt;<br />
+                        <br />
+                        经过 $('.inner').wrapInner('&lt;div class="new" /&gt;');后变成<br />
+                        <br />
+                        &lt;div class="inner"&gt;<br />
+                        &lt;div class="new" /&gt;Hello&lt;/&lt;div&gt;
+                        <br />
+                        &lt;/div&gt;     
+                    </div>
+                </div>
+                <div class="L_ReData">
+                    <h4>在元素上移除绑定的数据</h4>
+                    <p>.removeData()方法允许我们移除用.data()绑定的值。当带name参数调用的时候，.removeData()将删除那个特有的值，当不带任何参数的时候，.removeData()将移除所有的值。</p>
+                    <p>需要注意的是.removeData()仅会删除来自jQuery内部.data()缓存中的数据， 并且元素上任何相应的data-属性不会被删除。后调用data()，会重新检索data-的属性的值。 为了防止这种情况，可以在.removeData()旁边使用.removeAttr()来移除data-属性。jQuery 1.4.3以前,data()没有使用data-属性，所以不存在这类问题。</p>
+                    <div>
+                        $("div").data("test1", "VALUE-1");<br />
+                        $("div").data("test2", "VALUE-2");<br />
+                        $("div").removeData("test1");
+                    </div>
+                </div>
+                <div class="L_JData">
+                    <h4>存储任意数据到指定的元素并且/或者返回设置的值。</h4>
+                    <p>
+                        jQuery.data(element, key, value)<br />
+                        element:要存储数据的DOM对象<br />
+                        key:存储的数据名<br />
+                        value:新数据值<br />
+                        jQuery.data(element, key)<br />
+                    </p>
+                    <p>jQuery.data() 方法允许我们在DOM元素上附加任意类型的数据,避免了循环引用的内存泄漏风险。如果 DOM 元素是通过 jQuery 方法删除的或者当用户离开页面时，jQuery 同时也会移除添加在上面的数据。我们可以在一个元素上设置不同的值，并获取这些值</p>
+                    <p>undefined 是一个没有被识别数据值。 调用如jQuery.data( el, "name", undefined )将返回对应的"name"数据，等价于 jQuery.data(el, "name" ).</p>
+                    <p>.unload()方法只是作为.on( "unload", handler )的一个速记写法，移除该事件可以使用.off( "unload" )。</p>
+                </div>
+                <div class="L_Data">
+                    <h4>在匹配元素上存储任意相关数据.</h4>
+                    <p>.data() 方法允许我们在DOM元素上绑定任意类型的数据,避免了循环引用的内存泄漏风险。由于浏览器用插件和外部代码相互作用,.data()方法不能在object（除非是Flash插件），applet 或 embed元素上使用。</p>
+                    <div>
+                        $("body").data("foo", 52);<br />
+                        $("body").data("bar", { myType: "test", count: 40 });<br />
+                        $("body").data({ baz: [ 1, 2, 3 ] });<br />
+                        $("body").data("foo"); // 52<br />
+                        $("body").data(); // { foo: 52, bar: { myType: "test", count: 40 }, baz: [ 1, 2, 3 ] }
+                    </div>
+                    <p>从jQuery 1.4.3起， HTML 5 data- 属性 将自动被引用到jQuery的数据对象中。嵌入式破折号处理属性（ attributes）的方式在 jQuery 1.6 中已经改变. 如果没有传递key参数的数据存储， jQuery将在元素的属性中搜索， 将驼峰式字符串转化为中横线字符串，然后在结果前面加上data-。 所以，该字符串lastValue将被转换为data-last-value。如果不想将取出的属性值直接当作字符串的话，请使用attr()方法</p>
+                    <p>调用 .data() 时如果不带参数，将会以 JavaScript 对象的形式获取所有数据。这个对象可以安全的存放在变量中，因为一旦这个新对象被提取出来，之后对元素进行的 .data(obj)操作，将不会再影响这个对象.另外，直接操作这个对象会比每次调用 .data() 来设置或获取值要快一些</p>
+                    <div>
+                        var mydata = $("#mydiv").data();<br />
+                        if ( mydata.count < 9 ) {<br />
+                        mydata.count = 43;<br />
+                        mydata.status = "embiggened";<br />
+                        }
+                    </div>
+                </div>
+                <div class="L_HasData">
+                    <h4>确定任何一个元素是否有与之相关的jQuery数据。<br />
+                        elem:一个用于进行检查数据的DOM元素
+                    </h4>
+                    <p>jQuery.hasData()方法提供了一种方法来确定一个元素是否有任何数据，这些数据是使用jQuery.data()设置的。如果一个元素没有关联的data对象，该方法返回false ;否则返回true 。</p>
+                </div>
+                <div class="L_RemoveData">
+                    <p>
+                        elem:要移除数据的DOM对象<br />
+                        name:要移除的存储数据名.<br />
+                        这是一个底层的方法，应该用.removeData()代替
+                    </p>
+                    <div>
+                        jQuery.data(div, "test1", "VALUE-1");<br />
+                        jQuery.data(div, "test2", "VALUE-2");<br />
+                        jQuery.removeData(div, "test1");
+                    </div>
+                </div>
+                <div class="L_prependTo">
+                    <h4>.prependTo( target ):将所有元素插入到目标前面（元素内）</h4>
+                    <p></p>
+                    <div>$('&lt;p&gt;Test&lt;/&lt;p&gt;').prependTo('.inner');</div>
+                    <div>
+                        $('h2').prependTo($('.container'))<br />
+                        //如果页面一个被选中的元素被插入到另外一个地方，这是移动而不是复制：<br />
+                        //如果有多个目标元素，插入元素的克隆副本被创建到每个目标元素，而不是只插入到最后一个目标元素<br />
+                    </div>
+                    <div>
+                        $("span").prependTo("#foo");
+                    </div>
+                </div>
+                <div class="L_html">
+                    <h4>获取集合中第一个匹配元素的HTML内容 或 设置每一个匹配元素的html内容。</h4>
+                    <p>要设置一个&lt;script&gt;元素的内容， 其不包含HTML， 使用的 .text()方法，而不是.html()</p>
+                </div>
+                <div class="L_detach">
+                    <h4>从DOM中去掉所有匹配的元素。</h4>
+                    <p>.detach() 方法和.remove()一样, 除了 .detach()保存所有jQuery数据和被移走的元素相关联。当需要移走一个元素，不久又将该元素插入DOM时，这种方法很有用。</p>
+                </div>
+                <div class="L_remove">
+                    <h4>将匹配元素集合从DOM中删除,同时移除元素上的事件及 jQuery 数据</h4>
+                    <p>和 .empty()相似。.remove() 将元素移出DOM。 当我们想将元素自身移除时我们用 .remove()，同时也会移除元素内部的一切，包括绑定的事件及与该元素相关的jQuery数据。要删除的元素不删除数据和事件的情况下，使用.detach()来代替。</p>
+                </div>
+                <div class="L_empty">
+                    <h4>从DOM中移除集合中匹配元素的所有子节点。</h4>
+                    <p>
+                        这个方法不仅移除子元素（和其他后代元素），同样移除元素里的文本。因为，根据说明，元素里任何文本字符串都被看做是该元素的子节点<br />
+                        为了避免内存泄漏，jQuery先移除子元素的数据和事件处理函数，然后移除子元素。<br />
+                        如果你想删除元素，不破坏他们的数据或事件处理程序（这些绑定的信息还可以在之后被重新添加回来），请使用.detach()代替 。
+                    </p>
+                </div>
+                <div class="L_unwrap">
+                    <h4>将匹配元素集合的父级元素删除，保留自身（和兄弟元素，如果存在）在原来的位置。</h4>
+                    <p>
+                        .unwrap()删除元素的父级元素。和 .wrap()的功能相反。匹配的元素（以及他们的兄弟元素，如果有的话）取代他们的父母在DOM结构。
+                    </p>
+                    <div>
+                        var pTags = $( "p" );<br />
+                        $( "button" ).click(function() {<br />
+                        if ( pTags.parent().is( "div" ) ) {<br />
+                        pTags.unwrap();<br />
+                        } else {<br />
+                        pTags.wrap( "&lt;div&gt;&lt;/div&gt;
+                        " );<br />
+                        }<br />
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<!--<script src="/WebUI/Resource/Javascript/jquery.min.js"></&lt;script>-->
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".J_Area>div").on("click", function () {
+            var gid = $(this).attr("id");
+            if ($(".J_Detail>div." + gid).is(":hidden")) {
+                $(".J_Detail>div").hide();
+                $(".J_Area>div").css({ "background-color": "#ccf8ad", "color": "black" });
+                $(this).css({ "background-color": "black", "color": "white" })
+                $(".J_Detail>div." + gid).slideDown();
+                return false;
+            }
+            else {
+                $(".J_Detail>div").slideUp();
+                $(".J_Area>div").css({ "background-color": "#ccf8ad", "color": "black" });
+            }
+
+        })
+
+    })
+</script>

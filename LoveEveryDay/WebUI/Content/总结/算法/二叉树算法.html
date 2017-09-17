@@ -1,0 +1,461 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="sideMenu">
+        <input id="sideToggle" type="checkbox" />
+        <div class="cover-white">&nbsp;</div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar">&nbsp;</div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#gs">概述</a></li>
+                <li><a href="#bq">准备工作</a></li>
+                <li><a href="#xx">先序遍历法</a></li>
+                <li><a href="#zx">中序遍历法</a></li>
+                <li><a href="#hx">后序遍历法</a></li>
+                <li><a href="#cx">层次遍历法</a></li>
+                <li><a href="#cs">测试</a></li>
+                <li><a href="#zj">总结</a></li>
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar">&nbsp;</div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#gs">概述</a></li>
+                <li><a href="#bq">准备工作</a></li>
+                <li><a href="#xx">先序遍历法</a></li>
+                <li><a href="#zx">中序遍历法</a></li>
+                <li><a href="#hx">后序遍历法</a></li>
+                <li><a href="#cx">层次遍历法</a></li>
+                <li><a href="#cs">测试</a></li>
+                <li><a href="#zj">总结</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <h3 id="gs">概述</h3>
+        <p>遍历二叉树有前序，中序，后序三大方法算。对于二叉树的三种不同的遍历方式，用递归的方法很容易写出实现代码，对于非递归的遍历算法使用数据结构堆栈作为工具代替递归以节省时空开销，在经过节点是先将其压入栈，要到他第几次从栈中弹出是才访问它，对于前序来说，是一次，对于中序来说是两次，对于后序则是三次。下面介绍下二叉树的几种遍历算法，包括递归和非递归的实现。</p>
+        <p>关于二叉树遍历方式的规则，可前往<a href="http://www.cnblogs.com/shunyu/p/4986288.html" target="_blank">这里</a>,本篇主要是对算法的陈列。</p>
+        <h4 id="bq">准备工作</h4>
+        <p>首先，我们先建个二叉树结构</p>
+        <p>我们建立如下图所示的二叉树</p>
+        <img class="little" src="http://images2015.cnblogs.com/blog/415042/201606/415042-20160621133959490-1654554154.png" alt="" />
+        <p>然后，我们创建树，和遍历的结构，采用策略模式，让客户端调用</p>
+<pre><code>
+    //创建数的结构
+    public class Tree
+    {
+        public string Data { get; set; }
+        public Tree L_Tree { get; set; }
+        public Tree R_Tree { get; set; }
+        public Tree(string data)
+        {
+            this.Data = data;
+            this.L_Tree = null;
+            this.R_Tree = null;
+        }
+        public Tree(string data,Tree l,Tree r)
+        {
+            this.Data = data;
+            this.L_Tree = l;
+            this.R_Tree = r;
+        }
+    }
+             </code></pre>
+<pre><code>
+      //定义一个管理树的类，
+       public class TreeManager
+       {
+           public TreeManager()
+           {
+               this.BuildTree();
+           }
+            //树的根节点
+           private Tree root_Tree;
+          
+           private void BuildTree()
+           {
+               Tree g = new Tree("G");
+               Tree d = new Tree("D", g, null);
+               Tree h = new Tree("H");
+               Tree e = new Tree("E", null, h);
+               Tree b = new Tree("B", d, e);
+               Tree f = new Tree("F");
+               Tree c = new Tree("C", null, f);
+               Tree a = new Tree("A", b, c);
+               root_Tree = a;
+           }
+            //通过递归遍历
+           public void outputTree_Recursion(ITreeShow fs)
+           {
+               fs.show_Tree_Recursion(this.root_Tree);
+           }
+            //通过递归遍历
+           public void show_Tree_NonRecursion(ITreeShow fs)
+           {
+               fs.show_Tree_NonRecursion(this.root_Tree);
+           }
+       }
+             </code></pre>
+<pre><code>
+            //定义了一个接口类 （作为先序，中序，后序等方式遍历的抽象）
+     public interface ITreeShow
+    {
+        void show_Tree_NonRecursion(Tree t);
+        void show_Tree_Recursion(Tree t);
+        
+    }
+             </code></pre>
+        <p>准备工作做好以后，现在开始各种遍历算法的实现</p>
+        <h4 id="xx">先序遍历法</h4>
+        <p>先序是根节点，左子树，右子数</p>
+<pre><code>
+     //先序遍历
+    public class First_Read_Show : ITreeShow
+    {
+        //非递归-先序
+        public void show_Tree_NonRecursion(Tree t)
+        {           
+            Stack&lt;Tree&gt; tree_stack = new Stack&lt;Tree&gt;();
+            while (t != null || tree_stack.Count &gt; 0)
+            {
+                if (t != null)
+                {
+                    Console.Write(t.Data+",");
+                    tree_stack.Push(t);
+                    t = t.L_Tree;
+                }
+                else
+                {
+                    var item = tree_stack.Pop();
+                    t = item.R_Tree;
+                }
+            }
+        }
+        //递归-先序
+        public void show_Tree_Recursion(Tree t)
+        {
+            if (t == null)
+            {
+                return;
+            }
+            Console.Write(t.Data + ",");
+            show_Tree_Recursion(t.L_Tree);
+            show_Tree_Recursion(t.R_Tree);
+        }
+    }
+             </code></pre>
+        <h4 id="zx">中序遍历法</h4>
+        <p>中序是先左子树，再根节点，再右子树</p>
+<pre><code>
+     public class Middle_Read_Show : ITreeShow
+    {
+        public void show_Tree_NonRecursion(Tree t)
+        {
+            Stack&lt;Tree&gt; stack_tree = new Stack&lt;Tree&gt;();
+            while (t != null || stack_tree.Count &gt; 0)
+            {
+                if (t != null)
+                {
+                    stack_tree.Push(t);
+                    t = t.L_Tree;
+                }
+                else
+                {
+                    var item = stack_tree.Pop();
+                    Console.Write(item.Data+",");
+                    t = item.R_Tree;
+                }
+            }
+        }
+        //递归-后序
+        public void show_Tree_Recursion(Tree t)
+        {
+            if (t == null)
+            {
+                return;
+            }
+            show_Tree_Recursion(t.L_Tree);
+            Console.Write(t.Data + ",");
+            show_Tree_Recursion(t.R_Tree);
+        }
+    }
+             </code></pre>
+        <h4 id="hx">后序遍历法</h4>
+        <p>后序是先左子树，再右子树,再根节点</p>
+<pre><code>
+    //后序遍历
+    public class Last_Read_Show : ITreeShow
+    {
+       //非递归-后序
+        public void show_Tree_NonRecursion(Tree t)
+        {
+            Stack&lt;Tree&gt; stack_tree = new Stack&lt;Tree&gt;();
+            HashSet&lt;Tree&gt; visited = new HashSet&lt;Tree&gt;();
+            while (t != null || stack_tree.Count &gt; 0)
+            {
+                if (t != null)
+                {
+                    stack_tree.Push(t);
+                    t = t.L_Tree;
+                }
+                else
+                {
+                    var item=stack_tree.Peek();
+                    if (item.R_Tree != null &amp;&amp; !visited.Contains(item.R_Tree))
+                    {
+                        t = item.R_Tree;
+                    }
+                    else {
+                        Console.Write(item.Data+",");
+                        visited.Add(item);
+                        stack_tree.Pop();
+                    }
+                }
+            }
+        }
+        //递归-后序
+        public void show_Tree_Recursion(Tree t)
+        {
+            if (t == null)
+            {
+                return;
+            }
+            show_Tree_Recursion(t.L_Tree);
+            show_Tree_Recursion(t.R_Tree);
+            Console.Write(t.Data + ",");
+        }    
+             </code></pre>
+        <h4 id="cx">层次排序法</h4>
+        <p>层序遍历就是按照层次由左向右输出</p>
+<pre><code>
+        public class Layer_Read_Show : ITreeShow
+    {
+        public void show_Tree_NonRecursion(Tree t)
+        {
+            Queue&lt;Tree&gt; queue_tree = new Queue&lt;Tree&gt;();
+            if (t != null)
+            {
+                queue_tree.Enqueue(t);
+                while (queue_tree.Count &gt; 0)
+                {
+                    var item = queue_tree.Dequeue();
+                    Console.Write(item.Data + ",");
+                    if (item.L_Tree != null)
+                    {
+                        queue_tree.Enqueue(item.L_Tree);
+                    }
+                    if (item.R_Tree != null)
+                    {
+                        queue_tree.Enqueue(item.R_Tree);
+                    }
+                }
+            }
+        }
+        public void show_Tree_Recursion(Tree t)
+        {           
+        }
+    }
+             </code></pre>
+        <h4 id="cs">测试</h4>
+<pre><code>
+             static void Main(string[] args)
+        {
+            TreeManager tree = new TreeManager();
+            //先序-递归            
+            Console.WriteLine("先序-递归:");
+            tree.outputTree_Recursion(new First_Read_Show());
+            //先序-非递归
+            Console.WriteLine();
+            Console.WriteLine("先序-非递归:");
+            tree.show_Tree_NonRecursion(new First_Read_Show());
+            //中序-递归
+            Console.WriteLine();
+            Console.WriteLine("中序-递归:");
+            tree.outputTree_Recursion(new Middle_Read_Show());
+            //中序-非递归
+            Console.WriteLine();
+            Console.WriteLine("中序-非递归:");
+            tree.show_Tree_NonRecursion(new Middle_Read_Show());
+            //后序-递归
+            Console.WriteLine();
+            Console.WriteLine("后序-递归:");
+            tree.outputTree_Recursion(new Last_Read_Show());
+            //后序-非递归
+            Console.WriteLine();
+            Console.WriteLine("后序-非递归:");
+            tree.show_Tree_NonRecursion(new Last_Read_Show());
+            //层次遍历
+            Console.WriteLine();
+            Console.WriteLine("层次遍历:");
+            tree.show_Tree_NonRecursion(new Layer_Read_Show());           
+            Console.ReadKey();
+        }
+             </code></pre>
+        <img class="little" src="http://i4.piimg.com/1949/c2daec1fd42a5224s.jpg" alt="" />
+        <h4 id="zj">总结</h4>
+        <h5>算法文字描述</h5>
+        <p>二叉树的遍历算法包括递归和非递归两种，递归比较简单，先叙述下非递归算法的实现</p>
+        <p>为了便于理解，这里以下图的二叉树为例，分析二叉树的三种遍历方式的实现过程。</p>
+        <img class="little" src="http://img.blog.csdn.net/20131023202806187?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbnNfY29kZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="" />
+        <ul>
+            <li>
+                <em>先序遍历的非递归实现 </em>
+                <p>根据先序遍历的顺序，先访问根节点，再访问左子树，后访问右子树，而对于每个子树来说，又按照同样的访问顺序进行遍历，上图的先序遍历顺序为：ABDECF。非递归的实现思路如下：</p>
+                对于任一节点P，
+                <ul>
+                    <li>输出节点P，然后将其入栈，再看P的左孩子是否为空；</li>
+                    <li>若P的左孩子不为空，则置P的左孩子为当前节点，重复1）的操作；</li>
+                    <li>若P的左孩子为空，则将栈顶节点出栈，但不输出，并将出栈节点的右孩子置为当前节点，看其是否为空；</li>
+                    <li>若不为空，则循环至1）操作；</li>
+                    <li>如果为空，则继续出栈，但不输出，同时将出栈节点的右孩子置为当前节点，看其是否为空，重复4）和5）操作；</li>
+                    <li>直到当前节点P为NULL并且栈空，遍历结束。</li>
+                </ul>
+            </li>
+            <li>
+                <em>中序遍历的非递归实现 </em>
+                <p>根据中序遍历的顺序，先访问左子树，再访问根节点，后访问右子树，而对于每个子树来说，又按照同样的访问顺序进行遍历，上图的中序遍历顺序为：DBEAFC。非递归的实现思路如下：</p>
+                对于任一节点P，
+                <ul>
+                    <li>若P的左孩子不为空，则将P入栈并将P的左孩子置为当前节点，然后再对当前节点进行相同的处理；</li>
+                    <li>若P的左孩子为空，则输出P节点，而后将P的右孩子置为当前节点，看其是否为空；</li>
+                    <li>若不为空，则重复1）和2）的操作；</li>
+                    <li>若为空，则执行出栈操作，输出栈顶节点，并将出栈的节点的右孩子置为当前节点，看起是否为空，重复3）和4）的操作；</li>
+                    <li>直到当前节点P为NULL并且栈为空，则遍历结束。</li>
+                </ul>
+            </li>
+            <li>
+                <em>后序遍历的非递归实现 </em>
+                <p>根据后序遍历的顺序，先访问左子树，再访问右子树，后访问根节点，而对于每个子树来说，又按照同样的访问顺序进行遍历，上图的后序遍历顺序为：DEBFCA。后序遍历的非递归的实现相对来说要难一些，要保证根节点在左子树和右子树被访问后才能访问，思路如下：</p>
+                对于任一节点P，
+                <ul>
+                    <li>先将节点P入栈；</li>
+                    <li>若P不存在左孩子和右孩子，或者P存在左孩子或右孩子，但左右孩子已经被输出，则可以直接输出节点P，并将其出栈，将出栈节点P标记为上一个输出的节点，再将此时的栈顶结点设为当前节点；</li>
+                    <li>若不满足2）中的条件，则将P的右孩子和左孩子依次入栈，当前节点重新置为栈顶结点，之后重复操作2）；</li>
+                    <li>直到栈空，遍历结束。</li>
+                </ul>
+            </li>
+        </ul>
+        <p>完整代码下载地址:<a href="http://download.csdn.net/download/wwwkkk333/9907375" target="_blank">点这里</a></p>
+    </div>
+</body>
+</html>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    $(function () {
+
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+
+        //测试
+        //var array = [23, 2, 4, 66, 3, 2, 1, 12, 2];
+        //quick_sort(array, 0, array.length - 1)
+        //for (var k = 0; k < array.length; k++) {
+        //    console.log(array[k]);
+        //}
+    })
+
+    //插入
+    function insert_sort(array) {
+        for (var i = 1; i < array.length; i++) {
+            var data = array[i];
+            var j = i - 1;
+            for (; j >= 0 && (data < array[j]) ; j--) {
+                if (data < array[j]) {
+                    array[j + 1] = array[j];
+                }
+            }
+            array[j + 1] = data;
+        }
+    }
+
+    //冒泡
+    function bubble_Sort(array) {
+        for (var i = 0; i < array.length - 1; i++) {
+            for (var j = 1; j < array.length - i; j++) {
+                if (array[j] < array[j - 1]) {
+                    var tmp = array[j];
+                    array[j] = array[j - 1];
+                    array[j - 1] = tmp;
+                }
+            }
+        }
+    }
+
+    //选择
+    function selection_Sort(array) {
+        for (var i = 0; i < array.length - 1; i++) {
+            var pos = i;
+            for (var j = i + 1; j < array.length; j++)
+                if (array[pos] > array[j]) {
+                    pos = j;
+                }
+            if (pos != i) {
+                var tmp = array[i];
+                array[i] = array[pos];
+                array[pos] = tmp;
+            }
+        }
+    }
+
+    //快速
+    function quick_sort(array, low, height) {
+        var new_index = 0;
+        if (low < height) {
+            new_index = partition(array, low, height);
+            quick_sort(array, low, new_index - 1);
+            quick_sort(array, new_index + 1, height);
+        }
+    }
+
+    function partition(array, low, height) {
+        var tmp = array[low];
+        while (low < height) {
+            while (low < height && tmp <= array[height]) {
+                height--;
+            }
+            array[low] = array[height];
+            while (low < height && tmp >= array[low]) {
+                low++;
+            }
+            array[height] = array[low];
+        }
+        array[low] = tmp;
+        return low;
+    }
+
+</script>

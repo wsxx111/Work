@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="sideMenu">
+        <input type='checkbox' id='sideToggle' />
+        <div class="cover-white"></div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#xxjb">线性渐变</a></li>
+                <li><a href="#jxjb">径向渐变</a></li>
+                <li><a href="#tmd">透明度</a></li>
+                <li><a href="#bk">边框</a></li>
+                <li><a href="#yy">阴影</a></li>
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#xxjb">线性渐变</a></li>
+                <li><a href="#jxjb">径向渐变</a></li>
+                <li><a href="#tmd">透明度</a></li>
+                <li><a href="#bk">边框</a></li>
+                <li><a href="#yy">阴影</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div class="forMore">
+            <a href="http://www.w3cplus.com/content/css3-transition" target="_blank">系列教程</a>
+        </div>
+        <p>CSS3 Gradient分为linear-gradient(线性渐变)和radial-gradient(径向渐变)。</p>
+        <h3 id="xxjb">线性渐变linear-gradient</h3>
+        <p>
+            Mozilla下:其共有三个参数，第一个参数表示线性渐变的方向，top是从上到下、left是从左到右，如果定义成left top，那就是从左上角到右下角。第二个和第三个参数分别是起点颜色和终点颜色。你还可以在它们之间插入更多的参数，表示多种颜色的渐变
+        </p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/40/55/pic/003572551000.png" alt="" />
+        <img src="http://img.soufun.com/kanli/2017_03/02/0/38/pic/003577330600.png" alt="" />
+        <p>-webkit-gradient是webkit引擎对渐变的实现参数，一共有五个。第一个参数表示渐变类型（type），可以是linear（线性渐变）或者radial（径向渐变）。第二个参数和第三个参数，都是一对值，分别表示渐变起点和终点。这对值可以用坐标形式表示，也可以用关键值表示，比如 left top（左上角）和left bottom（左下角）。第四个和第五个参数，分别是两个color-stop函数。color-stop函数接受两个参数，第一个表示渐变的位置，0为起点，0.5为中点，1为结束点；第二个表示该点的颜色。</p>
+        <p>一个老式的写法示例</p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/88/16/pic/003578829400.png" alt="" />
+        <p>接着我们在来看一下新式的写法</p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/59/37/pic/003580120600.png" alt="" />
+        <p>Opera下:：-o-linear-gradient有三个参数。第一个参数表示线性渐变的方向，top是从上到下、left是从左到右，如果定义成left top，那就是从左上角到右下角。第二个和第三个参数分别是起点颜色和终点颜色。你还可以在它们之间插入更多的参数，表示多种颜色的渐变。</p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/50/2/pic/003581348200.png" alt="" />
+        <p>IE下：IE依靠滤镜实现渐变。startColorstr表示起点的颜色，endColorstr表示终点颜色。GradientType表示渐变类型，0为缺省值，表示垂直渐变，1表示水平渐变</p>
+        <pre><code>
+        filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#1471da, endColorstr=#1C85FB);/*IE<9>*/
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#1471da, endColorstr=#1C85FB)";/*IE8+*/
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/87/37/pic/003584296600.png" alt="" />
+        <p>起始点（Starting Point）的工作方式类似于background position。您可以设置水平和垂直位置为百分比，或以像素为单位，或在水平方向上可以使用left/center/right，在垂直方向上可以使用top/center/bottom。位置起始于左上角。如果你不指定水平或垂直位置，它将默认为center。其工作方式主要包含：Top → Bottom、Left → Right、bottom → top、right → left等</p>
+        <pre><code>
+        /* Firefox 3.6+ */
+        background: -moz-linear-gradient(top, #ace, #f96); 
+        /* Safari 4-5, Chrome 1-9 */ 
+        /* -webkit-gradient(,  [, ]?,  [, ]? [, ]*) */
+        background: -webkit-gradient(linear,top,from(#ace),to(#f96));
+        /* Safari 5.1+, Chrome 10+ */
+        background: -webkit-linear-gradient(top, #ace, #f96);
+        /* Opera 11.10+ */
+        background: -o-linear-gradient(top, #ace, #f96);
+        </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/56/55/pic/003585568400.png" alt="" />
+        <pre><code>
+        background: -moz-linear-gradient(left top, #ace, #f96);
+        background: -webkit-linear-gradient(left top, #ace, #f96);
+        background: -o-linear-gradient(left top, #ace, #f96);
+             </code></pre>
+        <pre><code>
+            //多个颜色过渡
+        /* Firefox 3.6+ */ 
+        background: -moz-linear-gradient(left, #ace, #f96, #ace, #f96, #ace); 
+        /* Safari 4-5, Chrome 1-9 */ 
+        background: -webkit-gradient(linear, left top, right top, from(#ace), color-stop(0.25, #f96), color-stop(0.5, #ace), color-stop(0.75, #f ), to(#ace)); 
+        /* Safari 5.1+, Chrome 10+ */ 
+        background: -webkit-linear-gradient(left, #ace, #f96, #ace, #f96, #ace); 
+        /* Opera 11.10+ */ 
+        background: -o-linear-gradient(left, #ace, #f96, #ace, #f96, #ace);
+             </code></pre>
+        <pre><code>
+            //以百分比的形式
+        /* Firefox 3.6+ */ 
+        background: -moz-linear-gradient(left, #ace, #f96 5%, #ace, #f96 95%, #ace); 
+        /* Safari 4-5, Chrome 1-9 */ 
+        background: -webkit-gradient(linear, left top, right top, from(#ace), color-stop(0.05, #f96), color-stop(0.5, #ace), color-stop(0.95, #f ),  t o(#ace)); 
+        /* Safari 5.1+, Chrome 10+ */ 
+        background: -webkit-linear-gradient(left, #ace, #f96 5%, #ace, #f96 95%, #ace); 
+        /* Opera 11.10+ */ 
+        background: -o-linear-gradient(left, #ace, #f96 5%, #ace, #f96 95%, #ace);
+             </code></pre>
+        <p>
+            正如上面看到的示例，如果您不指定一个角度，它会根据起始位置自动定义。如果你想更多的控制渐变的方向，不妨设置角度试试。当指定的角度，请记住，它是一个由水平线与渐变线产生的的角度，逆时针方向。因此，使用0deg将产生一个左到右横向梯度，而90度将创建一个从底部到顶部的垂直渐变.如果没有指定位置，颜色会均匀分布。
+        </p>
+        <pre><code>
+        background: -moz-linear-gradient(left 30deg, #ace, #f96);
+        background: -webkit-gradient(linear, 0 0, 100% 100%, from(#ace),to(#f96));
+        background: -o-linear-gradient(30deg, #ace, #f96);
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/17/91/pic/003586970500.png" alt="" />
+        <pre><code>
+        .deg0 {
+          background: -moz-linear-gradient(0deg, #ace, #f96);
+          background: -webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(0deg, #ace, #f96);
+          background: -o-linear-gradient(0deg, #ace, #f96);
+        }
+            
+        .deg45 {
+          background: -moz-linear-gradient(45deg, #ace, #f96);
+          background: -webkit-gradient(linear,0 100%,100% 0%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(45deg, #ace, #f96);
+          background: -o-linear-gradient(45deg, #ace, #f96);
+        }
+        .deg90 {
+          background: -moz-linear-gradient(90deg, #ace, #f96);
+          background: -webkit-gradient(linear,50% 100%,50% 0%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(90deg, #ace, #f96);
+          background: -o-linear-gradient(90deg, #ace, #f96);
+        }
+        .deg135 {
+          background: -moz-linear-gradient(135deg, #ace, #f96);
+          background: -webkit-gradient(linear,100% 100%,0 0,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(135deg, #ace, #f96);
+          background: -o-linear-gradient(135deg, #ace, #f96);
+        }
+        .deg180 {
+          background: -moz-linear-gradient(180deg, #ace, #f96);
+          background: -webkit-gradient(linear,100% 50%,0 50%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(180deg, #ace, #f96);
+          background: -o-linear-gradient(180deg, #ace, #f96);
+        }
+        .deg225 {
+          background: -moz-linear-gradient(225deg, #ace, #f96);
+          background: -webkit-gradient(linear,100% 0%,0 100%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(225deg, #ace, #f96);
+          background: -o-linear-gradient(225deg, #ace, #f96);
+        }
+        .deg270 {
+          background: -moz-linear-gradient(270deg, #ace, #f96);
+          background: -webkit-gradient(linear,50% 0%,50% 100%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(270deg, #ace, #f96);
+          background: -o-linear-gradient(270deg, #ace, #f96);
+        }
+        .deg315 {
+          background: -moz-linear-gradient(315deg, #ace, #f96);
+          background: -webkit-gradient(linear,0% 0%,100% 100%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(315deg, #ace, #f96);
+          background: -o-linear-gradient(315deg, #ace, #f96);
+        }
+        .deg360 {
+          background: -moz-linear-gradient(360deg, #ace, #f96);
+          background: -webkit-gradient(linear,0 50%,100% 50%,from(#ace),to(#f96));
+          background: -webkit-linear-gradient(360deg, #ace, #f96);
+          background: -o-linear-gradient(360deg, #ace, #f96);
+        }
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/57/0/pic/003588761900.png" alt="" />
+        <h5>渐变上应用透明─透明度</h5>
+        <p>
+            透明度还支持透明渐变。这对于制作一些特殊的效果是相当有用的，例如，当堆叠多个背景时。这里是两个背景的结合：一张图片，一个白色到透明的线性渐变.
+        </p>
+        <pre><code>
+background: -moz-linear-gradient(right, rgba(255,255,255,0), rgba(255,255,255,1)),url(http://demos.hacks.mozilla.org/openweb/resources/images/patterns/flowers-pattern.jpg);
+background: -webkit-linear-gradient(right, rgba(255,255,255,0), rgba(255,255,255,1)),url(http://demos.hacks.mozilla.org/openweb/resources/images/patterns/flowers-pattern.jpg);
+background: -o-linear-gradient(right, rgba(255,255,255,0), rgba(255,255,255,1)),url(http://demos.hacks.mozilla.org/openweb/resources/images/patterns/flowers-pattern.jpg);
+             </code></pre>
+        <h3 id="jxjb">径向渐变</h3>
+        <p>需要特别说明一点的是，径向渐变到目前还不支持Opera的内核浏览器，所以我们径向渐变都是在firefox,safari,chrome底下进行测试完成的</p>
+        <p>除了您已经在线性渐变中看到的起始位置，方向，和颜色，径向梯度允许你指定渐变的形状（圆形或椭圆形）和大小（最近端，最近角，最远端，最远角，包含或覆盖 (closest-side, closest-corner, farthest-side, farthest-corner, contain or cover)）。 颜色起止(Color stops)：就像用线性渐变，你应该沿着渐变线定义渐变的起止颜色。</p>
+        <pre><code>
+        background: -moz-radial-gradient(#ace, #f96, #1E90FF);
+        background: -webkit-radial-gradient(#ace, #f96, #1E90FF);
+             </code></pre>
+        <pre><code>
+        background: -moz-radial-gradient(#ace 5%, #f96 25%, #1E90FF 50%);
+        background: -webkit-radial-gradient(#ace 5%, #f96 25%, #1E90FF 50%);
+             </code></pre>
+        <pre><code>
+        background: -moz-radial-gradient(bottom left, circle, #ace, #f96, #1E90FF);
+        background: -webkit-radial-gradient(bottom left, circle, #ace, #f96, #1E90FF);
+             </code></pre>
+        <p>在径向渐变中，我们是可以会渐变设置其形状的</p>
+        <pre><code>
+        background: -moz-radial-gradient(bottom left, ellipse, #ace, #f96, #1E90FF);
+        background: -webkit-radial-gradient(bottom left, ellipse, #ace, #f96, #1E90FF);
+             </code></pre>
+        <p>在径向渐变中我们还可以为其设置大小(Size)：size的不同选项(closest-side, closest-corner, farthest-side, farthest-corner, contain or cover)指向被用来定义圆或椭圆大小的点。 </p>
+        <pre><code>
+        background: -moz-radial-gradient(ellipse closest-side, #ace, #f96 10%, #1E90FF 50%, #f96);
+        background: -webkit-radial-gradient(ellipse closest-side, #ace, #f96 10%, #1E90FF 50%, #f96);
+             </code></pre>
+        <pre><code>
+        background: -moz-radial-gradient(ellipse farthest-corner, #ace, #f96 10%, #1E90FF 50%, #f96);
+        background: -webkit-radial-gradient(ellipse farthest-corner, #ace, #f96 10%, #1E90FF 50%, #f96
+             </code></pre>
+        <p>如果您想重复一个渐变，您可以使用-moz-repeating-linear-gradient和-moz-repeating-radial-gradient.</p>
+        <pre><code>
+            background: -moz-repeating-radial-gradient(#ace, #ace 5px, #f96 5px, #f96 10px);
+background: -webkit-repeating-radial-gradient(#ace, #ace 5px, #f96 5px, #f96 10px);
+             </code></pre>
+        <h3 id="tmd">附：透明度</h3>
+        <p>opacity和rgba的比较</p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/98/94/pic/003589991400.png" alt="" />
+        <p>
+            效果中我们可以看出，他们相同之处就是背景色完全是一样的，但区别就是一直让大家觉得头痛的问题，那就是opacity后代元素会随着一起具有透明性，所以我们Opacity中的字随着透明值下降越来越看不清楚，而RGBA不具有这样的问题，但是其支持的浏览器中有一个占在大市场份额的IE不支持，这也就是让我们需要去做兼容
+        </p>
+        <p>在CSS2中Opacity能实现透明，而且大多主流浏览器都支持，虽然IE下有点麻烦</p>
+        <pre><code>
+        /* IE5 - 7 */
+        filter: alpha(opacity=80); 
+        /* IE 8 */
+        -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; 
+        /* Everyone else */
+        opacity: 0.8;
+             </code></pre>
+        <p>
+            IE（除IE9以外）都不支持CSS3的RGBA属性.另一种方案是："fallback color",它的意思是我给IE备份一个色，在不支持RGBA的情况下，我照样给他一个色，而对rgba支持的浏览器并不会带来影响，那我们一起看看这个fallback color怎么用吧。它是通过IE下的滤镜惊喜线性渐变设置的。
+        </p>
+        <pre><code>
+     .bg-content {    
+     background: rgb(0,0,0); /*The Fallback color*/
+     background: rgba(0, 0, 0,0.5);
+     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr=#80000000,endColorstr=#80000000)"; /*Filter for IE8 */    
+     filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr=#80000000, endColorstr=#80000000); /*Filter for older IEs */
+   }
+
+             </code></pre>
+        <p>RGBA比元素设置CSS的透明度更好，因为单独的颜色可以在不影响整个元素的透明度，他不会影响到元素其他的属性，比如说边框，字体同时也不会影响到其他元素的相关透明度。在RGBA还没有出世前，我们都是使用opacity来做透明，但这里存在一个问题，就是我们在父元素中使用了opacity，那么其垢代元素都会受其影响.为了解决这样的问题我们需要增加一个空的div来专门放置使用透明的背景，然后通过使用绝对定位来实现我们需要的结果。</p>
+
+        <h3 id="bk">附：边框</h3>
+        <pre><code>
+        border-radius ： none | &lt;length&gt;{1,4} [/ &lt;length&gt;{1,4} ]?
+    </code></pre>
+        <p>
+            border-radius是一种缩写方法。如果“/”前后的值都存在，那么“/”前面的值设置其水平半径，“/”后面值设置其垂直半径。如果没有“/”，则水平和垂直半径相等。另外其四个值是按照top-left、top-right、bottom-right、bottom-left的顺序来设置.
+        </p>
+        <p>
+            其实border-radius和border属性一样，还可以把各个角单独拆分出来，也就是以下四种写法，这里我规纳一点，他们都是先Y轴在X轴
+        </p>
+        <pre><code>
+    -moz-border-radius-topleft:&lt;length&gt;&lt;length&gt;  //左上角
+    -moz-border-radius-topright: &lt;length&gt;&lt;length&gt;  //右上角
+    -moz-border-radius-bottomright: &lt;length&gt;&lt;length&gt;  //右下角
+    -moz-border-radius-bottomleft: &lt;length&gt;&lt;length&gt;  //左下角
+    -webkit-border-top-left-radius: &lt;length&gt;&lt;length&gt;  //左上角
+    -webkit-border-top-right-radius: &lt;length&gt;&lt;length&gt;  //右上角
+    -webkit-border-bottom-right-radius: &lt;length&gt;&lt;length&gt;  //右下角
+    -webkit-border-bottom-left-radius: &lt;length&gt;&lt;length&gt;  // 左下角
+
+    border-top-left-radius: &lt;length&gt;&lt;length&gt;   //左上角
+    border-top-right-radius: &lt;length&gt;  &lt;length&gt;  //右上角
+    border-bottom-right-radius:&lt;length&gt;  &lt;length&gt;  //右下角
+    border-bottom-left-radius:&lt;length&gt;  &lt;length&gt;   //左下角
+         </code></pre>
+        <pre><code>
+        width:60px;
+        height:60px;
+        border:10px solid red;
+        border-radius:10px;
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/37/18/pic/003601483800.png" alt="" />
+        <pre><code>
+        width:60px;
+        height:60px;
+        border:10px solid red;
+        border-radius:14px;
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/30/4/pic/003602953400.png" alt="" />
+        <p>可以看出，当半径大于宽度时，内半径将要受其弧度影响，当半径小于宽度，只有外半径受其弧度影响。是<em>产生不了</em>下面这种效果了，不过有其他应用</p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/17/43/pic/003569317700.png" alt="" />
+        <h4>大小转角效果</h4>
+        <p>
+            对于border-radius还有一个内半径和外半径的区别，它主要是元素 边框值较大时，效果就很明显，当我们border-radius半径值小于或等于border的厚度时，我们边框内部就不具有圆角效果
+        </p>
+        <pre><code>
+    .border-big {
+       border: 15px solid green;
+       border-radius: 15px;
+    }
+         </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/70/99/pic/003591718600.png" alt="" />
+        <p>我们接着上面这个例子，把 border-radius半径值改成比边框值大一点：</p>
+        <pre><code>
+    .border-big {
+       border: 15px solid green;
+       border-radius: 25px;
+    }           
+         </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/80/84/pic/003597653400.png" alt="" />
+        <p>
+            如果角的两个相邻边有不同的宽度，那么这个角将会从宽的边平滑过度到窄的边。其中一条边甚至可以是0。相邻转角是由大向小转。
+        </p>
+        <pre><code>
+    .border-big {
+       border-width: 10px 5px 20px 3px;
+       border-radius: 30px;
+    }           
+         </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/35/31/pic/003598888800.png" alt="" />
+        <p>进一步</p>
+        <pre><code>
+        .jian-zui {  
+            border-top: 20px solid red;
+            border-radius: 50px 0 0 0;   
+            width: 40px;   
+            height: 40px;         
+        }          
+        .jian-yue {  
+        border-top: 20px solid red;
+        border-radius: 60px 60px 0 0;   
+        width: 80px;   
+        height: 40px;              
+        }
+        </code></pre>
+        <img class="little" src="http://img.soufun.com/kanli/2017_03/02/48/15/pic/003604282900.png" alt="" />
+        <img class="little" src="http://img.soufun.com/kanli/2017_03/02/81/21/pic/003606172800.png" alt="" />
+        <h3 id="yy">附：阴影</h3>
+        <h4>text-shadow</h4>
+        <img src="http://img.soufun.com/kanli/2017_03/02/35/39/pic/003607345900.png" alt="" />
+        <p>可以给一个对象应用一组或多组阴影效果，方式如前面的语法显示一样，用逗号隔开。text-shadow: X-Offset Y-Offset Blur Color中X-Offset表示阴影的水平偏移距离，其值为正值时阴影向右偏移，如果其值为负值时，阴影向左偏移；Y-Offset是指阴影的垂直偏移距离，如果其值是正值时，阴影向下偏移反之其值是负值时阴影向顶部偏移；Blur是指阴影的模糊程度，其值不能是负值，如果值越大，阴影越模糊，反之阴影越清晰，如果不需要阴影模糊可以将Blur值设置为0；Color是指阴影的颜色，其可以使用rgba色。</p>
+        <p>IE是不支持text-shadow效果，但为了在兼容这一问题，我们只好使用滤镜filter:shadow来处理</p>
+        <pre><code>
+            E {filter:shadow(Color=颜色值,Direction=数值,Strength=数值)}
+             </code></pre>
+        <p>
+            其中E是元素选择器，Color用于设定对象的阴影色；Direction用于设定投影的主向，取值为0即零度（表示向上方向），45为右上，90为右，135为右下，180为下方，225为左下方，270为左方，315为左上方；Strength就是强度，类似于text-shadow中的blur值。
+        </p>
+        <p>
+            辉光效果，我们设置比较大的模糊半径来增加其辉光效果，你可以改变不同的模糊半径值来达到不同的效果，当然你也可以同时增加几个不同的半径值，创造多种不同的阴影效果。就如下面的NEON效果。
+        </p>
+        <pre><code>
+        .demo3 {
+          text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 40px #ff00de, 0 0 70px #ff00de;
+        }
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/51/26/pic/003608568100.png" alt="" />
+        <pre><code>
+        .demo11 {
+          color: #eee;
+            //注意必须是背景色才能呈现这种效果，透明不行
+          text-shadow: 5px 5px 0 #666, 7px 7px 0 #eee;
+        }
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/2/73/pic/003610095000.png" alt="" />
+        <h4>box-shadow</h4>
+        <p>box-shadow和text-shadow一样可以使用一个或多个投影，如果使用多个投影时必须需要用逗号“，”分开。</p>
+        <pre><code>
+            E {box-shadow:inset x-offset y-offset blur-radius spread-radius color}
+             </code></pre>
+        <p>
+            box-shadow属性至多有6个参数设置，他们分别取值：
+        </p>
+        <p>
+            <em>阴影类型：</em>此参数是一个可选值，如果不设值，其默认的投影方式是外阴影；如果取其唯一值“inset”,就是将外阴影变成内阴影，也就是说设置阴影类型为“inset”时，其投影就是内阴影； 
+        </p>
+        <p>
+            <em>X-offset:</em>是指阴影水平偏移量其值可以是正负值可以取正负值，如果值为正值，则阴影在对象的右边，反之其值为负值时，阴影在对象的左边；
+        </p>
+        <p><em>Y-offset:</em>是指阴影的垂直偏移量，其值也可以是正负值，如果为正值，阴影在对象的底部，反之其值为负值时，阴影在对象的顶部；</p>
+        <p><em>阴影模糊半径：</em>此参数是可选，，但其值只能是为正值，如果其值为0时，表示阴影不具有模糊效果，其值越大阴影的边缘就越模糊；</p>
+        <p><em>阴影扩展半径：</em>此参数可选，其值可以是正负值，如果值为正，则整个阴影都延展扩大，反之值为负值是，则缩小</p>
+        <p><em>阴影颜色：</em>此参数可选，如果不设定任何颜色时，浏览器会取默认色，但各浏览器默认色不一样，特别是在webkit内核下的safari和chrome浏览器将无色，也就是透明，建议不要省略此参数。</p>
+        <pre><code>
+        //Firefox4.0-
+        -moz-box-shadow: 投影方式 X轴偏移量 Y轴偏移量 阴影模糊半径 阴影扩展半径 阴影颜色;
+        //Safari and Google chrome10.0-
+        -webkit-box-shadow: 投影方式 X轴偏移量 Y轴偏移量 阴影模糊半径 阴影扩展半径 阴影颜色;
+        //Firefox4.0+ 、 Google chrome 10.0+ 、 Oprea10.5+ and IE9
+        box-shadow:  投影方式 X轴偏移量 Y轴偏移量 阴影模糊半径 阴影扩展半径 阴影颜色;
+             </code></pre>
+        <h5>有关阴影是否会被计算为内容的实例</h5>
+        <p>
+            我们把外面div设置为100px*100px,里面div设置为60px*60px，并在里面的div上加上一个向下向右偏移50px的绿色阴影，我们看看多出来的阴影会怎么样？
+        </p>
+        <pre><code>
+         .outer {
+           width: 100px;
+           height: 100px;
+           border: 1px solid #ccc;
+         }
+         .inter {
+           width: 60px;
+           height: 60px;
+           margin: 10px auto;
+           background: #f69;
+           -webkit-box-shadow: 50px 50px green;
+           -moz-box-shadow: 50px 50px green;
+           box-shadow: 50px 50px green;
+         }
+             </code></pre>
+        <img src="http://img.soufun.com/kanli/2017_03/02/78/24/pic/003611892000.png" alt="" />
+        <p>从各大浏览中的效果我们可以看出，阴影多出来的阴影会撑破容器跑出来</p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/54/77/pic/003613582400.png" alt="" />
+        <p>
+            这张图可以告诉我们很多信息，比如说borer-radius圆角，阴影扩展、阴影模糊以及padding是如何影响对象阴影的：非零值的border-radius将会以相同的作用影响阴影的外形，但border-image不会影响对象阴影的任何外形；对象阴影同box模型的层次一样，外阴影会在对象背景之下，内阴影会在边框之下背景之上。所以整个层级就是：边框>内阴影>背景图片>背景颜色>外阴影。因为大家都知道，我们的背景图片是在背景颜色之上的。
+        </p>
+        <p>当给同一个元素使用多个阴影属性时，需要注意它的顺序，最先写的阴影将显示在最顶层</p>
+        <pre><code>
+         .dome2 {
+          box-shadow: -2px 0 0 green, //左边阴影
+          0 -2px 0 blue, //顶部阴影
+          0 2px 0 red, //底部阴影
+          2px 0 0 yellow; //右边阴影
+        }
+             </code></pre>
+        <pre><code>
+    .demo9 {
+     box-shadow: 0 0 0 2px red;
+    }
+             </code></pre>
+        <p>从效果中大家想想这种效果是不是跟我们在元素中的boder: 2px solid red;属性产生的效果很相似,有什么差距呢</p>
+        <pre><code>
+         .demo12 {
+           border: 20px solid red;
+         }
+        	
+         .demo13 {
+           box-shadow: 0 0 0 20px red;
+         }
+             </code></pre>
+          <img src="http://img.soufun.com/kanli/2017_03/02/80/2/pic/003614784500.png" alt="" />
+        <img src="http://img.soufun.com/kanli/2017_03/02/73/41/pic/003616141900.png" alt="" />
+        <h5>inset</h5>
+        <p>
+            在div上可以添加内阴影的效果<em>box-shadow: inset 0 0 10px red;
+</em>，我们这里要提醒一点的是，img标签上直接应用box-shadow的inset是没有任何效果的.<br />我们可以把img放到一个div中，然后不直接在img上运用box-shadow属性，而是在img的父元素div上运用box-shadow，接着我们在给img进行相对定位，并让其在父元素下一层。也可以通过伪元素，进行定位也能成功
+        </p>
+        <img src="http://img.soufun.com/kanli/2017_03/02/97/95/pic/003617283700.png" alt="" />
+        <p>给body顶部增加一个阴影</p>
+        <pre><code>
+        body:before {
+           content:"";
+           position:fixed;
+           top: -10px;
+           left: 0;
+           width: 100%;
+           height: 10px;
+           z-index: 999;
+           box-shadow: 0 0 10px rgba(125,255,125,0.8);
+        }
+             </code></pre>
+        
+
+        <h5>IE滤镜方法</h5>
+        <pre><code>
+        filter: progid:DXImageTransform.Microsoft.Shadow(color=’颜色值’, Direction=阴影角度（数值）, ）, Strength=阴影半径（数值）);   
+             </code></pre>
+        <p>
+            注意：该滤镜必须配合background属性一起使用，否则该滤镜失效。除了使用滤镜的方法外，我们还有一种方法可以实现IE下的效果。那就是使用jQuery的插件jquery.boxshadow.js。那么具体如何使用呢？其实很简单，你先下载这个jquery.boxshadow.js插件到你的项目中，接着把jquery版本库和jquery.boxshadow.js加载到页面上，如
+        </p>
+        <pre><code>
+   &lt;script type="text/javascript" src="../js/jquery.min.js"&gt;&lt;/script&gt;
+   &lt;script type="text/javascript" src="../js/jquery.boxshadow.js"&gt;&lt;/script&gt;
+
+
+  $(document).ready(function(){
+    if($.browser.msie) {
+      $('.demo1').boxShadow(0,0,5,"#888"); //demo1元素使用了box-shadow
+      $('.demo2').boxShadow(-10,-10,5,"#f36"); //demo2元素使用了box-shadow  
+    }
+  });
+             </code></pre>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+        $(".container pre i .copy_code").click(function () {
+            var data = $(this).closest('pre').text();
+            $(this).attr("data-clipboard-text", data);
+            var clipboard = new Clipboard($(this).get(0));
+
+            clipboard.on('success', function (e) {
+                console.log(e);
+            });
+
+            clipboard.on('error', function (e) {
+                console.log(e);
+            });
+        });
+    })
+</script>
+

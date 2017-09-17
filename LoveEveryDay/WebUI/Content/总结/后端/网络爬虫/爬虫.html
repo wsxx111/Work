@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <h3>关于爬虫</h3>
+        <p>搜索引擎开始，爬虫应该就出现了，爬的对象当然也就是网页URL，在很长一段时间内，爬虫所做的事情就是分析URL、下载WebServer返回的HTML、分析HTML内容、构建HTTP请求的模拟、在爬虫过程中存储有用的信息等等，而伴随着App的发展以及CS系统通讯方式的HTTP化，对服务接口特别是HTTP RESTFul接口的爬虫也开始流行。爬虫的具体形式，包括模拟浏览器行为和模拟HTTP行为。在爬虫的发展过程中，也涌现出无数的工具和语言实践</p>
+        <h3>对于爬虫的理解</h3>
+        <p>很多人在研究爬虫的初期，热衷于进行浏览器行为的模拟，包括使用一些语言中的WebBrowser控件或者类似PhantomJS这样的无头浏览器，来模拟真实Web行为，进行Dom元素的填写、按钮点击、滚动条操作等等。虽然这样的做法更接近真实场景，但由于浏览器事件的复杂性，在批量高速的处理场景中，这样的做法稳定程度会大打折扣</p>
+        <p>我认为只有从本质上对Web行为进行HTTP的分析，才是关键，任何复杂的浏览器行为，最终都可以准确的拆分为JS逻辑和HTTP行为，所以想要掌握好爬虫技术，对HTTP的理解和分析至关重要。</p>
+        <h3>.NET对HTTP的操控能力</h3>
+        <p>爬虫的主要逻辑部分，即是通过程序对HTTP进行操控，包括对目标URL的下载、对模拟HTTP请求的构造。有趣的是，即使只用System.Net下，WebClinet和HttpWebRequest这两个类，就已经能够满足99%的爬虫场景。下面列举一些常用的场景</p>
+        <h4>URL快速下载(上传)</h4>
+        <p>使用WebClinet对URL进行浏览并下载，可以说代码清晰、支持丰富。包括编码格式、下载格式、异步下载、Form上传、参数拼接等等各种。</p>
+        <pre><code>
+        var MyWebClient = new System.Net.WebClient();
+        //下载为字符串
+        var WebSiteString=MyWebClient.DownloadString(@"http://www.baidu.com");
+        //下载为二进制数据
+        var WebSiteBytes = MyWebClient.DownloadData(@"http://www.baidu.com");
+        //异步下载并监听完成
+        MyWebClient.DownloadStringCompleted += (Object Sender, System.Net.DownloadStringCompletedEventArgs e) =>  
+        {
+            Console.WriteLine("下载完成了");
+        };
+             </code></pre>
+        <h4>HTTP请求构造</h4>
+        <p>在很多场景中，需要伪造Referer、UserAgent、ContentType等等，从一个语言的HTTP库对HTTP协议的支持细腻程度可以看出其是否亲爬虫，幸运的是，HttpWebRequest确实足够全面，能够满足所有的自定义需求。</p>
+        <pre><code>
+        var MyHttpRequest = (System.Net.HttpWebRequest.Create(new Uri(@"http://www.baidu.com")));
+        MyHttpRequest.Method = "POST";
+        MyHttpRequest.ContentType = "application/x-www-form-urlencode";
+        MyHttpRequest.ContentLength=100;
+        MyHttpRequest.UserAgent = @"Mozilla/5.0(iPhone;U;CPU like Mac OS X: en)";
+        MyHttpRequest.Referer = @"http://www.baidu.com";
+        MyHttpRequest.AllwAutoRedict = true;
+             </code></pre>
+        <h4>代理服务</h4>
+        <p>
+            有时候目标服务器会对IP访问做限制，这时候使用代理服务器以及不停的更换代理服务器就非常重要了，如下处理也很简洁
+        </p>
+        <pre><code>
+        var MyHttpRequest = (System.Net.HttpWebRequest.Create(new Uri(@"http://www.baidu.com")));
+        var MyWebProxy=new WebProxy(new Uri(@"127.0.0.1:8080"));
+        MyHttpWebRequest.Proxy=MyWebProxy;
+             </code></pre>
+        <h4>WebClient与WebRequest差异</h4>
+        <p>WebClient和HttpWebRequst是用来获取数据的2种方式，一般而言，WebClient更倾向于“按需下载”，事实上掌握它也是相对容易的，而HttpWebRequst则允许你设置请求头或者对内容需要更多的控制，后者有点类似于form中的submit。虽然两者都是异步请求事件，但是WebClient是基于事件的异步，而HttpWebRequst是基于代理的异步编程</p>
+        <h5>继承区别</h5>
+        <p>HttpWebRequest 派生自 WebRequest , HttpWebResponse 派生自 WebResponse , WebClient 派生自 Component</p>
+        <pre><code>
+        //三个类的声明如下：
+        [SerializableAttribute]
+        public class HttpWebRequest : WebRequest, ISerializable
+
+        [SerializableAttribute]
+        public class HttpWebResponse : WebResponse, ISerializable
+
+        [ComVisibleAttribute(true)]
+        public class WebClient : Component
+             </code></pre>
+        <p>
+            也就是说WebClient在继承关系上和 HttpWebRequest没有啥关系
+        </p>
+        <h5>功能区别</h5>
+        <p>WebRequest是 .NET Framework 的用于访问 Internet 数据的请求/响应模型的抽象基类。使用该请求/响应模型的应用程序可以用协议不可知的方式从 Internet 请求数据,在这种方式下，应用程序处理 WebRequest 类的实例，而协议特定的子类则执行请求的具体细节,编程中使用的是子类HttpWebRequest</p>
+        <p>WebClient 类提供向 URI 标识的资源发送数据和从 URI 标识的资源接收数据的公共方法，提供向 URI 标识的任何本地、Intranet 或 Internet 资源发送数据以及从这些资源接收数据的公共方法，WebClient 类使用 WebRequest 类提供对 Internet 资源的访问,也就是说功能大致向同行，WebClient用来上传或下载数据，WebRequest用来请求服务器的监听，WebResponse获取服务器端的响应</p>
+        <h5>对COOKIE和SEIION支持区别</h5>
+        <p>WebClient不具持续性，因此不支持cookie和session，具体说来就是，常见的管理系统中，一般都有登录页和管理页，在登陆页输入用户名和密码，在管理页显示登录页输入的用户名，但是，WebClient实现不了这样的效果，在第一次请求登录页时，验证成功之后，WebClient不会保存http响应报文中的SetCookie，更不会设置下一次http请求报文的Cookie，因此跳转到管理页后，在管理页时接收不到存相应的cookie，因此，webclient更适用于多次请求没有联系的请求，而WebRequest则相反</p>
+        <h5>用户对是否自动url转向的控制</h5>
+        <p>
+            WebClient不支持,WebRequest支持(HttpWebRequest有AllowAutoRedirect属性)
+        </p>
+        <h5>对用户代理服务器的支持</h5>
+        <p>WebClient不支持, WebRequest支持(HttpWebRequest有UserAgent属性)</p>
+
+        <p>除了WebClinet和HttpWebRequest这两个老古董外，还有不少好东西</p>
+        <h5>HttpClient</h5>
+        <p>这是.NET4.5框架里带来的新东西，相比HttpWebRequest，HttpClient更像是一个无头浏览器，对异步的支持也更加完备，处理逻辑也更加合理，建议一直用HttpWebRequest做爬虫的同学可以迁移到HttpClient来</p>
+        <h5>其他基于.NET的第三方HTTP库或者知名HTTP的.NET实现</h5>
+        <p>例如RestSharp，EasyHttp，Indy.Sockets等等，这些库对HTTP进行更加便捷方便的封装</p>
+        <h3>爬虫工作流程</h3>
+        <img src="imgs/img1.jpg" alt="" />
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {
+
+
+    })
+</script>
+

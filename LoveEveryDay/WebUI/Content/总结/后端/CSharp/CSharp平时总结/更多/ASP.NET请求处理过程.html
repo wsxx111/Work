@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h3>ASP.NET请求处理全过程</h3>
+        <p>一个ASP.NET请求过程中，从浏览器中发出一个Web请求 到 这个请求被响应并显示在浏览器中的过程中究竟会发生哪些不同的事件，当我们进入这个事件之旅时，我们也会试着明白在请求处理的每个事件当中我们可以做什么业务逻辑处理操作。</p>
+        <p>首先把整个过程大致分成两步：</p>
+        <ul>
+            <li><em>ASP.NET会创建一个能够处理请求的环境。换句话说，它会创建一个包含请求、响应以及上下文对象的应用程序对象来处理这个请求。</em></li>
+            <li><em>一旦ASP.NET环境被创建，用户请求就会通过由modules（管道）、handlers（处理程序）和page objects（页面对象）触发的一系列事件进行处理。简而言之，我们暂且将此步称为MHPM（Module、Handler、Page和Module Event）。</em></li>
+
+        </ul>
+        <!--<img alt="" src="http://img.soufun.com/kanli/2017_03/23/20/28/pic/004496912900.jpg" />-->
+        <img alt="" src='http://pic.027cgb.cn/20170312/201732332953167755.jpg' />
+        <h4>ASP.NET环境的创建</h4>
+        <ul>
+            <li>第一步：用户请求到达IIS后,发现处理不了这个后缀的文件，就去查找映射表。IIS首先会检查哪一个<em>ISAPI</em>扩展能够处理这个请求，这会取决于文件的后缀名。例如：如果请求的是一个'.aspx'的页面，那么就会被传递到'aspnet_isapi.dll'来进行处理。</li>
+            <li>第二步：如果这是该网站的首次请求，那么一个称为'ApplicationManager'的类会首先创建一个该网站可以运行的<em>应用程序域</em>（App Domain）。正如我们所知，应用程序域隔离部署在同一台IIS服务器上的两个不同的Web应用程序。因此，即使其中一个应用程序域出现了错误，也不会影响其他应用程序域的正常运作。
+                <h5><em>应用程序域</em></h5>
+                <p>.NET平台下，程序集并没有直接加载进 进程 中（传统的Win32程序是直接承载的）。.NET可执行程序承载在进程的一个逻辑分区中，术语称应用程序域（简称AppDomain）。应用程序域是.NET引入的一个新概念，它比进程所占用的资源要少，可以被看作是一个 轻量级的进程。</p>
+            </li>
+            <li>第三步：在新创建的应用程序域中，会创建ASP.NET的宿主环境，也就是<em>HttpRuntime</em>对象。一旦宿主环境被创建完成，网站调用HttpRuntime类的静态方法处理请求，ASP.NET最核心的对象如<em>HttpContext</em>、<em>HttpRequest</em>和<em>HttpResponse</em>对象都会被创建好。HttpApplication对象将会被分配给一系列的ASP.NET核心对象来处理请求的页面。
+                <p>
+                    这里面主要包括：                   
+                </p>
+                <ul>
+                    <li>分析请求报文，并将报文数据封装到一个叫HttpWorkRequest类对象应用的属性中</li>
+                    <li>通过调用HttpApplicationFactory类的一个静态方法创建<em>HttpApplication对象</em>(这里每次HttpApplicationFactory都会到HttpApplication池中去查找，看看有没用空闲的HttpApplication对象，如果有，就直接拿来使用，否则才创建新的使用，网站针对此次请求的所有运行过程都在这个对象中完成)
+                        <p>如果你的系统中存在一个global.asax文件，那么这个<em>global.asax</em>文件的对象也会被创建。但是，需要注意的是你的global.asax需要继承自HttpApplication类。</p>
+                        <h5>global.asax</h5>
+                        <p>Global.asax 文件（也称作 ASP.NET 应用程序文件）是可选文件，包含用于响应 ASP.NET 或 HttpModule 引发的应用程序级别事件的代码。（换句话说，我们可以自定义后面我们所要介绍的一些事件，因为请求处理流程会经历后面的10多个事件，我们可以写代码来自定义其中的一些事件，加一些我们想做的业务逻辑操作，比如：URL重写、身份验证、图片水印等等。）</p>
+                    </li>
+                    <li>
+                        <p>创建HttpContext对象，这个对象是当前请求的上下文环境，里面包含处理请求的所有参数数据，其中最重要的就是HttpRequest和HttpResponse对象。</p>
+                        <h5>HttpRequest</h5>
+                        <p>对象主要包含了所有的请求信息，这些信息来源于HttpWorkRequest对象中包含的属性：Form（客户端表单数据）、QueryString(客户端url参数)</p>
+                        <h5>HttpResponse</h5>
+                        <p>主要包含了TestWriter对象，用来保存页面类型执行过程中要输入给浏览器的数据</p>
+                    </li>
+                    <li>因为HttpApplication里面运行IHttpHandler handler=（通过反射方式创建的被请求页面类对象） 被请求页面对象里的<em>ProcessRequest</em>方法，所以，需要将HttpContext对象传入到HttpApplication中来，即HttpApplication对象将会被分配给一系列的ASP.NET核心对象来处理请求的页面</li>
+
+                </ul>
+            </li>
+            <!--      <li>第四步：一旦所有核心的ASP.NET对象被创建好，<em>HttpApplication</em>对象就会随之被创建来服务这个请求。如果你的系统中存在一个global.asax文件，那么这个<em>global.asax</em>文件的对象也会被创建。但是，需要注意的是你的global.asax需要继承自HttpApplication类。
+                <p><em>global.asax</em></p>
+                <p>Global.asax 文件（也称作 ASP.NET 应用程序文件）是可选文件，包含用于响应 ASP.NET 或 HttpModule 引发的应用程序级别事件的代码。（换句话说，我们可以自定义后面我们所要介绍的一些事件，因为请求处理流程会经历后面的10多个事件，我们可以写代码来自定义其中的一些事件，加一些我们想做的业务逻辑操作，比如：URL重写、身份验证、图片水印等等。）</p>
+            </li>
+            <li>第五步：此时HttpApplication对象将会被分配给一系列的ASP.NET核心对象来处理请求的页面。</li>-->
+            <li>第四步：这时，HttpApplication开始通过HTTP管道事件、处理程序(Handlers)和页面事件来处理请求了。也就是说：它会触发 MHPM 中的事件来处理请求。</li>
+        </ul>
+        <img alt="" src='http://pic.027cgb.cn/20170302/20173233751365232859.png' />
+        <!--<img alt="" src="http://img.soufun.com/kanli/2017_03/23/7/22/pic/005135398300.png" />-->
+        <p>下图则形象地展示了在一个ASP.NET请求过程中的重要内部对象模型。最高层是ASP.NET运行时，它创建了一个应用程序域（AppDoamin），下层则创建了一个包含request、response以及context对象的HttpRuntime。</p>
+        <img alt="" src="http://pic.027cgb.cn/20170312/2017323250714192539.jpg" />
+        <!--<img alt="" src="http://img.soufun.com/kanli/2017_03/23/10/36/pic/004492370900.jpg" />-->
+        <p><em>.NET平台处理HTTP请求的过程大致如下：</em></p>
+        <ul>
+            <li>1、IIS得到一个请求；</li>
+            <li>2、查询脚本映射扩展，然后把请求映射到aspnet_isapi.dll文件</li>
+            <li>3、代码进入工作者进程(IIS5里是aspnet_wp.exe；IIS6里是w3wp.exe)，工作者进程也叫辅助进程；</li>
+            <li>4、.NET运行时被加载；</li>
+            <li>5、非托管代码调用IsapiRuntime.ProcessRequest()方法；</li>
+            <li>6、每一个请求调用一个IsapiWorkerRequest；</li>
+            <li>7、使用WorkerRequest调用HttpRuntime.ProcessRequest()方法；</li>
+            <li>8、通过传递进来的WorkerRequest创建一个HttpContext对象</li>
+            <li>9、通过把上下文对象作为参数传递给HttpApplication.GetApplicationInstance()，然后调用该方法，从应用程序池中获取一个HttpApplication实例；</li>
+            <li>10、调用HttpApplication.Init()，启动管道事件序列，钩住模块和处理器；</li>
+            <li>11、调用HttpApplicaton.ProcessRequest，开始处理请求；</li>
+            <li>12、触发管道事件；</li>
+            <li>13、调用HTTP处理器和ProcessRequest方法；</li>
+            <li>14、把返回的数据输出到管道，触发处理请求后的事件。</li>
+            <li>当客户端向Web服务器请求一个页面文件时，这个HTTP请求会被inetinfo.exe进程截获(WWW服务)，它判断文件后缀，如果是*.aspx、*.asmx等，就把这个请求转交给aspnet_isapi.dll，而aspnet_isapi.dll则会通过一个Http PipeLine的管道，将这个HTTP请求发送给w3wq.exe进程，当这个HTTP请求进入w3wq.exe进程之后，Asp.Net framework就会通过HttpRuntime来处理这个HTTP请求，处理完毕后将结果返回给客户端。当一个HTTP请求被送入到HttpRuntime之后，这个HTTP请求通过HTTP管道(HttpRuntime是HTTP管道的入口)被送入到一个被称之为HttpApplication Factory的一个容器当中，而这个容器会给出一个HttpApplication实例来处理传递进来的HTTP请求，同时HttpApplication实例会创建一个HttpContext对象来记录HTTP请求的上下文，而后这个HTTP请求会依次进入到如下几个容器中:HttpModule --> HttpHandler Factory --> HttpHandler.当系统内部的HttpHandler的ProcessRequest方法处理完毕之后，整个Http Request就被处理完成了.如果想在中途截获一个HttpRequest并做些自己的处理，就应该在HttpRuntime运行时内部来做到这一点，确切的说时在HttpModule这个容器中做到这个的。
+            </li>
+        </ul>
+        <h4>通过MHPM触发的事件处理请求</h4>
+        <p>一旦HttpApplication创建好，它就开始处理请求了。它经历了三个不同的部分：<em>HttpModule</em>、<em>Page</em>和<em>HttpHandler</em>。当它经过这些部分时，它将调用不同的事件，而这些事件的逻辑处理还可以由开发者来进行扩展和增加自定义处理。</p>
+        <p>先来了解一下什么是HttpModule和HttpHandlers。<em>他们帮助我们在ASP.NET页面处理过程的前后注入自定义的逻辑处理</em></p>
+        <h5>他们之间主要的差别</h5>
+        <p>如果你想要注入的逻辑是基于像'.aspx'，'.html'这样的扩展名，那么你可以使用HttpHandler。换句话说，HttpHandler是一个基于处理器的扩展。</p>
+        <img alt="" src="http://pic.027cgb.cn/20170302/20173234381177961105.png" />
+        <!--<img alt="" src="http://img.soufun.com/kanli/2017_03/23/42/81/pic/005222983900.png"/>-->
+        <p>HttpHandler的作用是将请求中，各个不同类型后缀名的文件，映射给不同的处理程序去处理,HttpHandler是针对一类型的文件，映射给指定的处理程序对请求进行出来。并且映射，与处理都发生在asp.net已经指定好的事件中。</p>
+
+        <h5><em>HttpHandler的使用</em></h5>
+        <p>HttpHandler的使用通过一种防盗链技术来演示</p>
+        <ul>
+            <li>首先注册HttpHandler：在Web.config中注册
+                <p>
+                    <pre><code>
+                //映射jpg格式的文件，给ProcessHandler_test.CustomHandler处理。
+                //type里面逗号之前 命名空间加类名（ProcessHandler_test.CustomHandler），后面程序集名称
+                &lt;httpHandlers&gt;              
+                    &lt;add path="*.jpg" verb="*" type="httphander_test.CustomHandler, ProcessHandler_test" /&gt;
+                &lt;/httpHandlers&gt;
+                </code></pre>
+
+                </p>
+                <p>上面注册是把网站中请求jpg格式文件的请求，映射给命名空间为httphander_test类名为CustomHandler的程序集ProcessHandler_test来处理请求。</p>
+            </li>
+            <li>
+                <p>如果想通过HttpHandler处理请求，必须在映射的处理程序中实现接口IHttpHandler</p>
+                <pre><code>
+                namespace httphander_test
+                {
+                    public class CustomHandler :IHttpHandler
+                    {
+                        public void ProcessRequest(HttpContext context)
+                        {
+                            // 获取文件服务器端物理路径
+                            string FileName = context.Server.MapPath(context.Request.FilePath);
+                            // 如果UrlReferrer为空，则显示一张默认的禁止盗链的图片
+                            if (context.Request.UrlReferrer.Host == null)
+                            {
+                                context.Response.ContentType = "image/gif";
+                                context.Response.WriteFile("/error.gif");
+                            }
+                            else
+                            {
+                                // 如果 UrlReferrer中不包含自己站点主机域名，则显示一张默认的禁止盗链的图片
+                                if (context.Request.UrlReferrer.Host.IndexOf("yourdomain.com") > 0)
+                                {
+                                    context.Response.ContentType = "image/gif";
+                                    context.Response.WriteFile(FileName);
+                                }
+                                else
+                                {
+                                    context.Response.ContentType = "image/gif";
+                                    context.Response.WriteFile("/error.gif");
+                                }
+                            }
+                        }
+                
+                               
+                        public bool IsReusable
+                        {
+                            get { throw new NotImplementedException(); }
+                        }
+                    }
+                }
+                    //如果有Jpg格式文件的请求，而不是在本网站的域名中请求，那么就会输出一个指定的错误图片来替换原连接图片。
+                    httpHandler的功能远不止这些，理解他是对一类文件请求的处理和他在请求管道中的事件位置
+                     </code></pre>
+            </li>
+        </ul>
+
+
+        <p>如果你想要在ASP.NET管道事件中注入逻辑，那么你可以使用HttpModule。也可以说，HttpModule是一个基于处理器的事件。</p>
+        <p>HttpModule则是针对所有的请求文件，映射给指定的处理程序对请求进行处理，而这些处理，可以发生在请求管线中的任何一个事件中。也就是说你订阅哪个事件，这写处理就发生于那个事件中，处理过后再执行，你订阅过的事件的下一个事件，当然你也可以终止所有事件直接运行最后一个事件，这就意味这他可以不给HttpHandler机会，很牛的HttpModule。</p>
+        <h5>HttpModule使用</h5>
+        <p>由于HttpModule过于强大的功能，也就是说任何一个请求都要经过注册过的HttpModule处理程序，所以大家在用他的时候一定要对各种请求做好判断，也就是处理什么请求，就让这个请求走那个处理程序，不要让他每个方法，都去执行。要不会让程序负重，得不偿失。使用HttpModule跟HttpHandler的步骤类似，而HttpModule实现的是IHttpModule接口。如Url重写</p>
+        <p>常见的两种方法</p>
+        <ul>
+            <li>通过熟悉页面的内部执行流程，也就是asp.net请求管道中的相关知识点，进行url重写。</li>
+            <li>通过使用微软提供的UrlRewriter.dll实现url重写（简单）</li>
+        </ul>
+       <pre><code>
+        &lt;httpModules&gt;
+            &lt;add name="UrlReWriter" type="UrlReWriter.UrlWriter,UrlReWriter"/&gt;
+          &lt;/httpModules>
+          &lt;pages controlRenderingCompatibilityVersion="3.5" clientIDMode="AutoID"/&gt;
+        &lt;/system.web&gt;
+            </code></pre>
+        <pre><code>
+       namespace UrlReWriter
+       {
+        class UrlWriter:IHttpModule
+        {
+                #region IHttpModule 成员
+            
+                public void Init(HttpApplication context)
+                {
+                   context.BeginRequest+=new EventHandler(context_BeginRequest);
+                }
+        
+                void context_BeginRequest(object sender, EventArgs e)
+                {
+                    //获得当前页面请求管道的HttpApplication对象
+                    HttpApplication application = sender as HttpApplication;
+                    HttpContext context = application.Context;//获得上下文对象
+                    string url = context.Request.Url.LocalPath;//获得URL(不包含域名和路径)
+        
+                    Regex reg1 = new Regex("/WebForm2/[A-Z0-9a-z_]+");//注意文件夹与文件名称的大小写.
+                if (reg1.IsMatch(url)) //这种情况是匹配根据ID值来查看某个文章的内容。
+                    {
+                        string strUserName = url.Substring(url.LastIndexOf('/')+1);
+                        context.RewritePath("/WebForm2.aspx?id=" + strUserName); //前台的列表页就可以这样写:<a href='../WebForm2/<%#Eval("id")%>'></a>
+                    }
+                    else if (url.Contains("/admin"))   //如果url中包含"/admin"字样则转向，实现用户验证，哈哈，不过这里是错的，
+            // 应为这个请求管道中还获取不到 ses sion值呢，这个验证最好在第九个请求管道（AcquireRequestState ）中完成。
+                    {
+                        context.RewritePath("/Error.aspx"); 
+                    }
+                }
+                public void Dispose()
+                {
+                    
+                }
+        
+                #endregion
+            }
+         }
+        }
+             </code></pre>
+
+        <p></p>
+        <!--<img alt="" src='http://img.soufun.com/kanli/2017_03/23/9/90/pic/005288267500.png' />-->
+        <img alt="" src='http://pic.027cgb.cn/20170303/20173239692053794775.png' />
+        <h5>下面是请求处理过程的逻辑流程，其中有4个重要的步骤</h5>
+        <ul>
+            <li>第一步（M：HttpModule）：客户端请求开始被处理。在ASP.NET引擎执行和创建HttpModule触发事件（在此过程中，你也可以注入自定义逻辑）之前，有6个事件你可以在页面对象创建之前来使用，它们分别是：<em>BeginRequest</em>、<em>AuthenticateRequest</em>、<em>AuthorizeRequest</em>、<em>ResolveRequestCache</em>、<em>AcquireRequestState</em> 以及 <em>PreRequestHandlerExecute</em>。</li>
+            <li>第二步（H：HttpHandler）：一旦以上6个事件被触发后，ASP.NET引擎就将会调用 ProcessRequest 事件，即使你已经在项目中实现了HttpHandler。</li>
+            <li>第三步（P：ASP.NET Page）：一旦HttpHandler逻辑执行，ASP.NET页面对象就被创建了。而ASP.NET页面被创建，一系列的事件也会随之被触发，它们可以帮助我们自定义逻辑注入到这些事件里边。在此过程中，有6个重要事件给我们提供了占位符，以便我们在ASP.NET页面中写入逻辑，它们分别是：<em>Init</em>、<em>Load</em>、<em>Validate</em>、<em>Render</em> 和 <em>Unload</em>。你可以通过记住单词SILVER来记忆这几个事件，S—Start（没有任何意义，仅仅是为了形成一个单词），I（Init）、L（Load）、V（Validate）、E（Event）、R（Render）。</li>
+            <li>第四步（M：HttpModule）：一旦页面对象执行结束并从内存中被卸载，HttpModule提供了提交返回页面的执行事件，同样，在这些事件中也可以被注入自定义的返回处理逻辑。这里有4个重要的提交处理事件：<em>PostRequestHandlerExecute</em>、<em>ReleaserequestState</em>、<em>UpdateRequestCache以及EndRequest</em></li>
+        </ul>
+        <p>下图形象地展示了上面的四个步骤：</p>
+        <!--<img alt="" src='http://img.soufun.com/kanli/2017_03/23/29/26/pic/005459617400.png' />-->
+        <img alt="" src='http://pic.027cgb.cn/20170303/20173233912135760787.png' />
+
+        <!--<img alt="" src='http://img.soufun.com/kanli/2017_03/23/21/42/pic/005527964500.jpg' />-->
+        <img alt="" src='http://pic.027cgb.cn/20170303/20173235321409845388.jpg' />
+        <p>对于执行HttpApplication的ProcessRequest方法这个过程可以看成一个管道，要先后按照顺序执行19个委托事件，其中第八个时，创建 被请求的页面对象，第11到12事件之间，执行了被创建的页面类对象的ProcessRequest方法</p>
+        <h5>什么是请求管道？</h5>
+        <p>请求管道就是把Application的一系列事件串联成一条线，这些事件按照排列的先后顺序依次执行，事件处理的对象包括HttpModule、HttpHandler、ASP.NET Page</p>
+        <p>熟悉请求管道实现程序运行的全过程：</p>
+        <ul>
+            <li><em>BeginRequest:</em>开始处理请求</li>
+            <li><em>AuthenticateRequest:</em>授权验证请求，获取用户授权信息</li>
+            <li><em>PostAuthenticateRequest:</em>获取成功</li>
+            <li><em>AunthorizeRequest:</em>授权，一般来检查用户是否获得权限</li>
+            <li><em>PostAuthorizeRequest:</em>获得授权</li>
+            <li><em>ResolveRequestCache:</em>获取页面缓存结果</li>
+            <li><em>PostResolveRequestCache:</em>已获取缓存</li>
+            <li>根据所请求资源的文件扩展名（在应用程序的配置文件中映射），选择实现 IHttpHandler 的类，对请求进行处理。 如果该请求针对从 Page 类派生的对象（页），并且需要对该页进行编译，则 ASP.NET 会在创建该页的实例之前对其进行编译。</li>
+            <li><em>PostMapRequestHandler:</em>创建页面对象</li>
+            <li><em>AcquireRequestState:</em>获取Session-----先判断当前页面对象是否实现了IRequiresSessionState接口，如果实现了，则从浏览器发来的请求报文体中获得SessionID,并到服务器的Session池中获得对应的Session对象，最后赋值给HttpContext的Session属性</li>
+            <li><em>PostAcquireRequestState:</em>获得Session</li>
+            <li><em>PreRequestHandlerExecute:</em>准备执行页面对象,执行页面对象的ProcessRequest方法</li>
+            <li>为该请求调用合适的 IHttpHandler 类的 ProcessRequest 方法（或异步版 IHttpAsyncHandler.BeginProcessRequest）。 例如，如果该请求针对某页，则当前的页实例将处理该请求。</li>
+            <li><em>PostRequestHandlerExecute:</em>执行完页面对象了</li>
+            <li><em>ReleaseRequestState:</em>释放请求状态</li>
+            <li><em>PostReleaseRequestState:</em>已释放请求状态</li>
+            <li>如果定义了 Filter 属性，则执行响应筛选。</li>
+            <li><em>UpdateRequestCache:</em>更新缓存</li>
+            <li><em>PostUpdateRequestCache:</em>已更新缓存</li>
+            <li><em>LogRequest:</em>日志记录</li>
+            <li><em>PostLogRequest:</em>已完成日志</li>
+            <li><em>EndRequest</em>完成</li>
+            <li>引发 PreSendRequestHeaders 事件。</li>
+            <li>引发 PreSendRequestContent 事件。 </li>
+        </ul>
+        <p>从BeginRequest开始的事件，并不是每个事件都会被触发，因为在整个处理过程中，随时可以调用Response.End() 或者有未处理的异常发生而提前结束整个过程。所有事件中，只有EndRequest事件是肯定会触发的， (部分Module的)BeginRequest有可能也不会被触发</p>
+        <p>只有当应用程序在 IIS 7.0 集成模式下运行，并且与 .NET Framework 3.0 或更高版本一起运行时，才会支持 MapRequestHandler、LogRequest 和 PostLogRequest 事件。</p>
+        <p>这些事件我们可以随意在你需要的事件中添加方法，类，属性等一些列属于你自己对请求的操作。也就是说我们以前都是在页面级编程，现在，我们可以在请求级处理项目，处理请求。</p>
+
+        <h4>详解ASP.NET页面事件</h4>
+        <p>在上面的部分中，我们已经了解了一个ASP.NET页面请求事件的整体流程。那么，在其中一个最重要的部分就是ASP.NET页面，但是我们并没有对其进行详细讨论</p>
+        <p>每一个ASP.NET页都有2个部分：一个是在浏览器中进行显示的部分，它包含了HTML标签、viewstate形式的隐藏域 以及 在HTML input中的数据。当这个页面被提交到服务器时，这些HTML标签会被创建到ASP.NET控件，并且viewstate还会和表单数据绑定在一起。一旦你在后置代码中得到所有的服务器控件，你可以执行和写入你自己的逻辑并呈现给客户浏览器。</p>
+        <p>当页面进行回发时，如点击按钮，以上事件都会重新执行一次，这时的执行顺序为：</p>
+        <ul>
+            <li><em>OnPreInit</em></li>
+            <li><em>OnInit</em></li>
+            <li><em>OnInitComplete</em></li>
+            <li><em>OnPreLoad</em></li>
+            <li><em>Page_Load</em></li>
+            <li><em>OnLoad</em></li>
+            <li><em>Button_Click</em></li>
+            <li><em>OnLoadComplete</em></li>
+            <li><em>OnPreRender</em></li>
+        </ul>
+        <!--<img src='http://img.soufun.com/kanli/2017_03/24/3/51/pic/003145873600.jpg' />-->
+        <img alt="" src='http://pic.027cgb.cn/20170312/201732412563152219.jpg' />
+        <!--<img src='http://img.soufun.com/kanli/2017_03/24/53/5/pic/003151448700.jpg' />-->
+        <img alt="" src='http://pic.027cgb.cn/20170312/2017324250714192539.jpg' />
+        <!--<img src='http://img.soufun.com/kanli/2017_03/24/14/23/pic/003152667200.jpg' />-->
+        <img alt="" src='http://pic.027cgb.cn/20170301/20173243601716604750.jpg' />
+
+
+        <!--<img src='http://img.soufun.com/kanli/2017_03/23/56/64/pic/006398236100.jpg' />-->
+        <img src='http://pic.027cgb.cn/20170306/2017323485220161423.jpg' />
+        <!--<img src='http://img.soufun.com/kanli/2017_03/23/48/88/pic/006400581000.jpg' />-->
+        <img src='http://pic.027cgb.cn/20170306/2017323719751714135.jpg' />
+        <img src="http://images.cnitblog.com/blog/568354/201310/11174613-75da35b1b94a43fbbc036904bfd7757d.png" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="WebUI/Resource/Javascript/jquery.min.js"><\/script>')</script>
+

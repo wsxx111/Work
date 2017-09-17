@@ -1,0 +1,9 @@
+﻿body {
+}
+
+.detail li {
+    background-color: #eec791;
+    width: 20%;  
+    display: inline-block;
+}
+   

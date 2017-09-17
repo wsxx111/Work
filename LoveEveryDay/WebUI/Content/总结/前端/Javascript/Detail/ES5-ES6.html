@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <p>Javascript由三部分组成</p>
+        <ul>
+            <li><em>ECMAScript（核心）</em>作为核心，它规定了语言的组成部分：语法、类型、语句、关键字、保留字、操作符、对象</li>
+            <li><em>DOM（文档对象模型）</em>DOM把整个页面映射为一个多层节点结果，开发人员可借助DOM提供的API，轻松地删除、添加、替换或修改任何节点。</li>
+            <li><em>BOM （浏览器对象模型）</em>支持可以访问和操作浏览器窗口的浏览器对象模型，开发人员可以控制浏览器显示的页面以外的部分。BOM未形成规范</li>
+        </ul>
+        <h4>ES5</h4>
+        <p>作为ECMAScript第五个版本（第四版因为过于复杂废弃了）增加特性如下。</p>
+        <h5>1、strict模式</h5>
+        <p>严格模式，限制一些用法，'use strict';</p>
+        <h5>2、Array增加方法</h5>
+        <p>增加了every、some 、forEach、filter 、indexOf、lastIndexOf、isArray、map、reduce、reduceRight方法,还有其他方法Function.prototype.bind、String.prototype.trim、Date.now</p>
+        <h5>Object方法</h5>
+        <ul>
+            <li>Object.getPrototypeOf</li>
+            <li>Object.create</li>
+            <li>Object.getOwnPropertyNames</li>
+            <li>Object.defineProperty</li>
+            <li>Object.getOwnPropertyDescriptor</li>
+            <li>Object.defineProperties</li>
+            <li>Object.keys</li>
+            <li>Object.preventExtensions / Object.isExtensible</li>
+            <li>Object.seal / Object.isSealed</li>
+            <li>Object.freeze / Object.isFrozen</li>
+        </ul>
+        <h4>ES6</h4>
+        <p>ECMAScript6在保证向下兼容的前提下，提供大量新特性。ES6特性如下：</p>     
+        <ul> 
+            <li>1.块级作用域 关键字let, 常量const</li>
+            <li>2.对象字面量的属性赋值简写（property value shorthand）</li>
+            <li>3.赋值解构
+            <pre><code>
+            let singer = { first: "Bob", last: "Dylan" };   
+            let { first: f, last: l } = singer; // 相当于 f = "Bob", l = "Dylan"   
+            let [all, year, month, day] =  /^(\d\d\d\d)-(\d\d)-(\d\d)$/.exec("2015-10-25");   
+            let [x, y] = [1, 2, 3]; // x = 1, y = 2
+                     </code></pre>
+            </li>
+            <li>4.函数参数 - 默认值、参数打包、 数组展开（Default 、Rest 、Spread）</li>
+            <li>5.箭头函数 Arrow functions</li>
+            <li>6.字符串模板 Template strings
+            <pre><code>
+            var name = "Bob", time = "today";   
+            `Hello ${name}, how are you ${time}?`   
+            // return "Hello Bob, how are you today?"
+                     </code></pre>
+            </li>
+            <li>Iterators（迭代器）+ for..of
+                <p>迭代器有个next方法，调用会返回：</p>
+                <p>(1).返回迭代对象的一个元素：{ done: false, value: elem }</p>
+                <p>(2).如果已到迭代对象的末端：{ done: true, value: retVal }</p>
+            <pre><code>
+            for (var n of ['a','b','c']) {   
+              console.log(n);   
+            }   
+            // 打印a、b、c
+                 </code></pre></li>
+            <li>Class:有constructor、extends、super，但本质上是语法糖（对语言的功能并没有影响，但是更方便程序员使用）。
+            <pre><code>
+            lass Artist {   
+                constructor(name) {   
+                    this.name = name;   
+                }   
+            
+                perform() {   
+                    return this.name + " performs ";   
+                }   
+            }   
+            
+            class Singer extends Artist {   
+            
+                constructor(name, song) {   
+                    super.constructor(name);   
+                    this.song = song;   
+                }   
+            
+                perform() {   
+                    return super.perform() + "[" + this.song + "]";   
+                }   
+            }   
+            
+            let james = new Singer("Etta James", "At last");   
+            james instanceof Artist; // true   
+            james instanceof Singer; // true   
+            james.perform(); // "Etta James performs [At last]"
+                     </code></pre>
+            </li>
+            <li>Modules:ES6的内置模块功能借鉴了CommonJS和AMD各自的优点</li>
+            <li>Proxies:使用代理（Proxy）监听对象的操作，然后可以做一些相应事情。</li>
+            <li>Symbols:Symbol是一种基本类型。Symbol 通过调用symbol函数产生，它接收一个可选的名字参数，该函数返回的symbol是唯一的。
+            <pre><code>
+            var key = Symbol("key");
+            var key2 = Symbol("key");
+            key == key2  //false
+                     </code></pre>
+            </li>
+            <li>
+                Promises:Promises是处理异步操作的对象，使用了 Promise 对象之后可以用一种链式调用的方式来组织代码，让代码更加直观（类似jQuery的deferred 对象）。
+            </li>
+        </ul>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    //  'use strict'
+    var name = "Bob", time = "today";   
+    console.log(`Hello ${name}, how are you ${time}?`);
+
+    var sum = (num1, num2) => num1 + num2;
+    var sum2 = (num1, num2) => { return num1 + num2; }
+
+    console.log(sum(3,6));
+    for (var n of ['a','b','c']) {   
+           console.log(n);           
+    } 
+    $(function () {
+         
+    })
+</script>

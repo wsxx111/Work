@@ -1,0 +1,370 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <p><em>闭包</em>，根据 ECMAScript 描述，词法（lexically）表示包括不被计算的变量的函数，函数可以使用函数之外定义的变量，它意味着当前作用域总能够访问外部作用域中的变量。函数是JavaScript中唯一拥有自身作用域的结构，因此闭包的创建依赖于函数。函数内部的函数访问其所在函数的变量（局部变量、形参），这些变量会受到内部函数的影响，当其外部函数外被调用时，就会形成闭包。内部的函数会在其外部函数返回后，被执行。闭包是指某种程序语言中的代码块允许一级函数存在并且在一级函数中所定义的自由变量能不被释放，直到一级函数被释放前，一级函数外也能应用这些未释放的自由变量。</p>
+        <h4>概念</h4>
+        <p><em>闭包就是可以访问其他函数作用域的中的变量的函数。</em>闭包其实是一种语言特性，它是指的是程序设计语言中，允许将函数看作对象，然后能像在对象中的操作搬在函数中定义实例（局部）变量，而这些变量能在函数中保存到函数的实例对象销毁为止，其它代码块能通过某种方式获取这些实例（局部）变量的值并进行应用扩展。</p>
+        <pre><code>
+        var abc = function (y) {
+            var x = y;// 这个是局部变量
+            return function () {
+                alert(x++);// 就是这里调用了闭包特性中的一级函数局部变量的x，并对它进行操作
+                alert(y--);// 引用的参数变量也是自由变量
+            }
+        }(5);// 初始化
+        abc();// "5" "5"
+        abc();// "6" "4"
+        abc();// "7" "3"
+        alert(x);// 报错！“x”未定义
+             </code></pre>
+        <p>那么什么函数可以访问其他函数中的私有变量呢？</p>
+        <p>当然是在函数内部定义的函数可以访问父函数中的变量。</p>
+        <p>所以理论上来讲，当我们在一个函数内部定义了一个函数的时候，这个子函数就可以叫做闭包</p>
+        <p>为什么boo还可以访问bar呢</p>
+        <p>因为当创建一个函数时，系统会自动为他创建一个作用域链，作用域链中保存着一系列的变量对象（变量对象：执行环境创建后，系统自动把执行环境中的所有变量打包成对象）.首先是由它自己的所有变量组成的变量对象，然后是它父函数的变量对象，一直到全局作用域。</p>
+        <p>只要函数本身没有死亡，它的作用域链中存在的变量对象也永远不会被系统回收，即使那个变量对象对应的本身的函数已经死亡。</p>
+        <p>这里变量bar是父函数中的变量，所以它会一直保存在子函数boo的作用域链里，因而boo就永远可以访问它。</p>
+        <p>这也就是“闭包”这个名词的来源——即闭包执行时它的作用域链中打包了所有父环境中的变量，可以随时使用，不管父环境是否消亡。</p>
+
+        <h4>数据持久性</h4>
+        <pre><code>
+        function outFun(b, oriArr, oriObject) {
+            var a = 1;
+
+            function innerFun() {
+                a *= 2;
+                b *= 3;
+                oriArr.push(5);
+                oriObject.a = 9;
+                return a + ',' + b + ',' + oriArr + ',' + oriObject;
+            }
+            return innerFun;
+        }
+    </code></pre>
+        <pre><code>
+            //起初
+        var ori = 6;
+        var oriArr = [2]
+        var oriObject = { a: 4 };
+
+        var execObj = outFun(6, oriArr, oriObject);
+        console.log(ori); //6
+        console.log(oriArr); //[2]
+        console.log(oriObject); //{a:4}
+    </code></pre>
+        <pre><code>
+        // 执行后，对于引用参数的才变化
+        console.log(execObj()); //2,18,[2,5],{a:9}
+
+        console.log(ori); //6
+        console.log(oriArr); //[2,5]
+        console.log(oriObject); //{a:9}
+
+        //再执行
+        console.log(execObj()); //4,54,[2,5,5],{a:9}
+
+        console.log(ori); //6
+        console.log(oriArr); //[2,5，5]
+        console.log(oriObject); //{a:9}
+    </code></pre>
+        <pre><code>
+        //这和下面是不一样的
+        function outF() {
+            var c = 3;
+            function inF() {
+                c *= 2;
+                return c;
+            }
+            return inF();
+        }
+        console.log(outF());//6
+        console.log(outF());//6
+        console.log(outF());//6
+    </code></pre>
+        <h4>应用</h4>
+        <pre><code>
+        function newFun(orinum) {
+            function ReturnNewFun() {
+                var obj = {};
+                obj.jia = function (n) {
+                    orinum += n;
+                }
+                obj.jian = function (n) {
+                    orinum -= n;
+                }
+                obj.cheng = function (n) {
+                    orinum *= n;
+                }
+                obj.chu = function (n) {
+                    orinum /= n;
+                }
+                obj.getnum = function () {
+                    return orinum;
+                }
+                return obj;
+            }
+            return ReturnNewFun;
+        }
+    </code></pre>
+        <pre><code>
+        var testnum = 3;
+        //(3+4-1)*3/6=3
+        var exeprocess = newFun(testnum);
+        exeprocess().jia(4);
+        exeprocess().jian(1);
+        exeprocess().cheng(3);
+        exeprocess().chu(6);
+        console.log(exeprocess().getnum());//3 
+    </code></pre>
+        <pre><code>
+        //接着变成
+        
+        function newFun_1(orinum) {
+            return {
+                jia: function (n) {
+                    orinum += n;
+                },
+                jian: function (n) {
+                    orinum -= n;
+                },
+                cheng: function (n) {
+                    orinum *= n;
+                },
+                chu: function (n) {
+                    orinum /= n;
+                },
+                getnum: function () {  //可以写在外面
+                    return orinum;
+                }
+            }
+        }
+   </code></pre>
+        <pre><code>
+        var testnum = 3;
+        var exeprocess2 = newFun_1(testnum);
+        exeprocess2.jia(4);
+        exeprocess2.jian(1);
+        exeprocess2.cheng(3);
+        exeprocess2.chu(6);
+            //写到这也可以，如果都要的话，将会覆盖。不是重写
+        exeprocess2.getnum = function () {
+            return testnum + '外';
+        }
+        console.log(exeprocess2.getnum());//3外
+     </code></pre>
+        <pre><code>
+        for (var i = 0; i < 3; i++) {
+                console.log('wai' + i);
+                setTimeout(function () {
+                    console.log('nei' + i);
+                }, 1000);
+            }
+        // wai0  wai1  wai2  wai3 (1秒后同时)  nei3  nei3  nei3
+     </code></pre>
+        <pre><code>
+        for (var i = 0; i < 3; i++) {
+            console.log('wai' + i);
+            (function (e) {
+                console.log(e);
+                setTimeout(function () {
+                    console.log('nei' + e);
+                }, 1000);
+            })(i);
+        } 
+        //wai0,wai1,wai2 (1秒后同时) nei0,nei1,nei2
+     </code></pre>
+        <pre><code>
+    var arr = [1, 3, 5, 8, 6];
+    console.log(arr.slice(2, 4));
+  
+    var getSliceFun = Array.prototype.slice;
+
+    var newFun = getSliceFun.bind(arr);
+    console.log(newFun(2, 4));
+    
+    console.log(getSliceFun.apply(arr, [2, 4]));
+    console.log(getSliceFun.call(arr, 2, 4));
+
+    var getCallFun = Function.prototype.call;
+    getSliceFun = getCallFun.bind(getSliceFun);
+    console.log(getSliceFun(arr, 2, 4));
+
+    var g = { name: 'wk' };
+
+    function ff() {
+        console.log(this.name);
+    }
+
+    var getBindFun = Function.prototype.bind;
+    var getCallFun = Function.prototype.call;
+    getBindFun = getCallFun.bind(getBindFun);
+    getBindFun(ff, g)();
+    </code></pre>
+        <h4>闭包问题</h4>
+        <pre><code>
+        var htmbtn = document.getElementsByTagName('input');
+
+        for (var i = 0; i < htmbtn.length; i++) {
+        htmbtn[i].onclick = function () {
+            console.log(i);
+        }  //  3  3  3
+
+        htmbtn[i].onclick = new Function('console.log(i)');  // 3 3 3
+
+        htmbtn[i].onclick = new Function('console.log(' + i + ')');  // 0  1  2
+
+        htmbtn[i].onclick = Function('console.log(' + i + ')');  // 0  1  2
+       
+        htmbtn[i].on = i;
+        htmbtn[i].onclick = function () {            
+            console.log(this.on);
+        }          //  0  1  2
+
+        
+        (htmbtn[i].onclick = function () {
+            console.log(arguments.callee.on);
+        }).on = i;       //  0  1 2
+
+              
+        htmbtn[i].onclick = function (m) {
+            return function(){
+                console.log(m);
+            }
+        }(i);         //  0  1  2
+
+             
+        (function () {
+            var m = i;
+            htmbtn[i].onclick = function () {
+                console.log(m);
+            }
+            // var m = i;放到下面也是能看访问到的
+        })();        // 0  1  2
+
+
+        (function (m) {
+             htmbtn[i].onclick = function () {
+                 console.log(m);
+               }
+           })(i);  // 0  1  2
+
+        }
+
+    </code></pre>
+        7种 ：
+        <ul>
+            <li><em>2: Function  new Function</em></li>
+            <li><em>2: 绑定到 触发对象 绑定到onclick</em></li>
+            <li><em>3: 强执行  onclick（）在内部包一层 return function,外层包(function(){....})() 参数可以外传，或者里面加个变量存</em></li>
+        </ul>
+
+        <pre><code>
+        for (var i = 1; i <= 5; i++) {
+            setTimeout(function timer() {
+                console.log(i);
+            }, i * 1000);
+        }
+        
+        for (var i = 1; i <= 5; i++) {
+            (function (m) {
+                var m = i;
+                setTimeout(function timer() {
+                    console.log(m);
+                }, i * 1000);
+            })(i)
+        }
+        
+        for (var i = 1; i <= 5; i++) {
+            (function (j) {
+                setTimeout(function timer() {
+                    console.log(j);
+                }, j * 1000);
+            })(i);
+        }
+        
+        每次循环都会绑定一次作用域
+        
+        "use strict";
+        for (var i=1; i<=5; i++) {
+            let j = i; // yay, block-scope for closure!
+            setTimeout( function timer(){
+                console.log( j );
+            }, j*1000 );
+        }
+        
+        "use strict";
+        for (let i=1; i<=5; i++) {
+            setTimeout( function timer(){
+                console.log( i );
+            }, i*1000 );
+        }
+     </code></pre>
+        <pre><code>
+         //闭包的真正用武之地在哪里呢？答案是数据安全，实现私有变量。
+         var addSelf = (function () {
+             var count = 0; //我将会成为闭包里的私有变量
+             return function (m) { //我是一个闭包
+                 return count += m;
+             }
+         })()
+
+    console.log(addSelf(2)); //2
+    console.log(addSelf(5));  //7
+    console.log(addSelf(3));  //10
+             </code></pre>
+        <pre><code>
+    function setupSomeGlobals() {
+        // 局部变量在闭包内结束
+        var num = 666;
+        //存储一下引用函数作为全局变量      
+        gAlertNumber = function () { console.log(num); }
+        gIncreaseNumber = function () { num++; }
+        gSetNumber = function (x) { num = x; }
+    }
+    setupSomeGlobals(); // 为三个全局变量赋值
+    gAlertNumber(); //666
+    gIncreaseNumber();
+    gAlertNumber(); // 667
+    gSetNumber(12);//
+    gAlertNumber();//12
+             </code></pre>
+        <pre><code>
+    //每次函数调用的时候创建一个新的闭包
+    function newClosure(someNum, someRef) {
+        // Local variables that end up within closure
+        var num = someNum;
+        var anArray = [1, 2, 3];
+        var ref = someRef;
+        return function (x) {
+            num += x;
+            anArray.push(num);
+            alert('num: ' + num + '\nanArray ' + anArray.toString() + '\nref.someVar ' + ref.someVar);
+        }
+    }
+    closure1 = newClosure(40, { someVar: 'closure 1' });
+    closure2 = newClosure(1000, { someVar: 'closure 2' });
+
+    closure1(5); // num:45 anArray[1,2,3,45] ref:'someVar closure1'
+    closure1(5); // num:50 anArray[1,2,3,50] ref:'someVar closure1'
+    closure2(-10);// num:990 anArray[1,2,3,990] ref:'someVar closure2'
+      </code></pre>
+
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>

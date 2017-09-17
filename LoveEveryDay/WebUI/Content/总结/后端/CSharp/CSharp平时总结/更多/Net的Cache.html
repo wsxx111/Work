@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="forMore">
+            <a href="http://www.cnblogs.com/McJeremy/archive/2008/12/01/1344660.html" target="_blank">教程</a>
+        </div>
+        <p>
+            我们在.NET运用中经常用到<em>缓存(Cache)</em>对象
+        </p>
+        <p>
+            asp.net中的缓存主要分为：<em>页面缓存</em>，<em>数据缓存（应用程序缓存）</em>，<em>自定义数据缓存</em>这三种主要类型。
+        </p>
+        <h3>应用程序缓存</h3>
+        <p>数据缓存主要通过Cache类来实现，常见的是System.Web.Caching.Cache下的Cache</p>
+        <p>
+            除了<em>System.Web.Caching.Cache</em>的外，我们还可以用到<em>HttpContext.Current.Cache</em>以及<em>HttpRuntime.Cache</em>
+        </p>
+        <p>区别是什么呢</p>
+        <p>从MSDN上的解释可以看出，HttpRuntime.Cache是应用程序级别的，而HttpContext.Current.Cache是针对当前WEB上下文定义的,然而，实际上，这二个都是调用的同一个对象，不同的是：HttpRuntime下的除了WEB中可以使用外，非WEB程序也可以使用。而HttpContext则只能用在WEB中。因此，在可能的情况下，我们尽可能使用HttpRuntime(然而，在不同应用程序之间如何调用也是一个问题）。</p>
+        <p>
+            应用程序缓存提供了一种编程方式，可通过键/值对将任意数据存储在内存中。使用应用程序缓存与使用应用程序状态类似。但是，与应用程序状态不同的是，应用程序缓存中的数据是易失的，即数据并不是在整个应用程序生命周期中都存储在内存中。使用应用程序缓存的优点是由 ASP.NET 管理缓存，它会在项过期、无效、或内存不足时移除缓存中的项。还可以配置应用程序缓存，以便在移除项时通知应用程序.使用应用程序缓存的模式是，确定在访问某一项时该项是否存在于缓存中，如果存在，则使用。如果该项不存在，则可以重新创建该项，然后将其放回缓存中。这一模式可确保缓存中始终有最新的数据。
+        </p>
+
+        <h4>缓存依赖</h4>
+        <h5>自动移除数据</h5>
+        <p>出于以下原因之一，ASP.NET 可以从缓存中移除数据：  </p>
+        <ul>
+            <li>由于服务器上的内存不足，开始一个称为“清理”的过程。</li>
+            <li>由于缓存中的项已过期。</li>
+            <li>由于项的依赖项发生了更改。 </li>
+        </ul>
+
+        <h5>清理</h5>
+        <p>
+            清理是在内存不足时从缓存中删除项的过程。如果某些项在一段时间内未被访问，或是在添加到缓存中时被标记为低优先级，则这些项会被移除。ASP.NET 使用 CacheItemPriority 对象来确定要首先清理的项
+        </p>
+        <h5>过期
+        </h5>
+        <p>除了清理外，在缓存项过期时，ASP.NET 会自动从缓存中移除这些项。向缓存添加项时，可以按下表中的描述设置其过期时间。</p>
+        <ul>
+            <li><em>可调过期</em>指定某项自上次被访问后多长时间过期。例如，可以将某项设置为自上次在缓存中被访问后 20 分钟过期。</li>
+            <li><em>绝对过期</em>指定某项在设定的时间过期，而不考虑访问频率。例如，可以将某项设置为在 6:00 PM 过期，或四小时后过期。</li>
+        </ul>
+        <h5>依赖项</h5>
+        <p>
+            可以将缓存中某一项的生存期配置为依赖于其他应用程序元素，如某个文件或数据库。当缓存项依赖的元素更改时，ASP.NET 将从缓存中移除该项。例如，如果您的网站显示一份报告，该报告是应用程序通过 XML 文件创建的，您可以将该报告放置在缓存中，并将其配置为依赖于该 XML 文件。当 XML 文件更改时，ASP.NET 会从缓存中移除该报告。当代码请求该报告时，代码会先确定该报告是否在缓存中，如果不在，代码会重新创建该报告。因此，始终都有最新版本的报告可用。
+        </p>
+        <ul>
+            <li><em>键依赖项</em>应用程序缓存中的项存储在键/值对中。键依赖项允许项依赖于应用程序缓存中另一项的键。如果移除了原始项，则具有键依赖关系的项也会被移除。例如，可以添加一个名为 ReportsValid 的缓存项，然后缓存若干个依赖于 ReportsValid 键的报告。当 ReportsValid 项被移除时，所有依赖于它的缓存报告同样也会从缓存中移除。</li>
+            <li><em>文件依赖项</em>缓存中的项依赖于外部文件。如果该文件被修改或删除，则缓存项也会被移除。</li>
+            <li><em>SQL 依赖项</em>缓存中的项依赖于 Microsoft SQL Server 2005、SQL Server 2000 或 SQL Server 7.0 数据库中表的更改。对于 SQL Server 2005，缓存中的项可依赖于表中的某一行。有关更多信息，请参见使用 SqlCacheDependency 类在 ASP.NET 中缓存。使用 SqlCacheDependency 类在 ASP.NET 中缓存</li>
+            <li><em>聚合依赖项</em>通过使用 AggregateCacheDependency 类缓存中的项依赖于多个元素。如果任何依赖项发生更改，该项都会从缓存中移除。</li>
+            <li><em>自定义依赖项</em>可以用您自己的代码创建的依赖关系来配置缓存中的项。例如，可以创建一个自定义 Web 服务缓存依赖项，当调用 Web 服务得到一个特定值时，该依赖项就会从缓存中移除数据。</li>
+        </ul>
+
+        <h4>应用程序缓存项移除通知</h4>
+        <p>当项从应用程序缓存中移除时，您可以收到通知。例如，如果有一个需要大量处理时间才能创建的项，当从缓存中移除该项时，您会收到通知以便可以立即替换该项。这样，下次请求该项时，用户便不必等待处理该项。</p>
+        <p>为了帮助管理缓存项，在将项从缓存中移除时，ASP.NET 会通知应用程序。  </p>
+        <pre><code>
+        if (Cache["key"] == null)
+        {
+            str = System.IO.File.ReadAllText(Server.MapPath("TextFile1.txt")); //读取TextFile1.txt文件中的数据
+            CacheDependency dp = new CacheDependency(Server.MapPath("TextFile1.txt"));//建立缓存依赖项dp
+            Cache.Insert("key", str, dp);
+            Response.Write(Cache["key"]);   
+            //  如果TextFile1.txt这个文件的内容不变就一直读取缓存中的数据，
+            //  一旦TextFile1.txt文件中的数据改变里面重新读取TextFile1.txt文件中的数据
+        }
+        else
+        {
+            Response.Write(Cache["key"]);
+        }
+             </code></pre>
+        <h4>配置文件中设置缓存</h4>
+        <pre><code>
+        &lt;system.web&gt;
+          &lt;caching>&gt;
+            &lt;outputCacheSettings&gt;
+             &lt;outputCacheProfiles&gt;
+             &lt;addname="ProductItemCacheProfile" duration="60"/&gt;
+           &lt;/outputCacheProfiles&gt;
+        &lt;/outputCacheSettings&gt;
+           &lt;/caching&gt;
+        &lt;/system.web&gt;
+             </code></pre>
+        <pre><code>
+        <%@ OutputCache CacheProfile="ProductItemCacheProfile" VaryByParam="none" %>
+        //  这里的CacheProfile参数与配置文件中的保持一至
+             </code></pre>
+        <p>如果要关闭某个页面的caching功能，请在web.config里面用下面的定义</p>
+        <pre><code>
+        &lt;configuration&gt;
+          &lt;location path="showStockPrice.asp"&gt;
+            &lt;system.webServer&gt;
+              &lt;caching&gt;
+                 &lt;profiles&gt;
+                  &lt;remove extension=".asp" /&gt;
+                   &lt;add extension=".asp" policy="DontCache" kernelCachePolicy="DontCache"/&gt;
+                  &lt;/profiles&gt;
+                 &lt;/caching&gt;
+               &lt;/system.webServer&gt;
+          &lt;/location&gt;
+        &lt;/configuration&gt;
+             </code></pre>
+         <p>如果要关闭整个程序的caching功能，请在web.config里面用下面的定义</p>
+        <pre><code>
+        &lt;configuration&gt;        
+            &lt;system.webServer&gt;
+              &lt;caching&gt;
+                 &lt;profiles&gt;
+                  &lt;remove extension=".asp" /&gt;
+                   &lt;add extension=".asp" policy="DontCache" kernelCachePolicy="DontCache"/&gt;
+                  &lt;/profiles&gt;
+                 &lt;/caching&gt;
+               &lt;/system.webServer&gt;          
+        &lt;/configuration&gt;
+             </code></pre>
+         <p>如果要关闭根目录某个或某几个文件夹的caching功能，请在web.config里面用下面的定义</p>
+        <pre><code>
+        &lt;configuration&gt;
+          &lt;location path="~/folderA,~/folderB"&gt;
+            &lt;system.webServer&gt;
+              &lt;caching&gt;
+                 &lt;profiles&gt;
+                  &lt;remove extension=".asp" /&gt;
+                   &lt;add extension=".asp" policy="DontCache" kernelCachePolicy="DontCache"/&gt;
+                  &lt;/profiles&gt;
+                 &lt;/caching&gt;
+               &lt;/system.webServer&gt;
+          &lt;/location&gt;
+        &lt;/configuration&gt;
+             </code></pre>
+
+        <h3>页输出缓存</h3>
+        <p>页输出缓存在内存中存储处理后的 ASP.NET 页的内容。这一机制允许 ASP.NET 向客户端发送页响应，而不必再次经过页处理生命周期。页输出缓存对于那些不经常更改，但需要大量处理才能创建的页特别有用。例如，如果创建大通信量的网页来显示不需要频繁更新的数据，页输出缓存则可以极大地提高该页的性能。可以分别为每个页配置页缓存，也可以在 Web.config 文件中创建缓存配置文件。利用缓存配置文件，只定义一次缓存设置就可以在多个页中使用这些设置。</p>
+        <p>页输出缓存提供了两种页缓存模型：整页缓存和部分页缓存。整页缓存允许将页的全部内容保存在内存中，并用于完成客户端请求。部分页缓存允许缓存页的部分内容，其他部分则为动态内容。</p>
+        <pre><code>
+        &lt;%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="cache.WebForm1" %&gt;
+        &lt;%@ OutputCache Duration="10" VaryByParam="none" %>  
+        // 添加上这一句代码意思是，添加此页面缓存十秒，这十秒之内，刷新页面将读缓存起来页面的值，不再执行Page_Load方法。
+        // Page_Load方法是每十秒执行一次,
+
+        &lt;%@ OutputCache Duration="10" VaryByControl="TextBox1"%&gt;
+        // VaryByControl的参数为要缓存的控件id
+            //这是控件缓存
+             </code></pre>
+        <p>这样每次请求，ASP.NET不会再执行页面的生命周期和相关代码而是直接使用缓存的页面</p>
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="WebUI/Resource/Javascript/jquery.min.js"><\/script>')</script>
+

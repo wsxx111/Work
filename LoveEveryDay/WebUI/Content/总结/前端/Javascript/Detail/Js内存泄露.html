@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+          <div class="forMore">
+            <a href="http://www.ruanyifeng.com/blog/2017/04/memory-leak.html" target="_blank">内存泄露</a>
+        </div>       
+        <h3>内存泄漏</h3>
+       <p>内存泄漏可以定义为：应用程序不再需要占用内存的时候，由于某些原因，内存没有被操作系统或可用内存池回收。一些编程语言提供了语言特性，可以帮助开发者做此类事情。另一些则寄希望于开发者对内存是否需要清晰明了。它是许多问题的根源：反应迟缓，崩溃，高延迟，以及其他应用问题。</p>
+        <h4>JavaScript 内存管理</h4>
+        <p>JavaScript 是一种垃圾回收语言。垃圾回收语言通过周期性地检查先前分配的内存是否可达，帮助开发者管理内存。垃圾回收语言的内存泄漏主因是不需要的引用</p>
+        <p>大部分垃圾回收语言用的算法称之为 Mark-and-sweep 。算法由以下几步组成：</p>
+        <ul>
+            <li>垃圾回收器创建了一个“roots”列表。Roots 通常是代码中全局变量的引用。JavaScript 中，“window” 对象是一个全局变量，被当作 root 。window 对象总是存在，因此垃圾回收器可以检查它和它的所有子对象是否存在（即不是垃圾）;</li>
+            <li>所有的 roots 被检查和标记为激活（即不是垃圾）。所有的子对象也被递归地检查。从 root 开始的所有对象如果是可达的，它就不被当作垃圾。</li>
+            <li>所有未被标记的内存会被当做垃圾，收集器现在可以释放内存，归还给操作系统了。</li>
+        </ul>
+        <p>不需要的引用是指开发者明知内存引用不再需要，却由于某些原因，它仍被留在激活的 root 树中。在 JavaScript 中，不需要的引用是保留在代码中的变量，它不再需要，却指向一块本该被释放的内存。</p>
+        <h4>常见 JavaScript 内存泄漏</h4>
+        <h5>① 意外的全局变量</h5>
+        <p>JavaScript 处理未定义变量的方式比较宽松：未定义的变量会在全局对象创建一个新变量。在浏览器中，全局对象是 window 。</p>
+        <pre><code>
+        function foo(arg) {
+            bar = "this is a hidden global variable";
+            //  等同于
+           //   window.bar = "this is an explicit global variable";
+        }
+             </code></pre>
+        <p>函数 foo 内部忘记使用 var ，意外创建了一个全局变量,另一种意外的全局变量可能由 this 创建：</p>
+        <pre><code>
+        function foo() {
+            this.variable = "potential accidental global";
+        }
+
+        // Foo 调用自己，this 指向了全局对象（window）,而不是 undefined       
+        foo();
+        //在 JavaScript 文件头部加上 'use strict'，可以避免此类错误发生。启用严格模式解析 JavaScript ，避免意外的全局变量。
+             </code></pre>
+        <p>全局变量注意事项</p>
+        <p>尽管我们讨论了一些意外的全局变量，但是仍有一些明确的全局变量产生的垃圾。它们被定义为不可回收（除非定义为空或重新分配）。尤其当全局变量用于临时存储和处理大量信息时，需要多加小心。如果必须使用全局变量存储大量数据时，确保用完以后把它设置为 null 或者重新定义。与全局变量相关的增加内存消耗的一个主因是缓存。缓存数据是为了重用，缓存必须有一个大小上限才有用。高内存消耗导致缓存突破上限，因为缓存内容无法被回收。</p>
+        <h5>② 被遗忘的计时器或回调函数</h5>
+        <p>在 JavaScript 中使用 setInterval 非常平常。</p>
+        <pre><code>
+        var someResource = getData();
+        setInterval(function() {
+            var node = document.getElementById('Node');
+            if(node) {
+                // 处理 node 和 someResource
+                node.innerHTML = JSON.stringify(someResource));
+            }
+        }, 1000);
+             </code></pre>
+        <p>与节点或数据关联的计时器不再需要，node 对象可以删除，整个回调函数也不需要了。可是，计时器回调函数仍然没被回收（计时器停止才会被回收）。同时，someResource 如果存储了大量的数据，也是无法被回收的。</p>
+        <pre><code>
+        var element = document.getElementById('button');
+        function onClick(event) {
+            element.innerHTML = 'text';
+        }
+        element.addEventListener('click', onClick);
+             </code></pre>
+        <p>版本的 IE 是无法检测 DOM 节点与 JavaScript 代码之间的循环引用，会导致内存泄漏。如今，现代的浏览器（包括 IE 和 Microsoft Edge）使用了更先进的垃圾回收算法，已经可以正确检测和处理循环引用了。换言之，回收节点内存时，不必非要调用 removeEventListener 了。</p>
+        <h5>③ 脱离 DOM 的引用</h5>
+        <p>假如你的 JavaScript 代码中保存了表格某一个 &lt;td&gt; 的引用。将来决定删除整个表格的时候，直觉认为 GC 会回收除了已保存的 &lt;td&gt; 以外的其它节点。实际情况并非如此：此 &lt;td&gt; 是表格的子节点，子元素与父元素是引用关系。由于代码保留了 &lt;td&gt;的引用，导致整个表格仍待在内存中。</p>
+        <h5>④ 闭包</h5>
+        <p>闭包是 JavaScript 开发的一个关键方面：匿名函数可以访问父级作用域的变量。</p>
+        <h4>内存剖析工具</h4>
+        <p>Chrome 提供了一套很棒的检测 JavaScript 内存占用的工具。与内存相关的两个重要的工具：timeline 和 profiles。</p>      
+        <img src="http://img.027cgb.cn/20170504/20175119692053794775.png" alt="" />
+        <!--<img src="http://img.soufun.com/kanli/2017_05/11/94/38/pic/009221830700.png" alt="" />-->
+        <p>timeline 可以检测代码中不需要的内存。在此截图中，我们可以看到潜在的泄漏对象稳定的增长，数据采集快结束时，内存占用明显高于采集初期，Node（节点）的总量也很高。种种迹象表明，代码中存在 DOM 节点泄漏的情况。</p>
+        <p>Profiles 是你可以花费大量时间关注的工具，它可以保存快照，对比 JavaScript 代码内存使用的不同快照，也可以记录时间分配。每一次结果包含不同类型的列表，与内存泄漏相关的有 summary（概要） 列表和 comparison（对照） 列表。</p>
+        <p>实质上有两种类型的泄漏：周期性的内存增长导致的泄漏，以及偶现的内存泄漏。显而易见，周期性的内存泄漏很容易发现；偶现的泄漏比较棘手，一般容易被忽视，偶尔发生一次可能被认为是优化问题，周期性发生的则被认为是必须解决的 bug。</p>               
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>

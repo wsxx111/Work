@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="animate.min.css" rel="stylesheet" />
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            background: #e4ebe9 url("fancy_deboss.png") repeat scroll left top;
+        }
+
+        .thumbList {
+            border-bottom: 1px solid #171717;
+        }
+
+            .thumbList > span {
+                background-color: #fa06c1;
+                color: black;
+                padding: 5px;
+                margin: 5px;
+                display: inline-block;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+        .listStyle {
+            border-bottom: 1px solid #171717;
+        }
+
+            .listStyle > div {
+                display: none;
+            }
+
+            .listStyle span {
+                background-color: #cfcccc;
+                color: #fa06c1;
+                font-weight: bold;
+                margin: 5px;
+                display: inline-block;
+                font-size: 15px;
+                padding: 6px;
+                cursor: pointer;
+            }
+
+        .txtStyle {
+            padding: 10px;
+            border-top: 1px solid #2b2a2a;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 25px;
+            background-color: #ebe8e8;
+            border: 1px solid #2b2a2a;
+            position: relative;
+        }
+
+        .showStyle {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 120px;
+            text-align: center;
+            /*background-color: #ffd800;*/
+            border: 1px solid #2b2a2a;
+        }
+
+            .showStyle > img {
+                width: 30%;
+            }
+
+        #btnCopy {
+            position: absolute;
+            z-index: 100;
+            right: 5px;
+            top: 5px;
+            padding: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="thumbList">
+        <span>L1</span>
+        <span>L2</span>
+        <span>L3</span>
+        <span>L4</span>
+        <span>L5</span>
+        <span>L6</span>
+        <span>L7</span>
+        <span>L8</span>
+        <span>L9</span>
+        <span>L10</span>
+        <span>L11</span>
+        <span>L12</span>
+    </div>
+    <div class="listStyle">
+        <div class="L1 L_active">
+            <span>bounce</span>
+            <span>flash</span>
+            <span>pulse</span>
+            <span>rubberBand</span>
+            <span>shake</span>
+            <span>swing</span>
+            <span>tada</span>
+            <span>wobble</span>
+        </div>
+
+        <div class="L2">
+            <span>bounceIn</span>
+            <span>bounceInDown</span>
+            <span>bounceInLeft</span>
+            <span>bounceInRight</span>
+            <span>bounceInUp</span>
+        </div>
+
+        <div class="L3">
+            <span>bounceOut</span>
+            <span>bounceOutDown</span>
+            <span>bounceOutLeft</span>
+            <span>bounceOutRight</span>
+            <span>bounceOutUp</span>
+        </div>
+
+        <div class="L4">
+            <span>fadeIn</span>
+            <span>fadeInDown</span>
+            <span>fadeInDownBig</span>
+            <span>fadeInLeft</span>
+            <span>fadeInLeftBig</span>
+            <span>fadeInRight</span>
+            <span>fadeInRightBig</span>
+            <span>fadeInUp</span>
+            <span>fadeInUpBig</span>
+        </div>
+
+        <div class="L5">
+            <span>fadeOut</span>
+            <span>fadeOutDown</span>
+            <span>fadeOutDownBig</span>
+            <span>fadeOutLeft</span>
+            <span>fadeOutLeftBig</span>
+            <span>fadeOutRight</span>
+            <span>fadeOutRightBig</span>
+            <span>fadeOutUp</span>
+            <span>fadeOutUpBig</span>
+        </div>
+
+        <div class="L6">
+            <span>flip</span>
+            <span>flipInX</span>
+            <span>flipInY</span>
+            <span>flipOutX</span>
+            <span>flipOutY</span>
+        </div>
+
+        <div class="L7">
+            <span>lightSpeedIn</span>
+            <span>lightSpeedOut</span>
+        </div>
+
+        <div class="L8">
+            <span>rotateIn</span>
+            <span>rotateInDownLeft</span>
+            <span>rotateInDownRight</span>
+            <span>rotateInUpLeft</span>
+            <span>rotateInUpRight</span>
+        </div>
+
+        <div class="L9">
+            <span>rotateOut</span>
+            <span>rotateOutDownLeft</span>
+            <span>rotateOutDownRight</span>
+            <span>rotateOutUpLeft</span>
+            <span>rotateOutUpRight</span>
+        </div>
+
+        <div class="L10">
+            <span>hinge</span>
+            <span>rollIn</span>
+            <span>rollOut</span>
+        </div>
+
+        <div class="L11">
+            <span>zoomIn</span>
+            <span>zoomInDown</span>
+            <span>zoomInLeft</span>
+            <span>zoomInRight</span>
+            <span>zoomInUp</span>
+        </div>
+
+        <div class="L12">
+            <span>zoomOut</span>
+            <span>zoomOutDown</span>
+            <span>zoomOutLeft</span>
+            <span>zoomOutRight</span>
+            <span>zoomOutUp</span>
+        </div>
+    </div>
+    <div class="showStyle">
+        <img id="animation" src="img.jpg" />
+    </div>
+    <div class="txtStyle">
+    </div>
+</body>
+</html>
+<!--<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>-->
+<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script src="animatecss.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var css_basic = "";
+        $(".listStyle span").on("click", function () {
+            var getStyle = $(this).text();
+            showCode(getStyle);
+            // $('#animation').removeClass().addClass('Test_' + getStyle + ' Test_animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $('#animation').removeClass().addClass(getStyle + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).removeClass();
+            });
+        })
+
+        $(".thumbList span").on("click", function () {
+            var getE = $(".listStyle").children("div." + $(this).text());
+            if (!getE.is(":hidden")) {
+                getE.hide();
+                $(this).css({ "background-color": "#fa06c1", "color": "black" });
+            }
+            else {
+                getE.show();
+                $(this).css({ "background-color": "#2b2a2a", "color": "white" })
+            }
+        });
+
+    });
+
+    function showCode(x) {
+        css_basic = data["basic"] + data[x];
+        $(".txtStyle").html(css_basic);
+    }
+
+
+</script>

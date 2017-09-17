@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <p>一般大家都用这个写法来定义一个函数： </p>
+        <pre><code>
+    function Name([parameters]){
+        functionBody
+    };
+
+    //alert(typeof Name) // Function
+               </code></pre>
+        <p>当我们这么定义函数的时候，函数内容会被编译（但不会立即执行，除非我们去调用它）。而且，也许你不知道，当这个函数创建的时候有一个同名的对象也被创建,javascript实际上在后台为你创建了一个对象。这个对象的名称就是函数名本身。这个对象的类型是function </p>
+        <p>
+            我们也可以通过指派一个变量名给匿名函数的方式来定义它。
+        </p>
+        <pre><code>          
+        var add = function(a, b) {
+            return a + b;
+         }
+        alert(add(1, 2)); // 结果 3
+             </code></pre>
+        <p>当我们指派一个这样的函数的时候，我们并不一定要求必须是匿名函数</p>
+        <pre><code>
+        var add = function theAdd(a, b) {
+           return a + b;
+        }
+        alert(add(1, 2)); // 结果 3
+        alert(theAdd(1, 2)); // 结果也是 3
+             </code></pre>
+        <p>使用这种方式来定义函数在面向对象编程中是很有用的，因为我们能像底下这样使一个函数成为一个对象的属性。</p>
+        <pre><code>
+        var myObject = new Object();
+        myObject.add = function (a, b) { return a + b };
+        // myObject 现在有一个叫做“add”的属性（或方法）,而且我能够象下面这样使用它
+        myObject.add(1, 2);
+             </code></pre>
+        <p>我们也能够通过使用运算符new来定义一个函数。这是一个最少见的定义函数的方式并且并不推荐使用这种方式除非有特殊的理由（可能的理由见下）。语法如下：</p>
+        <pre><code>
+        varName=new Function([param1Name, param2Name,...paramNName], functionBody);
+
+        var myfunction = new Function("x", "y", "return (x*y)");
+        console.log(typeof myfunction)  //Function
+        alert(myfunction(2, 3));  //弹出6
+             </code></pre>
+        <p>这就告诉javascript，我们将要创建一个类型是Function的对象。还要注意到，参数名和函数体都是作为字符串而被传递。我们可以随心所欲的增加参数，javascript知道函数体会是右括号前的最后一个字符串（如果没 有参数，你能够只写函数体）。</p>
+        <pre><code>
+        function createMyFunction(myOperator) {
+           return new Function("a", "b", "return a" + myOperator + "b;");
+        }
+        var add = createMyFunction("+"); // 创建函数 "add"
+        var subtract = createMyFunction("-"); // 创建函数 "subtract"
+        var multiply = createMyFunction("*"); // 创建函数 "multiply"  
+        alert("加的结果=" + add(10, 2)); // 结果是 12
+        alert("减的结果=" + subtract(10, 2)); // 结果是 8
+        alert("乘的结果=" + multiply(10, 2)); // 结果是 20
+             </code></pre>
+        <p>这个有趣的例子创建了三个不同的function，通过实时传递不同的参数来创建一个新Function。因为编译器没法知道最终代码会是什么样子的，所以new Function(...) 的内容不会被编译。那这有什么好处呢？嗯，举个例子，如果你需要用户能够创建他们自己的函数的时候这个功能也许很有用，比如在游戏里。我们也许需要允许用 户添加“行为”给一个“player”。但是，再说一次，一般情况下，我们应该避免使用这种形式，除非有一个特殊的目的。</p>
+        <p>我们能够添加给Object添加属性，包括对象function。因为定义一个函数的实质是创建一个对象。我们能够“暗地里”给函数添加属性。</p>
+        <pre><code>
+        function Ball() {
+        }
+        Ball.callname = "皮球";
+        console.log(Ball.callname);  //皮球
+
+        //因为function是一个对象，我们能够为一个function分配一个指针
+        var pointBall = Ball;
+        console.log(pointBall.callname);  //皮球
+             </code></pre>
+        <p>面向对象，多少对象指向同一个函数</p>
+        <pre><code>
+       
+    
+        function sayName(name) {
+            alert(name);
+        }
+        var object1 = new Object(); // 创建三个对象
+        var object2 = new Object();
+        var object3 = new Object();
+        object1.sayMyName = sayName; // 将这个函数指派给所有对象
+        object2.sayMyName = sayName;
+        object3.sayMyName = sayName;
+
+        object1.sayMyName("object1"); // 输出 "object1"
+        object2.sayMyName("object2"); // 输出 "object2"
+        object3.sayMyName("object3"); // 输出 "object3"
+             </code></pre>
+        同时，还能够在一个函数创建之后重新分配它，但是我们需要指向函数对象本身，而不是指向它的指针
+        <pre><code>          
+        function TestFun() {
+            console.log(1);
+        }
+        TestFun = function () {
+            console.log(2);
+        }
+        TestFun(); //2
+             </code></pre>
+        <p>我们还能够在一个函数中嵌套一个函数,你只能在内部调用嵌套的函数。就是说，你不能这么调用：ParentFun.SonFun(10)，因为SonFun只有当外部函数 ParentFun()在运行的时候才会存在,而这个时候，如果外面还有个 function SonFun(){...}函数的话。调用ParentFun函数会先从内部找，即调用是里面的</p>
+        <pre><code>
+        function ParentFun(a, b, c) {
+            function SonFun(a) {
+                return a * a;
+            }
+            return SonFun(a) + SonFun(b) + SonFun(c);
+        }
+             </code></pre>
+        <p>一个函数能够用来作为一个数据类型，这个特性通常被用在面向对象编程中来模拟用户自定义数据类型</p>
+        <pre><code>
+        function Ball(message){
+           alert(message);
+            }
+        var ball0=new Ball("creating new Ball"); // 创建对象并输出消息
+        ball0.name="ball-0"; // ball0现在有一个属性：name
+        alert(ball0.name); // 输出 "ball-0"
+             </code></pre>
+        <pre><code>
+         function Ball(message){
+         alert(message);
+                  }
+         var ball0=new Object();
+         ball0.construct=Ball;
+         ball0.construct("creating new ball"); // 执行 ball0.Ball("creating..");
+             </code></pre>
+        <p>当我们象上面那样使用关键字new创建一个对象的时候，一个新的Object被创建了。我们可以在创建之后给这个对象添加属性</p>
+        <pre><code>
+        function Ball() {
+        }
+        var ball0 = new Ball(); // ball0 现在指向了类型Ball的一个新实例
+        ball0.name = "ball-0"; // ball0 现在有一个属性"name"
+        var ball1 = new Ball();
+        ball1.name = "ball-1";
+        var ball2 = new Ball();
+        alert(ball0.name); // 输出 "ball-0"
+        alert(ball1.name); // 输出 "ball-1"
+        alert(ball2.name); // 哦，我忘记给ball2添加“name”了！ undefined
+             </code></pre>
+        <pre><code>
+        function Employee(name, salary, mySupervisor) {
+            this.name = name;
+            this.salary = salary;
+            this.supervisor = mySupervisor;
+        }
+        var boss = new Employee("John", 200);
+        var manager = new Employee("Joan", 50, boss);
+        var teamLeader = new Employee("Rose", 50, boss);
+        alert(manager.supervisor.name + " is the supervisor of " + manager.name);
+        alert(manager.name + "\'s supervisor is " + manager.supervisor.name);
+             </code></pre>
+        <p>
+            对匿名函数的调用其实还有一种做法，也就是我们看到的jQuery片段——使用()将匿名函数括起来，
+    //然后后面再加一对小括号（包含参数列表）
+        </p>
+        <pre><code>
+        alert((new Function("x", "y", "return x*y;"))(2, 3));// "6" 
+             </code></pre>
+        <p>大家知道小括号的作用吗？小括号能把我们的表达式组合分块，并且每一块，也就是每一对小括号，都有一个返回值。这个返回值实际上也就是小括号中表达式的返回值。所以，当我们用一对小括号把匿名函数括起来的时候，实际上小括号对返回的，就是一个匿名函数的Function对象。因此，小括号对加上匿名函数就如同有名字的函数般被我们取得它的引用位置了。所以如果在这个引用变量后面再加上参数列表，就会实现普通函数的调用形式。比如：</p>
+        <pre><code>
+        var testF = function (x, y) { return x + y; };
+             </code></pre>
+        <p>总之，将其（被小括号包含的匿名函数）理解为括号表达式返回的函数对象，然后就可以对这个函数对象作正常的参数列表调用了。</p>
+        <p><em>(function(){alert(1)})()</em>应该是与<em>a=function(){alert(1)}()</em>等价，或者是<em>a=(function(){alert(1)})()</em>,即a()的变形，不能连a=都去掉。</p>
+        <pre><code>
+        (function (a) {
+            console.log(a);
+            //firebug输出123,使用（）运算符
+        })(123);
+
+        (function (a) {
+
+        console.log(a);
+        //firebug输出1234，使用（）运算符
+        }(1234));
+
+        !function (a) {
+        console.log(a);
+        //firebug输出12345,使用！运算符
+        }(12345);
+
+        +function (a) {
+        console.log(a);
+        //firebug输出123456,使用+运算符
+        }(123456);
+
+        -function (a) {
+        console.log(a);
+        //firebug输出1234567,使用-运算符
+        }(1234567);
+
+        var fn = function (a) {
+        console.log(a);
+        //firebug输出12345678，使用=运算符
+        }(12345678)
+
+        var fn = (function (a) {
+        console.log(a);
+        //firebug输出12345678，使用=运算符
+        })(12345678)
+             </code></pre>
+        <p>可以看到输出结果，在function前面加！、+、 -甚至是逗号等到都可以起到函数定义后立即执行的效果，而（）、！、+、-、=等运算符，都将函数声明转换成函数表达式，消除了javascript引擎识别函数表达式和函数声明的歧义，告诉javascript引擎这是一个函数表达式，不是函数声明，可以在后面加括号，并立即执行函数的代码。</p>
+        <p>加括号是最安全的做法，因为！、+、-等运算符还会和函数的返回值进行运算，有时造成不必要的麻烦。</p>
+        <p>
+            javascript中没用私有作用域的概念，如果在多人开发的项目上，你在全局或局部作用域中声明了一些变量，可能会被其他人不小心用同名的变量给覆盖掉，根据javascript函数作用域链的特性，可以使用这种技术可以模仿一个私有作用域，用匿名函数作为一个“容器”，“容器”内部可以访问外部的变量，而外部环境不能访问“容器”内部的变量，所以( function(){…} )()内部定义的变量不会和外部的变量发生冲突，俗称“匿名包裹器”或“命名空间”。
+        </p>
+
+
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>

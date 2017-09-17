@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <h4>常用</h4>
+        <ul>
+            <li><em>git init</em> git 初始化</li>
+            <li><em>git clone https://github.com/wsxx111/thisStudy.git </em> 从远端拉下来</li>
+            <li><em>git status</em> 查看跟踪状态</li>
+            <li><em>git status -s</em> （喜爱简介版本）</li>
+            <li><em>git add readme.txt</em> 添加到暂存区</li>
+            <li><em>git commit -m '新提交'</em> 从暂存区到提交到库存</li>
+            <li><em>git commit -am'新提交'</em> 直接略add过暂存区，提交到库存 （书上不怎么推荐）</li>
+            <li><em>git commit --amend -m '重新提交'</em> 修复上次提交的  ,相当于 git reset head^ 了一下，又重新提交了</li>
+        </ul>
+        <h4>查看</h4>
+        <ul>
+            <li><em>git remote</em> 查看远端仓库名</li>
+            <li><em>git remote -v</em> 查看远端地址</li>
+            <li><em>git remote show origin</em> 查看本地和远端分支信息</li>
+        </ul>
+        <h4>日志</h4>
+        <ul>
+            <li><em>git log</em> 查看日志</li>
+            <li><em>git log -3</em> 查看前3条日志 （分支下的记录，不是所有的）</li>
+            <li><em>git log -s -2 </em> （简单版）</li>
+            <li><em>git log --graph</em> 左边有分支图</li>
+            <li><em>git log --pretty=oneline</em> 版本号一目了然</li>
+            <li><em>git reflog</em> 可以查看所有分支的所有操作记录(包括(包括commit和reset的操作),包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录</li>
+            
+        </ul>
+        <h4>分支</h4>
+        <ul>
+            <li><em>git branch</em> 查看本地分支</li>
+            <li><em>git branch -r</em> 查看远程分支</li>
+            <li><em>git branch -a</em> 查看本地和远程分支</li>
+            <li><em>git branch dev</em> 新建未存在的分支dev</li>
+            <li><em>git branch -d test</em> 删除分支test</li>
+            <li><em>git branch -D test</em> 当上面提示：分支有没有合并到当前分支的内容，没法删除时 就需要强制删除了，这个就是强制删除</li>
+            <li><em>git push --delete origin test</em> 删除远端分支test</li>
+            <li><em>git checkout test</em> 切换到已存在的分支test上</li>
+            <li><em>git checkout -b test</em> 新建并切换test分支上，基于本地创建分支</li>
+            <li><em>git checkout -b dev origin/dev</em> 基于远程分支创建本地分支，注意不能这么写 git checkout -b develop origin develop</li>           
+        </ul>
+        <h4>撤销</h4>
+        <ul>
+            <li><em>git reset --hard</em> 撤销修改 到未修改的干净状态</li>
+            <li><em>git reset --hard head</em> 与上面一样(对未add命令的和已add未commit的撤销到未add的未修改干净状态)</li>
+            <li><em>git reset --hard 34csdds</em> 撤销到某个版本</li>
+            <li><em>git reset --hard head^</em> 撤销到未修改的干净状态的上一个提交版本</li>
+            <li><em>git reset --hard head^^</em> 撤销到未修改的干净状态的上两个提交版本</li>
+            <li><em>git reset --hard head~4</em> 撤销到未修改的干净状态的上四个提交版本</li>
+            <li><em>git checkout -- readme.txt</em> （对未add但修改了，撤销到未修改，对已经add又修改了，撤销到未修改已add状态） 去掉 -- 也是一样的（git checkout readme.txt），但建议带着 避免与切换分支产生分歧就不好了</li>
+            <li><em>git reset</em> （等于 git reset --soft） 或者git reset head 把add暂存区里面的给撤回到未add的工作区中，注意，只是改变状态，没有改变文件里面的内容，而chekout --改变的是内容，不涉及状态</li>
+            <li><em>git reset HEAD readme.txt</em> 撤销某文件，但不能硬撤销某文件，只能软撤销</li>
+            <li><em>git reset --hard</em> 或者git reset --hard head 这个是回复到未修改的工作区，即未add的工作区中，和上面 git reset 还是不一样的，git reset 默认是git reset --soft</li>          
+        </ul>
+        <h4>合并</h4>
+        <ul>
+            <li><em>git merge test</em>  把test分支合并到当前分支 （合并前记得切换好分支）,可以加 -m 进行解释</li>
+            <li><em>git merge --ff test</em> 和上面一样。 --ff是指fast-forward命令。当使用fast-forward模式进行合并时，将不会创造一个新的commit节点。默认情况下，git-merge采用fast-forward模式。当前分支合并到另一分支时，如果没有分歧解决，就会直接移动文件指针。这个过程叫做fast forward。<p>例如，开发一直在master分支进行，但忽然有一个新的想法，于是新建了一个develop的分支，并在其上进行一系列提交，完成时，回到 master分支，此时，master分支在创建develop分支之后并未产生任何新的commit。此时的合并就叫fast forward。master在合并develop分支的时候并没有产生新的节点，如果是--no-ff 会生成一个节点</p><p><img class="little" src="https://camo.githubusercontent.com/0feadcd77ec97426fd46936d328a7d73bf077881/687474703a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f313232363132392d346432633465323631353430643963312e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970253743696d61676556696577322f322f772f31323430"/><img class="little" src="https://camo.githubusercontent.com/21c1f2f39b91f6aec41cba391b500a4fbc0e14a4/687474703a2f2f75706c6f61642d696d616765732e6a69616e7368752e696f2f75706c6f61645f696d616765732f313232363132392d643966616664643834633737383637612e706e673f696d6167654d6f6772322f6175746f2d6f7269656e742f7374726970253743696d61676556696577322f322f772f31323430"/></p></li>
+            <li><em>git merge --no-ff -m '提交合并'</em> 不fast-forward合并</li>
+            <li><em>git merge --abort</em>  该命令仅仅在合并后导致冲突时才使用。git merge --abort将会抛弃合并过程并且尝试重建合并前的状态。但是，当合并开始时如果存在未commit的文件，git merge --abort在某些情况下将无法重现合并前的状态</li>
+            <li><em>git merge dev --squash</em> 当一个合并发生时，从当前分支和对方分支的共同祖先节点之后的对方分支节点，一直到对方分支的顶部节点将会压缩在一起，使用者可以经过审视后进行提交，产生一个新的节点。
+<p>在看到冲突以后，你可以选择以下两种方式：</p><p>
+    决定不合并。这时，唯一要做的就是重置index到HEAD节点。git merge --abort用于这种情况。
+
+    <br />
+    解决冲突。Git会标记冲突的地方，解决完冲突的地方后使用git add加入到index中，然后使用git commit产生合并节点。
+
+    <br />
+    你可以用以下工具来解决冲突:
+    <br />
+
+    使用合并工具。git mergetool将会调用一个可视化的合并工具来处理冲突合并。
+    <br />
+
+    查看差异。git diff将会显示三路差异（三路合并中所采用的三路比较算法）。
+
+    <br />
+    查看每个分支的差异。git log --merge -p &lt;path&gt;
+    <br />
+    将会显示HEAD版本和MERGE_HEAD版本的差异。
+    <br />
+
+    查看合并前的版本。git show :1:文件名显示共同祖先的版本，git show :2:文件名显示当前分支的HEAD版本，git show :3:文件名显示对方分支的MERGE_HEAD版本。<br />
+
+    git merge test 如果有冲突，想撤销就
+    git reset --hard或者 git reset --hard head 就能还原到未合并前
+</p></li>
+          
+        </ul>
+        <h4>衍合</h4>
+        <ul>
+            <li><em>git rebase master</em>  衍合，把 从当前分支和master的最近祖先开始到当前分支的 所有提交节点 合到master之后，就是换基</li>
+            <li><a href="http://gitbook.liuhui998.com/4_2.html" target="_blank">rebase介绍</a></li>          
+        </ul>
+        <h4>区别</h4>
+        <ul>
+            <li><em>git diff</em> 当前工作区 与 暂存区 比较 显示add之后的变化</li>
+            <li><em>git diff --cached</em> 或者 <em>git diff --staged</em> 是比较的暂存区与库存head的 ，显示的是如果要commit后，提交的新变化</li>
+            <li><em>git diff head</em> 显示的是当前改变 与库存head的变化，包括 add的和add之后的改变 的汇总</li>         
+        </ul>
+        <h4>关联</h4>
+        <ul>
+            <li><em>git clone https://github.com/wsxx111/thisStudy.git </em> 从远端拉下来（从远端到本地的一种关联）</li>
+            <li><em>git remote add origin https://github.com/wsxx111/GGG.git </em> 本地建立一个远端的仓库关联 注意地址要对，可以在github先建一个GGG仓库 （从本地到远端的一种关联）</li>
+           
+        </ul>
+        <h4>拉取</h4>
+        <ul>
+            <li><em>git fetch</em> 这将更新git remote 中所有的远程仓库 所包含分支的最新提交id, 将其记录到.git/FETCH_HEAD文件中，不包括文件</li>
+            <li><em>git fetch origin</em> 这将名称为origin 的远程仓库上的所有branch的最新提交id，将其记录。</li>
+            <li><em>git fetch origin dev</em> 这将这将名称为origin的远程仓库上的分支dev</li>
+            <li><em>git pull origin master</em> 拉取远端到本地，并与本地的东西合并
+            <p>相当于执行了两步<br/>git fetch origin master 拉取远端到本地，不合并
+                <br/>然后 git merge origin master<br/>  这两步就是 git pull origin master 的操作
+                </p></li>
+            <li><p>pull即 首先，基于本地的FETCH_HEAD记录，比对本地的FETCH_HEAD记录与远程仓库的版本号，然后git fetch 获得当前指向的远程分支的后续版本的数据，然后再利用git merge将其与本地的当前分支合并。</p></li>
+           
+        </ul>
+        <h4>推送</h4>
+        <ul>
+            <li><em>git push -u origin dev</em>  把当前的分支与远段的dev分支关联，一般用于首次推送<p>或者 <em>git push --set-upstream origin dev</em> 这个也可以 之后的推送就可以使用 git push 就行了，同时更新的时候也可以git pull 或者 git fetch 就行了，因为已经关联了。</p><p>也可以<em>git branch --set-upstream dev origin/dev</em> 实现本地和远端的分支关联</p></li>
+            <li><em>git push origin dev</em> 通用的推送，把当前分支推送到远端的dev分支</li>        
+        </ul>
+        <h4>其他（不想写了）</h4>
+        <ul>
+            <li><em>git stash</em> </li>
+            <li><em>git stashlist</em> </li>
+            <li><em>git stash apply</em> </li>
+            <li><em>git stash pop</em> </li>          
+            <li><em>git rm test.txt</em> </li>
+            <li><em>git merge --no-ff -m "merged bug fix 101" issue-101</em> </li>
+            <li><em>git remote rm origin</em> 删除远程仓库</li>
+            <li><em>git remote add origin git@github.com:wsxx111/GGG.git</em> </li>
+            <li><em>git tag v1.0</em> </li>
+            <li><em>git tag</em> </li>
+            <li><em>git show v0.9</em> </li>
+            <li><em>git tag -d v0.1</em> 删除一个本地标签</li>
+            <li><em>git push origin v1.0</em> 推送一个本地标签</li>
+            <li><em>git push origin --tags</em> 一次性推送全部尚未推送到远程的本地标签</li>
+      
+        </ul>
+       
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>

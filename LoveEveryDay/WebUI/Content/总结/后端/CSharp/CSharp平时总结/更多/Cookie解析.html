@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+     <h5>Cookie是什么？</h5>
+        <p>cookie时当前识别用户，实现持久化会话的最好方式。简单点说就是服务器知道正在和哪个客户端通信，以及保持与已识别出的客户端通信。Cookie的基本思想就是让浏览器积累一组服务器特有的信息，每次访问服务器时都将这些信息提供给它</p>
+        <p>Cookie能做什么？</p>
+        <p>对连接另一端的用户有更多的了解，并且能在用户浏览页面时对其进行跟踪。</p>
+        <h5>Cookie是怎么分类的？</h5>
+        <p>会话cookie。临时cookie，记录了用户访问站点时的设置和偏好。用户退出浏览器时，会话cookie就被删除了。持久cookie。持久cookie的生存时间更长一些；它们存储在硬盘上，浏览器退出，计算机重启时它们仍然存在。通常会用持久cookie维护某个用户会周期性访问的站点的配置文件或登录名。唯一区别就是它们的过期时间。如果设置了Discard参数或没有设置Expires或没有设置Max-Age参数则说明这个cookie就是一个会话cookie。</p>
+         <h5>Cookie的工作原理？</h5>
+        <p>用户首次访问Web站点时，Web服务器对用户一无所知。Web服务器通过Set-Cookie首部将cookie存放到浏览器中的cookie数据库中。cookie中包含了N个键值对，例如Cookie: id=“1234”。cookie中可以包含任意信息，但它们通常都只包含一个服务器为了进行跟踪而产生的独特的识别码。</p>
+        <p>将来用户再次访问同一站点时，浏览器会从cookie数据库中挑中那个服务器设置的cookie，并在cookie请求首部中（Cookie: id=“1234”）将其传回给服务器。</p>
+        <p>服务器可以通过id="1234"这个键值对来查找服务器为其访问积累的信息（购物历史、地址信息等）。</p>
+        <p>cookie并不仅限与ID号。很多Web服务器都会将信息直接保存在cooki中。比如Cookie： name="Tom"; phone="111-2222"</p>  
+         <h5>Cookie是怎么存储的？</h5>
+        <p>浏览器负责存储cookie信息。不同的浏览器会以不同的方式来存储cookie。有的浏览器用cookis.txt存储。有的浏览器存储在高速缓存目录下独立的文本文件中。</p>
+         <h5>每次访问网站时，是不是将所有的cookie都发送所有的站点？</h5>
+        <p>不是，浏览器通常只向每个站点发送2~3个cookie。因为：对所有这些cookie字节进行传输会严重降低性能。cookie中包含的时服务器特有的名值对，对大部分站点来说，大多数cookie都只是无法识别的无用数据。将所有的cookie发送给所有站点会引发潜在的隐私问题，那些你并不信任的站点也会获得你只想发给其他站点的信息。</p>
+         <h5>cookie与缓存怎么取舍？</h5>
+        <p>cookie是私有的，浏览器不希望得到的cookie和其他浏览器的cookie相同。一般缓存cookie图片而不缓存文本。</p>
+         <h5>cookie的缺点？</h5>
+        <p>存在安全隐患。第三方Web站点使用持久cookie来跟踪用户就是对cookie一种最大的滥用。将这种做法与IP地址和Referer首部信息结合在一起，这些营销公司就可以构建起相当精确的用户档案和浏览模式信息。</p>
+         <h5>如何使用cookie？</h5>
+        <p>Set-Cookie首部用在服务器返回的response中。它有一个强制性的cookie名和cookie值。后面跟着可选的cookie属性，中间由分号分隔。</p>
+        <img src="http://pic.027cgb.cn/20170305/2017319954257683019.png" />         
+        <p>Cookie首部用在浏览器发送的request中。它会将所有与域、路径和安全过滤器相匹配的未过期cookie都发送给这个站点。所有cookie都被组合到一个cookie首部中。Cookie: Name1=Tom; Name2=Jerry</p>
+        <img src="http://pic.027cgb.cn/20170305/20173192351065564430.png" />
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="WebUI/Resource/Javascript/jquery.min.js"><\/script>')</script>
+

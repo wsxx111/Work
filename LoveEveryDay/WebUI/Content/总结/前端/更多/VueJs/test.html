@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <div id="app">
+            <div>{{message +'可以连接我喔'}}</div>
+            <input type="text" v-model="message" />
+            <p v-on="click=cc" v-if="seen">反对党的</p>
+        </div>
+
+        <div id="component1">
+            <my-component></my-component>
+        </div>
+        <div id="component2">
+            <my-component2 msg="hello"></my-component2>
+        </div>
+
+        <div id="demo-2">
+            <input v-model="parentMsg" />
+            <br>
+            <child v-bind:my-message="parentMsg"></child>
+        </div>
+        <div id="example-4">
+            <button v-on:click="show = !show">
+                Toggle
+            </button>
+            <transition v-on:before-enter="beforeEnter" v-on:enter="enter" v-on:leave="leave" v-bind:css="false">
+              <p v-if="show">Demo</p>
+            </transition>
+        </div>
+    </div>
+</body>
+</html>
+<script src="//cdn.bootcss.com/vue/2.1.0/vue.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var vm = new Vue({ el: '#app', data: { message: 'nan', seen: true }, method: function cc() { alert(3) } });
+        console.log(vm.$el);
+        console.log(vm.message);
+        console.log(vm.$watch);
+        console.log(vm.$data);
+        console.log(vm.$methods);
+
+        var MyComponent = Vue.extend({
+            template: '<div>A good idea!</div>'
+        });
+        //注册一下  就是申明 绑定一下  
+        Vue.component('my-component', MyComponent);
+        //创建实例  就是绑定到父级 div#component  
+        new Vue({
+            el: '#component1'
+        });
+
+        //接下来，内部模板只能使用在父级的模板内
+        var showMsg = Vue.extend({
+            template: '<div>哈哈哈，{{msg}}我显示出了{{litMsg}},还有内模板数据：<child-templ></div>',
+            props: ['msg'],
+            data: function () {
+                return {
+                    litMsg: '我是文本'
+                }
+            },
+            components: {
+                'child-templ': MyComponent
+            }
+        });
+        Vue.component('my-component2', showMsg);
+
+        new Vue({
+            el: '#component2'
+        });
+
+        //再看看父级与子级之间的通讯
+        var child = Vue.extend({
+            props: ['myMessage'],
+            template: '<span>{{myMessage}}</span>'
+        });
+
+        new Vue({
+            el: '#demo-2',
+            data: {
+                parentMsg: 'Message from parent'
+            },
+            components: {
+                //不带引号（'child'）则是注册的是子级 可以在页面直接使用  带引号则是内部注册 只能在内部的template中使用  
+                child: child
+            }
+        });
+
+        //动画
+        new Vue({
+            el: '#example-4',
+            data: {
+                show: false
+            },
+            methods: {
+                beforeEnter: function (el) {
+                    el.style.opacity = 0
+                },
+                enter: function (el, done) {
+                    Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+                    Velocity(el, { fontSize: '1em' }, { complete: done })
+                },
+                leave: function (el, done) {
+                    Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+                    Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+                    Velocity(el, {
+                        rotateZ: '45deg',
+                        translateY: '30px',
+                        translateX: '30px',
+                        opacity: 0
+                    }, { complete: done })
+                }
+            }
+        });
+
+    }
+</script>
+

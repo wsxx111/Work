@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+      <div class="sideMenu">
+        <input type='checkbox' id='sideToggle' />
+        <div class="cover-white"></div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#introduce">vue.js介绍</a></li>
+                <li><a href="#detail">vue.js实例</a></li>
+                <li><a href="#mbyf">模板语法</a></li>
+                <li><a href="#jssx">计算属性</a></li>
+                <li><a href="#csbd">样式绑定</a></li>
+                <li><a href="#tjxr">条件渲染</a></li>
+                <li><a href="#lbxr">列表渲染</a></li>
+                <li><a href="#sjclq">事件处理器</a></li>
+                <li><a href="#bdkjbd">表单控件绑定</a></li>
+                <li><a href="#zj">组件</a></li>
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#introduce">vue.js介绍</a></li>
+                <li><a href="#detail">vue.js实例</a></li>
+                <li><a href="#mbyf">模板语法</a></li>
+                <li><a href="#jssx">计算属性</a></li>
+                <li><a href="#csbd">样式绑定</a></li>
+                <li><a href="#tjxr">条件渲染</a></li>
+                <li><a href="#lbxr">列表渲染</a></li>
+                <li><a href="#sjclq">事件处理器</a></li>
+                <li><a href="#bdkjbd">表单控件绑定</a></li>
+                <li><a href="#zj">组件</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <p>
+            HTML的头部内容特别多，有针对SEO的头部信息，也有针对移动设备的头部信息。而且各个浏览器内核以及各个国内浏览器厂商都有些自己的标签元素,有很多差异性。移动端的工作已经越来越成为前端工作的重要内容，除了平常的项目开发，HTML 头部标签功能，特别是meta，link等标签的功能属性显得非常重要。这里整理了一份 &lt;head&gt; 部分的清单,让大家了解每个标签及相应属性的意义，写出满足自己需求的 <head> 头部标签，可以很有效的增强页面的可用性。
+        </p>
+
+       </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+    })
+</script>
+

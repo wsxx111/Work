@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn" class="no-js">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面切换效果（Page Transitions）</title>
+    <link rel="stylesheet" type="text/css" href="css/animations.css" />
+    <style type="text/css">
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body {
+            background: #ede7e7;
+        }
+
+        /*容器大小*/
+        .pt-perspective {
+            position: relative;
+            top: 30px;
+            left: calc(50% - 300px);
+            width: 600px;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 5px;
+            border: 6px solid #fff;
+        }
+
+        .pt-page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+            overflow: hidden;
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-transform: translate3d(0, 0, 0);
+            -moz-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+
+            .pt-page-current,
+            .no-js .pt-page {
+                visibility: visible;
+                z-index: 1;
+            }
+
+
+        .thumbList {
+            border-bottom: 1px solid #171717;
+        }
+
+            .thumbList > span {
+                background-color: #fa06c1;
+                color: black;
+                padding: 5px;
+                margin: 5px;
+                display: inline-block;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+        .dl-menuwrapper {
+            border-bottom: 1px solid #171717;
+        }
+
+            .dl-menuwrapper > ul > li {
+                display: none;
+            }
+
+                .dl-menuwrapper > ul > li li {
+                    background-color: #cfcccc;
+                    color: #fa06c1;
+                    font-weight: bold;
+                    margin: 5px;
+                    display: inline-block;
+                    font-size: 15px;
+                    padding: 6px;
+                    cursor: pointer;
+                }
+
+                    .dl-menuwrapper > ul > li li:active {
+                        background-color: #ff6a00;
+                        color: white;
+                    }
+    </style>
+</head>
+<body>
+    <div class="thumbList">
+        <span>Move</span>
+        <span>Fade</span>
+        <span>DifferentEasing</span>
+        <span>Scale</span>
+        <span>Glue</span>
+        <span>Flip</span>
+        <span>Push-Pull</span>
+        <span>Fold-Unfold</span>
+        <span>Room</span>
+        <span>Cube</span>
+        <span>Carousel</span>
+    </div>
+    <div id="dl-menu" class="dl-menuwrapper">
+        <ul class="dl-menu ">
+            <li class="first" data-animation="67">Slide</li>
+            <li class="Move L_active">
+                <ul>
+                    <li data-animation="1">从右向左/移动</li>
+                    <li data-animation="2">从左向右/移动</li>
+                    <li data-animation="3">从底向上/移动</li>
+                    <li data-animation="4">从上向下/移动</li>
+                </ul>
+            </li>
+            <li class="Fade">
+                <ul>
+                    <li data-animation="5">从右/渐变</li>
+                    <li data-animation="6">从左/渐变</li>
+                    <li data-animation="7">从底/渐变</li>
+                    <li data-animation="8">从上/渐变</li>
+                    <li data-animation="9">到右/渐变</li>
+                    <li data-animation="10">到左/渐变</li>
+                    <li data-animation="11">到底/渐变</li>
+                    <li data-animation="12">到上/渐变</li>
+                </ul>
+            </li>
+            <li class="DifferentEasing">
+                <ul>
+                    <li data-animation="13">Different easing/from right</li>
+                    <li data-animation="14">Different easing / from left</li>
+                    <li data-animation="15">Different easing / from bottom</li>
+                    <li data-animation="16">Different easing / from top</li>
+                </ul>
+            </li>
+            <li class="Scale">
+                <ul>
+                    <li data-animation="17">Scale down / from right</li>
+                    <li data-animation="18">Scale down / from left</li>
+                    <li data-animation="19">Scale down / from bottom</li>
+                    <li data-animation="20">Scale down / from top</li>
+                    <li data-animation="21">Scale down / scale down</li>
+                    <li data-animation="22">Scale up / scale up</li>
+                    <li data-animation="23">Move to left / scale up</li>
+                    <li data-animation="24">Move to right / scale up</li>
+                    <li data-animation="25">Move to top / scale up</li>
+                    <li data-animation="26">Move to bottom / scale up</li>
+                    <li data-animation="27">Scale down / scale up</li>
+                </ul>
+            </li>
+            <li class="Glue">
+                <ul>
+                    <li data-animation="28">Glue left / from right</li>
+                    <li data-animation="29">Glue right / from left</li>
+                    <li data-animation="30">Glue bottom / from top</li>
+                    <li data-animation="31">Glue top / from bottom</li>
+                </ul>
+            </li>
+            <li class="Flip">
+                <ul>
+                    <li data-animation="32">Flip right</li>
+                    <li data-animation="33">Flip left</li>
+                    <li data-animation="34">Flip top</li>
+                    <li data-animation="35">Flip bottom</li>
+                </ul>
+            </li>
+            <li class="Push-Pull">
+                <ul>
+                    <li data-animation="38">Push left / from right</li>
+                    <li data-animation="39">Push right / from left</li>
+                    <li data-animation="40">Push top / from bottom</li>
+                    <li data-animation="41">Push bottom / from top</li>
+                    <li data-animation="42">Push left / pull right</li>
+                    <li data-animation="43">Push right / pull left</li>
+                    <li data-animation="44">Push top / pull bottom</li>
+                    <li data-animation="45">Push bottom / pull top</li>
+                </ul>
+            </li>
+            <li class="Fold-Unfold">
+                <ul>
+                    <li data-animation="46">Fold left / from right</li>
+                    <li data-animation="47">Fold right / from left</li>
+                    <li data-animation="48">Fold top / from bottom</li>
+                    <li data-animation="49">Fold bottom / from top</li>
+                    <li data-animation="50">Move to right / unfold left</li>
+                    <li data-animation="51">Move to left / unfold right</li>
+                    <li data-animation="52">Move to bottom / unfold top</li>
+                    <li data-animation="53">Move to top / unfold bottom</li>
+                </ul>
+            </li>
+            <li class="Room">
+                <ul>
+                    <li data-animation="54">Room to left</li>
+                    <li data-animation="55">Room to right</li>
+                    <li data-animation="56">Room to top</li>
+                    <li data-animation="57">Room to bottom</li>
+                </ul>
+            </li>
+            <li class="Cube">
+                <ul>
+                    <li data-animation="58">Cube to left</li>
+                    <li data-animation="59">Cube to right</li>
+                    <li data-animation="60">Cube to top</li>
+                    <li data-animation="61">Cube to bottom</li>
+                </ul>
+            </li>
+            <li class="Carousel">
+                <ul>
+                    <li data-animation="62">Carousel to left</li>
+                    <li data-animation="63">Carousel to right</li>
+                    <li data-animation="64">Carousel to top</li>
+                    <li data-animation="65">Carousel to bottom</li>
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div id="pt-main" class="pt-perspective">
+        <div class="pt-page pt-page-1">
+            <img style="width: 100%; height: 100%;" src="images/20150924135035661.png" alt="" />
+        </div>
+        <div class="pt-page pt-page-2">
+            <img style="width: 100%; height: 100%;" src="images/21-262687.jpg" alt="" />
+        </div>
+        <div class="pt-page pt-page-3">
+            <img style="width: 100%; height: 100%;" src="images/60-130130114620.jpg" alt="" />
+        </div>
+        <div class="pt-page pt-page-4">
+            <img style="width: 100%; height: 100%;" src="images/60-130130114620.jpg" alt="" />
+        </div>
+        <div class="pt-page pt-page-5">
+            <img style="width: 100%; height: 100%;" src="images/6d81800a19d8bc3ed69473cb848ba61ea8d34516.jpg" alt="" />
+        </div>
+        <div class="pt-page pt-page-6">
+            <img style="width: 100%; height: 100%;" src="images/20150330041852447.jpg" alt="" />
+        </div>
+    </div>
+</body>
+</html>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>
+<script src="js/modernizr.custom.js"></script>
+<script src="js/jquery.dlmenu.js"></script>
+<script src="js/pagetransitions.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+
+        $(".thumbList span").on("click", function () {
+            var getE = $(".dl-menuwrapper>ul").children("li." + $(this).text());
+            if (!getE.is(":hidden")) {
+                getE.hide();
+                $(this).css({ "background-color": "#fa06c1", "color": "black" });
+            }
+            else {
+                getE.show();
+                $(this).css({ "background-color": "#2b2a2a", "color": "white" })
+            }
+        });
+
+    });
+
+    function showCode(x) {
+        //css_basic = data["basic"] + data[x];
+        //$(".txtStyle").html(css_basic);
+    }
+
+
+
+
+
+</script>
+

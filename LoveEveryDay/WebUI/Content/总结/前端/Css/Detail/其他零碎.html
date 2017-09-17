@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h3>calc()</h3>
+        <p>calc() = calc(四则运算) </p>
+        <p>需要注意的是，运算符前后都需要保留一个空格，例如：width: calc(100% - 10px)；</p>
+        <ul>
+            <li>任何长度值都可以使用calc()函数进行计算
+            </li>
+            <li>calc()函数支持 "+", "-", "*", "/" 运算；
+            </li>
+            <li>calc()函数支持 "+", "-", "*", "/" 运算；
+            </li>
+        </ul>
+        <pre><code>
+            .test {
+                width: calc(100% - 50px);
+                background: #eee;
+            } 
+             </code></pre>
+        <h3>toggle()</h3>
+        <p>
+            toggle()  允许子孙元素使用取值序列中的值循环替换继承而来的值。在下述代码中，定义一个多级的ul，第一级使用disk markers，子孙级依次使circle, square, box。 但目前支持性还不好 没有支持的 
+        </p>
+        <pre><code>
+            ul { list-style-type: toggle(disk, circle, square, box); } 
+            em { font-style: toggle(italic, normal); } 
+             </code></pre>
+        <h3>counter</h3>
+        <p>CSS Counters其实就是一计数器，早期在CSS中计数器仅存在于ul和ol元素。如果要使用在div这样的元素上，只能通过list-style-image或者是元素的backgroud-image来实现,在CSS2.1的规范中介绍了一种新技术，允许开发人员使用伪类:after、:before或者伪元素::after、::before给任何元素创建自动递增计数器——类似于列表中的项目符号(list-style-type)。counter-reset主要功能用来标识计数器作用域，而且此值必须用在选择器上，必且是不能缺少的。共包括两个部分，第一个部分是自定义计数器名称，这一部分是必需的。第二部分是计数器起始值，此值是可选的。默认值为0。此值告诉标识组起始值是什么，所以说这个值非常有价值。因为，如果你设置的值为0，那么计数从1开始；如果你设置的值是-5，那么计数从-4开始。依此类推。</p>
+        <p>counter-reset自定义计数器名称时可以随意取名，但此名不能是CSS的关键词，比如none、inherit之类。</p>
+        <p>
+            counter-reset属性可以包含一个或者多个计数器标识符，每个后面都可以跟一个整数值，如section 0 heading 0。如果元素都重置，并且增加一个计数器，计数器是第一次重置，后面值就会递增。如果不止一次指定同一个计算器，则将按指定的计数器做递增。
+        </p>
+        <p>
+            counter-increment属性是用来标识计数器与实际相关联元素范围。其第一个值是必需的，获取counter-reset定义的标识符。
+        </p>
+        <p>
+            counter-ncrement第二个值是一个可选值，是一个整数值，可以是正整数，也可以是负整数。主要用来预设递增的值，如果取值为负值时，表示递减。默认值为1
+        </p>
+        <p>
+            content是和伪类:before、:after或者伪元素::before、::after配合在一起使用，主要功能用来生成内容
+        </p>
+        <p>
+            counter()是一个函数，其主要配合content一起使用。使用counter()来调用定义好的计数器标识符。counter()函数接受两个参数，而且两参数之间使用逗号(,)来分隔。第一个参数是counter-increment定义的属性值<identifier>,用来告诉该文档插入的计数器标识符名称是什么。第二个是用来设置计数器的风格，有点类似于list-style-type。默认情况之下取值为十制，但你也可以重置这个样式风格，比如upper-roman或者upper-alpha.
+        </p>
+        <p>
+            counter()函数第二个值与列表中的list-style-type值相等：
+        </p>
+        <ul>
+            <li>disc</li>
+            <li>circle</li>
+            <li>square</li>
+            <li>decimal</li>
+            <li>decimal-leading-zero</li>
+            <li>lower-romanupper-roman</li>
+            <li>lower-greek</li>
+            <li>lower-latin</li>
+            <li>upper-latin</li>
+            <li>armenian</li>
+            <li>georgian</li>
+            <li>lower-alpha</li>
+            <li>upper-alphanoneinherit</li>
+        </ul>
+        <p>
+            同样的，可以使用多个counter()，如：content: counter(Chapter,upper-roman) "-" counter(section,upper-roman);。
+        </p>
+        <h5>第一步：设置计数器</h5>
+        <p>
+            要使用CSS Counters生成自动计数器，首要条件就是通过counter-reset属性先声明一个计数器名称，这个名称是什么名字并不重要，重要的是你声明了这样的一个名。如:
+        </p>
+        <pre><code>
+             dl {
+              counter-reset: term;
+            }
+             </code></pre>
+        <h5>第二步：声明计数器</h5>
+        <p>
+            counter-reset只是定义了一个计数器标识符，在实际使用中，需要通过counter-increment属性来指定计数器作用域。针对这个示例来说,counter-reset只是定义了一个计数器标识符，但没有指定用到哪。换句话说，这个计数器标识符，可以用到任何标签元素上。在这个示例中，如果要使用dt标签上使用counter-reset声明好的计数器，需要使用counter-increment来显式设置：
+        </p>
+        <pre><code>
+            dl {
+              counter-reset: term;
+            
+              dt{
+                counter-increment: term;
+              }
+            }
+             </code></pre>
+        <h5>第三步：显示计数器</h5>
+        <p>
+            上面两步下来，不见任何成效。如果要让dt标签前面生成自己需要看到的计数器，还需要通过:before、content和counter()：
+        </p>
+        <pre><code>
+             dl {
+              counter-reset: term;
+            
+              dt{
+                counter-increment: term;
+            
+                &:before{
+                  content: counter(term) ":";
+                  margin-right:5px;
+                }
+              }
+            }
+             </code></pre>
+        <p>其他应用</p>
+        <img src="http://image.zhangxinxu.com/image/blog/201412/2014-12-07_212342.png" />
+        <pre><code>
+            body {
+              counter-reset: icecream;
+            }
+            input:checked {
+              counter-increment: icecream;
+            }
+            .total::after {
+              content: counter(icecream);
+            }
+             </code></pre>
+        <img src="http://image.zhangxinxu.com/image/blog/201412/2014-12-07_220132.png" />
+        <pre><code>
+            body {
+              counter-reset: sum;
+            }
+            
+            input {
+              position: absolute;
+              clip: rect(0 0 0 0);	
+            }
+            
+            #number1:checked { counter-increment: sum 64; }
+            #number2:checked { counter-increment: sum 16; }
+            #number3:checked { counter-increment: sum -32; }
+            #number4:checked { counter-increment: sum 128; }
+            #number5:checked { counter-increment: sum 4; }
+            #number6:checked { counter-increment: sum -8; }
+            
+            .sum::before {
+              content: '= ' counter(sum);
+            }
+            
+            #number1:checked ~ 
+            #number2:checked ~ 
+            #number3:not(:checked) ~ 
+            #number4:not(:checked) ~ 
+            #number5:not(:checked) ~ 
+            #number6:checked ~ 
+            .sum::after {
+              content: ' (万岁！)';
+            }
+             </code></pre>
+        <h3>
+            attr()
+        </h3>
+        <p>插入元素的属性值。在CSS2.1中attr()总是返回一个字符串。在CSS3中attr()可以返回多种不同的类型。</p>
+        <pre><code>
+              a:after {
+                content: "("attr(href)")"; 
+                font-size: 12px; 
+              } 
+             </code></pre>
+        <h3>content属性</h3>
+        <p>CSS中主要的伪元素有四个：before/after/first-letter/first-line，在before/after伪元素选择器中，有一个content属性，能够实现页面中的内容插入。</p>
+        <h5>插入纯文字：</h5>
+        <pre><code>
+        &lt;h1&gt;这是h1&lt;/h1&gt;
+        &lt;h2&gt;这是h2&lt;/h2&gt;
+
+        h1::after{
+            content:"h1后插入内容"
+        }
+        h2::after{
+            content:none
+        }
+             </code></pre>
+        <h5>插入文字符号</h5>
+        <pre><code>
+            h1{
+                quotes:"(" ")";  /*利用元素的quotes属性指定文字符号*/
+            }
+            h1::before{
+                content:open-quote;
+            }
+            h1::after{
+                content:close-quote;
+            }
+
+            h2{
+                quotes:"\"" "\"";  /*添加双引号要转义*/
+            }
+            h2::before{
+                content:open-quote;
+            }
+            h2::after{
+                content:close-quote;
+            }
+             </code></pre>
+        <h5>插入图片</h5>
+        <pre><code>
+            &lt;h3&gt;这是h3&lt;/h3&gt;
+
+            h3::after{
+                content:url(http://ido321.qiniudn.com/wp-content/themes/yusi1.0/img/new.gif)
+            }
+             </code></pre>
+        <h5>
+        插入元素的属性值
+        </h5>
+        <p>
+            content属性可以直接利用attr获取元素的属性，将其插入到对应位置。
+        </p>
+        <pre><code>
+        &lt;a href="http:///www.ido321.com"&gt;这是链接&lt;/a&gt;
+
+        a:after{
+            content:attr(href);
+        }
+             </code></pre>
+        <h5>插入项目编号</h5>
+        <p>利用content的counter属性针对多个项目追加连续编号.</p>
+        <pre><code>
+        h1:before{
+             content:'第'counter(my)'章';    
+        }
+        h1{
+            counter-increment:my;
+        }
+             </code></pre>
+        <h5>
+            指定编号种类
+        </h5>
+        <pre><code>
+            //利用content(计数器名，编号种类)格式的语法指定编号种类，编号种类的参考可以依据ul的list-style-type属性值
+        h1:before{
+            content:counter(my,upper-alpha);  // A  B  C
+            color:red;
+            font-size:42px;
+        }
+        h1{
+            counter-increment:my;
+        }
+             </code></pre>
+        <h5>嵌套编号</h5>
+        <pre><code>
+            &lt;h1&gt;大标题&lt;/h1&gt;
+            &lt;p&gt;文字1&lt;/p&gt;
+            &lt;p&gt;文字2&lt;/p&gt;
+            &lt;p&gt;文字3&lt;/p&gt;
+            &lt;h1&gt;大标题&lt;/h1&gt;
+            &lt;p&gt;文字1&lt;/p&gt;
+            &lt;p&gt;文字2&lt;/p&gt;
+
+            h1::before{
+                content:counter(h)'.';
+                counter-reset:p;
+            }
+            h1{
+                counter-increment:h;
+            }
+            p::before{
+                content:counter(p)'.';
+                margin-left:40px;
+            }
+            p{
+                counter-increment:p;
+            }
+             </code></pre>
+        <h3>quotes属性</h3>
+        <p>适用于所有元素，::before, ::after, ::alternate, ::marker, ::line-marker, margin areas, @footnote areas, and @page context，content属性的open-quote和close-quote值将不会生成任何标记。有值的定义content属性的open-quote和close-quote值的标记，2个为一组</p>
+        <pre><code>
+q:lang(en){quotes:'[' ']' "<" ">";}
+q:lang(zh-cmn-Hans){quotes:"«" "»" '"' '"';}
+
+&lt;p lang="en"&gt;&lt;q&gt;Quote me &lt;q&gt;Quote me&lt;/q&gt; Quote me!&lt;/q&gt;&lt;/p&gt;
+&lt;p lang="zh-cmn-Hans"&gt;&lt;q&gt;Quote me &lt;q&gt;Quote me&lt;/q&gt; Quote me!&lt;/q&gt;&lt;/p&gt;
+
+            [Quote me &lt;Quote me&gt; Quote me!]
+            «Quote me "Quote me" Quote me!»
+             </code></pre>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="/WebUI/Resource/Javascript/jquery.min.js"></script>

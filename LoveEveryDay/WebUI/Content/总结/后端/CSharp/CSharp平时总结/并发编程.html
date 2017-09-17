@@ -1,0 +1,417 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <style type="text/css">
+        .listlittle {
+            font-size: 12px;
+        }
+    </style>
+    <title></title>
+</head>
+<body>
+    <div class="sideMenu">
+        <input type='checkbox' id='sideToggle' />
+        <div class="cover-white"></div>
+        <label id="sideMenuControl" for="sideToggle">=</label>
+        <div class="menuTxt">导航</div>
+        <div class="nav-list">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#jbxx">基本信息</a></li>
+                <li><a class="listlittle" href="#conque">ConcurrentQueue</a></li>
+                <li><a class="listlittle" href="#consta">ConcurrentStack</a></li>
+                <li><a class="listlittle" href="#conbag">ConcurrentBag</a></li>
+                <li><a class="listlittle" href="#blocol">BlockingCollection</a></li>
+                <li><a class="listlittle" href="#condic">ConcurrentDictionary</a></li>
+            </ul>
+        </div>
+        <div class="nav-leftlist">
+            <div class="tickbar"></div>
+            <ul>
+                <li><a href="#">顶部</a></li>
+                <li><a href="#jbxx">基本信息</a></li>
+                <li><a class="listlittle" href="#conque">ConcurrentQueue</a></li>
+                <li><a class="listlittle" href="#consta">ConcurrentStack</a></li>
+                <li><a class="listlittle" href="#conbag">ConcurrentBag</a></li>
+                <li><a class="listlittle" href="#blocol">BlockingCollection</a></li>
+                <li><a class="listlittle" href="#condic">ConcurrentDictionary</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <p>对于并行任务，与其相关紧密的就是对一些共享资源，数据结构的并行访问。经常要做的就是对一些队列进行加锁-解锁，然后执行类似插入，删除等等互斥操作。 .NetFramework 4.0 中提供了一些封装好的支持并行操作数据容器，可以减少并行编程的复杂程度。</p>
+        <h3 id="jbxx">基本信息</h3>
+        <p>.NetFramework中并行集合的名字空间： <em>System.Collections.Concurrent</em></p>
+        <p>并发容器</p>
+        <ul>
+            <li><em>ConcurrentQueue</em></li>
+            <li><em>ConcurrentStack</em></li>
+            <li><em>ConcurrentDictionary</em></li>
+            <li><em>ConcurrentBag</em>:一个无序的数据结构集，当不需要考虑顺序时非常有用。</li>
+            <li><em>BlockingCollection</em>与经典的阻塞队列数据结构类似</li>
+        </ul>
+        <p>这些集合在某种程度上使用了<em>无锁技术(CAS Compare-and-Swap和内存屏障Memory Barrier)</em>，与加互斥锁相比获得了性能的提升。但在串行程序中，最好不用这些集合，它们必然会影响性能。</p>
+        <h3 id="conque">ConcurrentQueue</h3>
+        <p>其完全无锁，但当CAS面临资源竞争失败时可能会陷入自旋并重试操作。</p>
+        <ul>
+            <li><em>Enqueue</em>:在队尾插入元素</li>
+            <li><em>TryDequeue</em>:尝试删除队头元素，并通过out参数返回</li>
+            <li><em>TryPeek</em>:尝试将对头元素通过out参数返回，但不删除该元素。</li>
+        </ul>
+
+        <pre><code>
+        class Program
+          {
+              internal static ConcurrentQueue&lt;int&gt; _TestQueue;
+        
+              class ThreadWork1  // producer  
+              {
+                  public void run()
+                  {
+                      System.Console.WriteLine("ThreadWork1 run { ");
+                      for (int i = 0; i < 30; i++)
+                      {
+                          System.Console.WriteLine("ThreadWork1 producer: " + i);
+                          _TestQueue.Enqueue(i);
+                      }
+                      System.Console.WriteLine("ThreadWork1 run } ");
+                  }
+              }
+        
+              class ThreadWork2  // consumer  
+              {
+        
+                  public void run()
+                  {     
+                      int i=0;       
+                      bool IsDequeuue = false;
+                      System.Console.WriteLine("ThreadWork2 run { ");
+                      for (;; i++)
+                      {
+                          IsDequeuue = _TestQueue.TryDequeue(out i);
+                          if (IsDequeuue)
+                              System.Console.WriteLine("ThreadWork2 consumer: " + i * i + "   =====");
+        
+                          if (i == 29)
+                              break;
+                      }
+                      System.Console.WriteLine("ThreadWork2 run } ");
+                  }
+              }
+        
+              static void StartT1()
+              {
+                  ThreadWork1 work1 = new ThreadWork1();
+                  work1.run();
+              }
+        
+              static void StartT2()
+              {
+                  ThreadWork2 work2 = new ThreadWork2();
+                  work2.run();
+              }  
+        
+        
+              public static void Main()
+              {
+                  Task t1 = new Task(() => StartT1());
+                  Task t2 = new Task(() => StartT2());
+                  _TestQueue = new ConcurrentQueue&lt;int&gt;();
+                  Console.WriteLine("Main {");
+        
+                  Console.WriteLine("Main t1 t2 started {");
+                  t1.Start();
+                  t2.Start();
+                  Console.WriteLine("Main t1 t2 started }");
+        
+                  Console.WriteLine("Main wait t1 t2 end {");
+                  Task.WaitAll(t1, t2);
+                  Console.WriteLine("Main wait t1 t2 end }");
+        
+                  Console.WriteLine("Main }");  
+        
+                  Console.ReadKey();
+              }
+          }
+             </code></pre>
+        <img src="http://pic.027cgb.cn/20170305/2017310594100673815.jpg" alt="imgs/bb-1.jpg" />
+        <img src="http://pic.027cgb.cn/20170305/20173104381177961105.jpg" alt="imgs/bb-2.jpg" />
+
+        <h3 id="consta">ConcurrentStack</h3>
+        <p>其完全无锁，但当CAS面临资源竞争失败时可能会陷入自旋并重试操作。</p>
+        <ul>
+            <li><em>Push</em>:向栈顶插入元素</li>
+            <li><em>TryPop</em>:从栈顶弹出元素，并且通过out 参数返回</li>
+            <li><em>TryPeek</em>:返回栈顶元素，但不弹出</li>
+        </ul>
+        <h3 id="conbag">ConcurrentBag</h3>
+        <p>一个无序的集合，程序可以向其中插入元素，或删除元素。</p>
+        <p>在同一个线程中向集合插入，删除元素的效率很高。</p>
+        <ul>
+            <li><em>Add</em>:向集合中插入元素</li>
+            <li><em>TryTake</em>:从集合中取出元素并删除</li>
+            <li><em>TryPeek</em>:从集合中取出元素，但不删除该元素。</li>
+        </ul>
+        <h3 id="blocol">BlockingCollection</h3>
+        <p>一个支持界限和阻塞的容器</p>
+        <ul>
+            <li><em>Add</em>:向容器中插入元素</li>
+            <li><em>TryTake</em>:从容器中取出元素并删除</li>
+            <li><em>TryPeek</em>:从容器中取出元素，但不删除。</li>
+            <li><em>CompleteAdding</em>:告诉容器，添加元素完成。此时如果还想继续添加会发生异常。</li>
+            <li><em>IsCompleted</em>:告诉消费线程，生产者线程还在继续运行中，任务还未完成。</li>
+        </ul>
+        <p><em>要点一</em>：消费者线程完全使用  while (!_TestBCollection.IsCompleted) 作为退出运行的判断条件</p>
+        <p><em>要点二</em>:当BlockingCollection对象设置为CompleteAdding（.CompleteAdding()），但当继续向其中插入元素时，系统抛出异常，提示无法再继续插入。</p>
+        <p></p>
+        <pre><code>
+        class Program
+        {
+            internal static BlockingCollection&lt;int&gt; _TestBCollection;
+        
+            class ThreadWork1  // producer  
+            {
+                public ThreadWork1()
+                { }
+        
+                public void run()
+                {
+                    System.Console.WriteLine("ThreadWork1 run { ");
+                    for (int i = 0; i < 100; i++)
+                    {
+                        System.Console.WriteLine("ThreadWork1 producer: " + i);
+                        _TestBCollection.Add(i);
+                        //if (i == 50)  
+                        //    _TestBCollection.CompleteAdding();  
+                    }
+                    _TestBCollection.CompleteAdding();
+        
+                    System.Console.WriteLine("ThreadWork1 run } ");
+                }
+            }
+        
+            class ThreadWork2  // consumer  
+            {
+                public ThreadWork2()
+                { }
+        
+                public void run()
+                {
+                    int i = 0;
+                    int nCnt = 0;
+                    bool IsDequeuue = false;
+                    System.Console.WriteLine("ThreadWork2 run { ");
+                    while (!_TestBCollection.IsCompleted)
+                    {
+                        IsDequeuue = _TestBCollection.TryTake(out i);
+                        if (IsDequeuue)
+                        {
+                            System.Console.WriteLine("ThreadWork2 consumer: " + i * i + "   =====" + i);
+                            nCnt++;
+                        }
+                    }
+                    System.Console.WriteLine("ThreadWork2 run } ");
+                }
+            }
+        
+            static void StartT1()
+            {
+                ThreadWork1 work1 = new ThreadWork1();
+                work1.run();
+            }
+        
+            static void StartT2()
+            {
+                ThreadWork2 work2 = new ThreadWork2();
+                work2.run();
+            }
+            static void Main(string[] args)
+            {
+                Task t1 = new Task(() => StartT1());
+                Task t2 = new Task(() => StartT2());
+        
+                _TestBCollection = new BlockingCollection&lt;int&gt;();
+        
+                Console.WriteLine("Sample 4-4 Main {");
+        
+                Console.WriteLine("Main t1 t2 started {");
+                t1.Start();
+                t2.Start();
+                Console.WriteLine("Main t1 t2 started }");
+        
+                Console.WriteLine("Main wait t1 t2 end {");
+                Task.WaitAll(t1, t2);
+                Console.WriteLine("Main wait t1 t2 end }");
+        
+                Console.WriteLine("Sample 4-4 Main }");
+        
+                Console.ReadKey();
+            }
+        }
+             </code></pre>
+        <img src="http://pic.027cgb.cn/20170306/2017310516639317460.jpg" alt="imgs/bb-3.jpg" />
+        <h3 id="condic">ConcurrentDictionary</h3>
+        <p>对于读操作是完全无锁的，当很多线程要修改数据时，它会使用细粒度的锁。</p>
+        <ul>
+            <li><em>AddOrUpdate</em>:如果键不存在，方法会在容器中添加新的键和值，如果存在，则更新现有的键和值。</li>
+            <li><em>GetOrAdd</em>:如果键不存在，方法会向容器中添加新的键和值，如果存在则返回现有的值，并不添加新值。</li>
+            <li><em>TryAdd</em>:尝试在容器中添加新的键和值。</li>
+            <li><em>TryGetValue</em>:尝试根据指定的键获得值。</li>
+            <li><em>TryRemove</em>:尝试删除指定的键。</li>
+            <li><em>TryUpdate</em>:有条件的更新当前键所对应的值。</li>
+            <li><em>GetEnumerator</em>:返回一个能够遍历整个容器的枚举器。</li>
+        </ul>
+        <pre><code>
+        class Program
+        {  
+            internal static ConcurrentDictionary&lt;int, int&gt; _TestDictionary;  
+  
+            class ThreadWork1  // producer  
+            {  
+                public ThreadWork1()  
+                { }  
+  
+                public void run()  
+                {  
+                    System.Console.WriteLine("ThreadWork1 run { ");  
+                    for (int i = 0; i < 100; i++)  
+                    {  
+                        System.Console.WriteLine("ThreadWork1 producer: " + i);  
+                        _TestDictionary.TryAdd(i, i);  
+                    }  
+  
+                    System.Console.WriteLine("ThreadWork1 run } ");  
+                }  
+            }  
+  
+            class ThreadWork2  // consumer  
+            {  
+                public ThreadWork2()  
+                { }  
+  
+                public void run()  
+                {  
+                    int i = 0, nCnt = 0;  
+                    int nValue = 0;  
+                    bool IsOk = false;  
+                    System.Console.WriteLine("ThreadWork2 run { ");  
+                    while (nCnt < 100)  
+                    {  
+                        IsOk = _TestDictionary.TryGetValue(i, out nValue);  
+                        if (IsOk)  
+                        {  
+                            System.Console.WriteLine("ThreadWork2 consumer: " + i * i + "   =====" + i);  
+                            nValue = nValue * nValue;  
+                            _TestDictionary.AddOrUpdate(i, nValue, (key, value) => { return value = nValue; });  
+                            nCnt++;  
+                            i++;  
+                        }  
+                    }  
+                    System.Console.WriteLine("ThreadWork2 run } ");  
+                }  
+            }  
+  
+            static void StartT1()  
+            {  
+                ThreadWork1 work1 = new ThreadWork1();  
+                work1.run();  
+            }  
+  
+            static void StartT2()  
+            {  
+                ThreadWork2 work2 = new ThreadWork2();  
+                work2.run();  
+            }  
+            static void Main(string[] args)  
+            {  
+                Task t1 = new Task(() => StartT1());  
+                Task t2 = new Task(() => StartT2());  
+                bool bIsNext = true;  
+                int  nValue = 0;  
+  
+                _TestDictionary = new ConcurrentDictionary&lt;int, int&gt;();  
+  
+                Console.WriteLine("Sample 4-5 Main {");  
+  
+                Console.WriteLine("Main t1 t2 started {");  
+                t1.Start();  
+                t2.Start();  
+                Console.WriteLine("Main t1 t2 started }");  
+  
+                Console.WriteLine("Main wait t1 t2 end {");  
+                Task.WaitAll(t1, t2);  
+                Console.WriteLine("Main wait t1 t2 end }");
+
+                #region 其他
+                foreach (var pair in _TestDictionary)
+                {
+                    Console.WriteLine(pair.Key + " : " + pair.Value);
+                }
+
+                System.Collections.Generic.IEnumerator&lt;System.Collections.Generic.KeyValuePair&lt;int, int&gt;&gt;
+                    enumer = _TestDictionary.GetEnumerator();
+
+                while (bIsNext)
+                {
+                    bIsNext = enumer.MoveNext();
+                    Console.WriteLine("Key: " + enumer.Current.Key +
+                                      "  Value: " + enumer.Current.Value);
+
+                    _TestDictionary.TryRemove(enumer.Current.Key, out nValue);
+                }
+
+                #endregion
+
+                Console.WriteLine("\n\nDictionary Count: " + _TestDictionary.Count);  
+  
+                Console.WriteLine("Sample 4-5 Main }");  
+  
+                Console.ReadKey();  
+            }  
+        }  
+             </code></pre>
+        <img src="http://pic.027cgb.cn/20170306/20173103601716604750.jpg" alt="imgs/bb-4.jpg" />
+
+
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+    $(function () {
+        $("#sideToggle").change(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                var go_left = $(".sideMenu .nav-leftlist a").width() + 30;
+                if (show_left && $(this).is(":checked")) {
+                    $(".container").animate({ "left": go_left + "px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "0px" }, 200);
+                }
+                else {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+
+        });
+        $(".sideMenu .nav-leftlist a").click(function () {
+            if ($(document).width() < 1300) {
+                var show_left = $(".container").css("left") == '0px';
+                if (!show_left) {
+                    $(".container").animate({ "left": "0px" }, 400);
+                    $("#sideToggle").attr("checked", false);
+                    $(".sideMenu .nav-leftlist").animate({ "left": "-200px" }, 200);
+                }
+            }
+        })
+    })
+</script>
+
+

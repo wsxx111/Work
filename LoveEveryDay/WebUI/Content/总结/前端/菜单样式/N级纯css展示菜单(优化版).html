@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title></title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" />
+    <style type="text/css">
+        .showline {
+            outline: 1px solid red;
+        }
+
+        ul {
+            list-style: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        .nav-left {
+            padding-left: 0px;
+            margin-left: 0px;
+            border-right: 1px solid white;
+        }
+
+
+            .nav-left > li {
+                width: 100%;
+                background-color: #1e1c1c;
+                color: #b9b6b6;
+                position: relative;
+                border-right: 1px solid white;
+            }
+
+                .nav-left > li > div {
+                    display: inline-block;
+                    height: 50px;
+                    width: 70px;
+                    line-height: 50px;
+                    border-right: 1px solid white;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
+
+                .nav-left > li:hover div {
+                    cursor: pointer;
+                    background-color: #ff6a00;
+                    color: #fff;
+                }
+
+            .nav-left li:hover > a {
+                cursor: pointer;
+                color: #ff6a00;
+            }
+
+            .nav-left li:hover {
+                background-color: #353535;
+            }
+
+            
+             .nav-left li:hover > ul {
+                display: block;
+            }
+              .nav-left li:hover > ul {
+                display: block;
+            }
+
+            /*.nav-left li>a:hover + ul {
+                display: block;
+            }*/
+
+            .nav-left li ul {
+                display: none;
+            }
+
+            .nav-left li a {
+                color: #b9b6b6;
+                line-height: 50px;
+                height: 50px;
+                padding-left: 15px;               
+            }
+
+            .nav-left > li ul {
+                width: 200px;
+                position: absolute;
+                right: -201px;
+                top: 0px;
+                background-color: #1e1c1c;
+                color: #b9b6b6;
+                position: absolute;
+                border-right: 1px solid white;
+                padding-left: 0px;
+            }
+
+                .nav-left > li ul li {
+                    position: relative;
+                    border-right: 1px solid white;
+                }
+
+                    .nav-left > li ul li:hover {
+                        border-left: 4px solid #ad1010;
+                    }
+
+            .nav-left li a i {
+                position: absolute;
+                right: 10px;
+                line-height: 50px;
+            }
+
+            .nav-left li a:focus {
+                outline: none;
+            }
+
+        @media (max-width:770px) {
+            .nav-left > li {
+                width:70px;
+                position: relative;
+            }
+
+                .nav-left > li > div {
+                    position: relative;
+                    z-index: 100;
+                }
+
+                .nav-left > li > a span {
+                    position: relative;
+                    left: -200px;
+                    z-index: 0;
+                }
+
+                .nav-left > li > a i {
+                    display:none;
+                }
+
+
+                .nav-left > li:hover > a span {
+                    transition: left .4s;
+                    left: 0px;
+                }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-3 showline">
+                <ul class="nav-left">
+                    <li>
+                        <div>图标</div>
+                        <a class="hidden-xs-wk" href="#"><span>标题1</span></a>
+                    </li>
+                    <li>
+                        <div>图标</div>
+                        <a class="hidden-xs-wk" href="#"><span>标题2</span><i class="glyphicon glyphicon-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="#"><span>子标题1</span></a></li>
+                            <li><a href="#"><span>子标题2</span></a></li>
+                            <li><a href="#"><span>子标题3</span></a></li>
+                            <li><a href="#"><span>子标题4</span><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                <ul>
+                                    <li><a href="#"><span>小小1</span></a></li>
+                                    <li><a href="#"><span>小小2</span></a></li>
+                                    <li><a href="#"><span>小小3</span><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                        <ul>
+                                            <li><a href="#"><span>最小1</span></a></li>
+                                            <li><a href="#"><span>最小2</span></a></li>
+                                            <li><a href="#"><span>最小3</span></a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">小小4</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                            <li>
+                        <div>图标</div>
+                        <a class="hidden-xs-wk" href="#"><span>标题2</span><i class="glyphicon glyphicon-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="#"><span>子标题1</span></a></li>
+                            <li><a href="#"><span>子标题2</span></a></li>
+                            <li><a href="#"><span>子标题3</span></a></li>
+                            <li><a href="#"><span>子标题4</span><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                <ul>
+                                    <li><a href="#"><span>小小1</span></a></li>
+                                    <li><a href="#"><span>小小2</span></a></li>
+                                    <li><a href="#"><span>小小3</span><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                        <ul>
+                                            <li><a href="#"><span>最小1</span></a></li>
+                                            <li><a href="#"><span>最小2</span></a></li>
+                                            <li><a href="#"><span>最小3</span></a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">小小4</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>图标</div>
+                        <a class="hidden-xs-wk" href="#"><span>标题3</span></a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-xs-9 showline">
+                dsds
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!--<ul class="nav-left-list">
+        <li><a href="#"><span>首页</span></a></li>
+        <li>
+            <a href="#"><span>一级》</span></a>
+            <ul>
+                <li><a href="#"><span>二级》</span></a>
+                    <ul>
+                        <li><a href="#"><span>三级11</span></a></li>
+                        <li><a href="#"><span>三级12</span></a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><span>二级</span></a></li>
+                <li>
+                    <a href="#"><span>二级》</span></a>
+                    <ul>
+                        <li><a href="#"><span>三级21</span></a></li>
+                        <li><a href="#"><span>三级22》</span></a>
+                            <ul>
+                                <li><a href="#"><span>四级11</span></a></li>
+                                <li><a href="#"><span>四级12</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#"><span>下文</span></a></li>       
+    </ul>-->
+</body>
+</html>
