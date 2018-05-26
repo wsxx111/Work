@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>   
+    <div class="container">
+        <p>续接上片，做的进一步分析，本篇如果语述上有问题的，可以忽略</p>
+        <h3>Thread部分</h3>
+        <pre><code>
+         public class TestThread
+        {
+            public void RunThread()
+            {
+            //线程  声明线程时传入方法A,A可以带object类型的参数，没有返回值,
+            //如果有参数，start启用的时候传入。默认是前台运行的，就是说在所有的线程走完后才运行结束
+                Thread t1 = new Thread(() =>
+                {
+                    Thread.Sleep(2000);                   
+                    Console.WriteLine(222);
+                });
+                Thread t2 = new Thread((object m) =>
+                {
+                    Thread.Sleep(6000);                  
+                    Console.WriteLine(m);
+                });
+                t2.IsBackground = true;
+                t2.Start(333);
+                t1.Start();
+                Thread.Sleep(1000);
+                Console.WriteLine(111);
+            }       
+        ######## 测试部分 ########
+            TestThread tw = new TestThread();
+             tw.RunThread();
+            
+        结果：
+        111
+        222
+        CLR自动关闭应用程序
+        333出不来
+        分析：
+        Thread 默认是前台运行，前台运行完 CLR自动结束（有的不是，比如说winForm是一直运行着的，如果控制台，比如Console.Read(),保持前台在等待着，也是OK的）
+        t1 前台运行  t2后台运行，他们和主线程M一起并行运行
+        M         t2         t1        
+        停1s      停2s       停6s
+        输出111
+                 输出222
+        --------------------------CLR结束
+                         输出333
+        ##########################
+        //线程池初始化执行方法必须带一个object参数
+        //ThreadPool默认带一个object的参, 没有返回值，默认是后台运行的，就是说在只要主线程走完了，直接就完了，不管子线程走完没
+            public void RunThreadPool()
+            {
+                ThreadPool.QueueUserWorkItem((object o) =>
+                {
+                    Thread.Sleep(6000);
+                    Console.WriteLine(222);
+                });
+                Thread.Sleep(1000);
+                Console.WriteLine(111);
+            }
+        ######## 测试部分 ########
+            TestThread tw = new TestThread();
+             tw.RunThreadPool();
+            
+        结果：
+        111
+        CLR自动关闭应用程序
+        222出不来
+        分析：
+        ThreadPool 默认是后台运行
+        ##########################
+            public void RunParaller()
+            {
+              //Parallel是用多个线程执行循环的工具
+        //Parallel是个普通顺序执行语句，只是里面开启多个线程跑东西，Parallerl下面的语句还是需要等Parallel执行完后才能执行的
+                int result = 0;
+                int lockResult = 0;
+                object lb = new object();
+                Parallel.For(0, 3, (i) =>
+                {
+                    result = result + 2;
+                    //lock只能lock引用类型，利用引用对象的地址唯一作为锁，实现lock中的代码一次只能一个线程访问
+                    //lock让lock里的代码在并行时变为串行，尽量不要在parallel中用lock（lock内的操作耗时小，lock外操作耗时大时，并行还是起作用）
+                    lock (lb)
+                    {
+                        lockResult = lockResult + 2;
+                        Thread.Sleep(2000);
+                        Console.WriteLine("i={0},lockResult={1}", i, lockResult);
+                    }
+                    Console.WriteLine("i={0},result={1}", i, result);
+                });
+                Console.WriteLine(11111);
+            }
+            TestThread tw = new TestThread();
+            tw.RunParaller();
+            ######## 测试部分 ########
+             结果：
+             i=0,lockResult=2
+             i=0,result=6
+             i=1,lockResult=4
+             i=1,result=6
+             i=2,lockResult=6
+             i=2,result=6
+             11111
+          
+             分析：
+             这个栗子有点特殊啊，如果循环大了的话，result的值不知道会不会存在问题           
+            ##########################
+        }
+        
+        </code></pre>
+        <p>可以看出，Thread多线程，传入的是没有返回值的方法，不涉及到各个新开的线程返回值的讨论，讨论的是谁先执行完谁后执行完的影响最后结构的问题，讨论域是站在一个方法下，这个方法新开启线程 讨论的，接下来我们要切换到定位多线程执行返回值这块</p>
+        <h3>Task</h3>
+        <p>Task是个什么东西呢，它在线程中的定位是什么，为啥会诞生它，先看下面的例子</p>
+        <pre><code>
+        public void TaskApply()
+        {
+             Console.WriteLine(1111);
+             var t= Task.Run(() =>
+              {
+                  Thread.Sleep(8000);
+                  Console.WriteLine(5555);               
+              });
+              Console.WriteLine(2222);
+              Thread.Sleep(1000);
+              Console.WriteLine(3333);                                     
+        }
+         ######## 测试部分 ########
+         TestTask tw = new TestTask();
+         tw.TaskApply();
+         Console.WriteLine(4444);  
+           结果：
+           1111
+           2222  
+           (停1s)
+           3333
+          4444
+           ----CLR结束
+           5555和6666不会出来   
+           分析：
+           可以看出Task也是后台运行的线程，
+           首先遇到Task ，相当于新运行了一个IsBackground为true的线程，Task.Run里面也走，外面的也走，并行向下执行，外面的2222输出后，停个1s，输出3333，外面的走完了，继续走方法外的，输出4444，方法外的也走完了，这个时候TaskRun还在那Sleep，不管，结果就出来了
+          
+         ##########################
+           从上面看，好像他和IsBackground=true的Thread运行特征好像相似点很高，我们捋一下，首先Thread是有前后台运行的，他传的方法可以带一个object类型的参数，也可以不带，没有返回值，二ThreadPool是必须传一个object的参数的，是后台运行的，也没有返回值。
+           但是呢，Task和他们还有有些不填点，Task他传的方法不能带参数，他是后台运行的，重点是可以返回值的，我们可以在想调动它返回值的地方去获取，唯一需要注意的是在获取的时候会阻塞到当前的线程，即Task中的方法和调动他的变成串执行了，当然调用值的时候，可能Task中已经执行完了也不好说。看下面的改动
+         
+        public void TaskApply2()
+        {
+             Console.WriteLine(222);
+             var t= Task.Run(() =>
+              {
+                  Thread.Sleep(8000);
+                  Console.WriteLine(555);
+                  return 666;
+              });
+              Console.WriteLine(333);
+              Thread.Sleep(1000);
+              Console.WriteLine(444);
+              Console.WriteLine(t.Result);
+              Console.WriteLine(777);                                     
+        }
+         ######## 测试部分 ########
+         Console.WriteLine(111);
+         TestTask tw = new TestTask();
+         tw.TaskApply();
+         Console.WriteLine(888);
+        结果：
+        111
+        222 
+        333
+        444
+        555
+        666
+        777
+        888
+        分析：
+           首先最外面输出 111，然后进入方法B里面，输出222，然后遇到 Task,并行开始了，外面（B）输出333，停个1s，输出444，遇到t.Result,不好意思，得等待Task运行完才能向下执行了，这时候Task.Run里面的8s到了输出555，把返回值返出来，外面(B)的输出666，接着输出777，最后最外面输出888
+           可以看出 如果不调返回值的话，外面(B)是是不会阻塞着等待Task.Run里面的执行完再执行的，这就是Task返回值阻塞的特性
+           </code></pre>
+        <p>当明白上面这个栗子和分析之后，我们看下面几个简单的就很通顺了</p>
+        <pre><code>
+            public void RunBackTask()
+            {
+                Task t = new Task(() =>
+                {
+                    Thread.Sleep(6000);
+                    Console.WriteLine(333);
+                });
+                t.Start();
+                Console.WriteLine(111);
+                Thread.Sleep(2000);
+                Console.WriteLine(222);
+            }
+            //外面调用 RunBackTask这个方法的时候 首先是输出 111，停个2s，输出 222，Task的6s还没到，这时候外面的继续跑，这个333输出与否就要看外面的了
+            而我们要看下面只个鬼的话
+             public void RunTaskGui()
+            {
+                // 111  222  333 444 555 666  顺序执行              
+                var ff = Task.Run(() =>
+                {
+                    Thread.Sleep(6000);
+                    Console.WriteLine(111);
+                    return 333;
+                }).Result;
+                Console.WriteLine(222);
+                Console.WriteLine(ff);
+                Thread.Sleep(6000);
+                Console.WriteLine(444);
+            }
+            外面的调RunTaskGui()，里面的顺序的走完
+            依此是 111 222 333  444，因为 Task.Run（）后直接调了Result，直接阻塞了，这个方法和普通的方法就一样了 
+            </code></pre>
+        <p>从上面我们发现，我们一直在讨论调用方法A里面是怎么执行的，外面的方法肯定是在调用方法A直线完后再直线，即使调用方法A里面有Task的一个异步线程B，那也是新开的一个并行的线程，虽然这个线程B不阻塞他下面的语句和我们外部的方法，我们也是在调用方法B里的走到最后的 } 后再直线我们外面下面的方法 </p>
+        <p>我们现在要切换到，管你调动方法A里面执行什么东东，我外面调用你后，我直接往下面走，看似外面又一层异步的调用</p>
+        <pre><code>
+            public int SubTask()
+            {
+               Thread.Sleep(1000);
+                Console.WriteLine(333);
+                var ff = Task.Run(() =>
+                {
+                    Thread.Sleep(6000);
+                    Console.WriteLine(555);
+                    return 666;
+                });
+                Console.WriteLine(444);
+                Console.WriteLine(ff.Result);
+               return 777;
+            }
+            ######## 测试部分 ########
+            Console.WriteLine(111);
+            var s=Task.Run(() =>
+            {
+                TestTask tm = new TestTask();
+                return tm.SubTask();            
+            });
+            Console.WriteLine(222);
+            Console.WriteLine(s.Result);
+            Console.WriteLine(888);
+                             
+            结果：
+            111
+            222 
+            333
+            444
+            555
+            666
+            777
+            888
+            这个我就不解释了，应该能顺下来
+            </code></pre>
+        <p>接下来看另一个鬼 async + await</p>
+        <h3>async+await</h3>
+        <pre><code>
+             public async void RunAwaitTask()
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine(222);
+                var ff= await Task.Run(() =>
+                {
+                    Thread.Sleep(2000);
+                    Console.WriteLine(444);
+                    return 666;
+                });
+                Console.WriteLine(555);
+                Console.WriteLine(ff);
+                Console.WriteLine(777);
+            }
+             ######## 测试部分 ########
+             TestTask tm = new TestTask();
+            Console.WriteLine(111);
+            tm.RunAwaitTask();
+            Console.WriteLine(333);
+            //Thread.Sleep(6000);
+            //Console.WriteLine(888);
+            结果:
+            111
+            222
+            333  --走完后 ClR可能会结束，所以下面不一定会出来
+            444
+            555
+            666
+            777
+            把 
+            //Thread.Sleep(6000);
+            //Console.WriteLine(888);
+            放开后
+            结果是：
+            111
+            222
+            333  
+            444
+            555
+            666
+            777
+            888
+            </code></pre>
+        <p>它和上面我们讨论的哪个最相似，找找，我们就发现了这货，比较下</p>
+        <pre><code>
+        public void TaskApply2()
+        {
+             Console.WriteLine(222);
+             var t= Task.Run(() =>
+              {
+                  Thread.Sleep(8000);
+                  Console.WriteLine(555);
+                  return 666;
+              });
+              Console.WriteLine(333);
+              Thread.Sleep(1000);
+              Console.WriteLine(444);
+              Console.WriteLine(t.Result);
+              Console.WriteLine(777);                                     
+        }
+         ######## 测试部分 ########
+         TestTask tw = new TestTask();
+         Console.WriteLine(111);
+         tw.TaskApply();
+         Console.WriteLine(888);
+         结果：
+        111
+        222 
+        333
+        444
+        555
+        666
+        777
+        888          
+            </code></pre>
+        <p><em>看到异同点了没</em>，<em>看到了没</em>，<em>看到了没</em>，<em>看到了没</em>，没看到说明上面Task的思想没定下来</p>
+        <p>我们发现调用 一个async的方法，在进去里面一步步执行的时候，遇到await，开始并行了，这个并行现在变成了最外层的调用方法了，而不是里面的语句</p>
+        <p>从例子看，在执行完Console.WriteLine(222);后，RunAwaitTask这个遇到了await就开始等待了,await下面的语句就阻塞，而最外层的Console.WriteLine(333);可以走了，也就是说，await 的Task运行的和最外层的一起走并行</p>
+        <p>对于TaskApply2呢，在遇到 Task后，Task下面的语句Console.WriteLine(333);开始执行了，并行的是下面的语句，而不是外面 Console.WriteLine(888);对于Console.WriteLine(888);只是在TaskApply2方法走完 } 后才走，这里面如果把 Console.WriteLine(t.Result);去掉的话，结果又会不一样，但中心区别已经找到了:</p>
+        <p>async+await 这个 开始并发的点是在遇到await后，外层调用它的和他的Task并行，外层的语句就开始执行了。而普通的Task不会和外层的调用有关系，只会和Task下面的语句开启并行，外层的是在走完 } 后才执行的。</p>
+
+
+        <p>上面只是刚引入 async+await的东西，他们还有各种限制和特征，比如：</p>
+        <p>
+            异步方法返回类型是Task&lt;T&gt;，Task，或者Void，所以获取返回值只能await或者.Result,但是 async+await和async+.Result还是不一样的
+        </p>
+        <pre><code>
+             public async void RunAwaitTask()
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine(222);
+                var ff=Task.Run(() =>
+                {
+                    Thread.Sleep(2000);
+                    Console.WriteLine(444);
+                    return 666;
+                }).Result;
+                Console.WriteLine(555);
+                Console.WriteLine(ff);
+                Console.WriteLine(777);
+            }
+          
+        ######## 测试部分 ########
+        TestTask tm = new TestTask();
+        Console.WriteLine(111);
+        tm.RunAwaitTask();
+        Console.WriteLine(333);
+       
+        结果:
+        111
+        222       
+        444
+        555
+        666
+        777
+        333
+        可以看出关键点在于await
+        不解释了
+  </code></pre>
+        <p>这只是最简单开始，还会有各种异步嵌套。但这个最基本的区别脑子里必须定下来，这样遇到各个的场景就能想版本应用和实现了，也能断定自己写的代码该怎么走了，。线程牵扯到各个线程按不同的时间段一起执行，谁先执行完，谁后执行完都会造成不同的结果。所有有了指导思想就可以慢慢诊断了</p>
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+
+
+

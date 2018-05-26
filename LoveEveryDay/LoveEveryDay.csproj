@@ -621,6 +621,7 @@
     <Content Include="WebUI\Content\总结\后端\CSharp\CSharp平时总结\imgs\t2.png" />
     <Content Include="WebUI\Content\总结\后端\CSharp\CSharp平时总结\imgs\t3.png" />
     <Content Include="WebUI\Content\总结\后端\CSharp\CSharp平时总结\list.html" />
+    <Content Include="WebUI\Content\总结\后端\CSharp\CSharp平时总结\异步线程附属篇.html" />
     <Content Include="WebUI\Content\总结\后端\CSharp\CSharp平时总结\更多\表达式树.html" />
     <Content Include="WebUI\Content\总结\后端\CSharp\CSharp平时总结\更多\imgs\img_0.jpg" />
     <Content Include="WebUI\Content\总结\后端\CSharp\CSharp平时总结\更多\imgs\img_1.jpg" />
