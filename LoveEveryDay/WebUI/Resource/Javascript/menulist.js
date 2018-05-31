@@ -134,6 +134,11 @@ var menuList = [{
                                         "iconClass": "",
                                         "url": "WebUI/Content/总结/后端/CSharp/CSharp平时总结/异步线程.html"
                                     },
+                                     {
+                                         "title": "异步线程附属篇",
+                                         "iconClass": "",
+                                         "url": "WebUI/Content/总结/后端/CSharp/CSharp平时总结/异步线程附属篇.html"
+                                     },
                                     {
                                         "title": "并发编程",
                                         "iconClass": "",

@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/WebUI/Resource/Javascript/plugins/syntaxhighlighter/highlightstyle.css" rel="stylesheet" />
+    <link href="/WebUI/Resource/Css/DetailSite.css" rel="stylesheet" />
+    <title></title>
+</head>
+<body>   
+    <div class="container">   
+        <a href="http://www.cnblogs.com/yunfeifei/p/3995342.html" target="_blank" >原文</a>     
+    <p>GC，Garbage Collect，中文意思就是垃圾回收，指的是系统中的内存的分配和回收管理。其对系统性能的影响是不可小觑的。今天就来说一下关于GC优化的东西，这里并不着重说概念和理论，主要说一些实用的东西。关于概念和理论这里只做简单说明</p>
+        <h3>什么是GC </h3>
+        <p>GC如其名，就是垃圾收集，当然这里仅就内存而言。Garbage Collector（垃圾收集器，在不至于混淆的情况下也成为GC）以应用程序的root为基础，遍历应用程序在Heap上动态分配的所有对象[2]，通过识别它们是否被引用来确定哪些对象是已经死亡的、哪些仍需要被使用。已经不再被应用程序的root或者别的对象所引用的对象就是已经死亡的对象，即所谓的垃圾，需要被回收。这就是GC工作的原理。为了实现这个原理，GC有多种算法。比较常见的算法有Reference Counting，Mark Sweep，Copy Collection等等。目前主流的虚拟系统.NET CLR，Java VM和Rotor都是采用的Mark Sweep算法。(此段内容来自网络)</p>
+        <h4>.NET的GC机制有这样两个问题：</h4>
+        <p>首先，GC并不是能释放所有的资源。它不能自动释放非托管资源。</p>
+        <p>第二，GC并不是实时性的，这将会造成系统性能上的瓶颈和不确定性。</p>
+        <p>GC并不是实时性的，这会造成系统性能上的瓶颈和不确定性。所以有了IDisposable接口，IDisposable接口定义了Dispose方法，这个方法用来供程序员显式调用以释放非托管资源。使用using语句可以简化资源管理。</p>
+        <h3>托管资源和非托管资源</h3>
+        <p>托管资源指的是.NET可以自动进行回收的资源，主要是指托管堆上分配的内存资源。托管资源的回收工作是不需要人工干预的，有.NET运行库在合适调用垃圾回收器进行回收。</p>
+        <p>非托管资源指的是.NET不知道如何回收的资源，最常见的一类非托管资源是包装操作系统资源的对象，例如文件，窗口，网络连接，数据库连接，画刷，图标等。这类资源，垃圾回收器在清理的时候会调用Object.Finalize()方法。默认情况下，方法是空的，对于非托管对象，需要在此方法中编写回收非托管资源的代码，以便垃圾回收器正确回收资源。</p>
+        <p>在.NET中，Object.Finalize()方法是无法重载的，编译器是根据类的析构函数来自动生成Object.Finalize()方法的，所以对于包含非托管资源的类，可以将释放非托管资源的代码放在析构函数。</p>
+        <h3>关于GC优化的一个例子 </h3>
+        <p>正常情况下，我们是不需要去管GC这些东西的，然而GC并不是实时性的，所以我们的资源使用完后，GC什么时候回收也是不确定的，所以会带来一些诸如内存泄漏、内存不足的情况，比如我们处理一个约500M的大文件，用完后GC不会立刻执行清理来释放内存，因为GC不知道我们是否还会使用，所以它就等待，先去处理其他的东西，过一段时间后，发现这些东西不再用了，才执行清理，释放内存。</p>
+        <p>下面，来介绍一下GC中用到的几个函数：</p>
+        <p>GC.SuppressFinalize(this); //请求公共语言运行时不要调用指定对象的终结器。</p>
+        <p>GC.GetTotalMemory(false); //检索当前认为要分配的字节数。 一个参数，指示此方法是否可以等待较短间隔再返回，以便系统回收垃圾和终结对象。</p>
+        <p>GC.Collect();  //强制对所有代进行即时垃圾回收。</p>
+        <h5>GC运行机制</h5>
+        <p>写代码前，我们先来说一下GC的运行机制。大家都知道GC是一个后台线程，他会周期性的查找对象，然后调用Finalize()方法去消耗他，我们继承IDispose接口，调用Dispose方法，销毁了对象，而GC并不知道。GC依然会调用Finalize()方法，而在.NET 中Object.Finalize()方法是无法重载的，所以我们可以使用析构函数来阻止重复的释放。我们调用完Dispose方法后，还有调用GC.SuppressFinalize(this) 方法来告诉GC，不需要在调用这些对象的Finalize()方法了。</p>
+        <p>下面，我们新建一个控制台程序，加一个Factory类，让他继承自IDispose接口，代码如下：</p>
+        <pre><code>
+   public class Factory : IDisposable
+   {
+      private StringBuilder sb = new StringBuilder();
+      List<int> list = new List<int>();
+      //拼接字符串，创造一些内存垃圾
+      public void MakeSomeGarbage()
+      {
+         for (int i = 0; i < 50000; i++)
+         {
+            sb.Append(i.ToString());
+         }
+      }
+      //销毁类时，会调用析构函数
+      ~Factory()
+      {
+         Dispose(false);
+      }
+      public void Dispose()
+      {
+         Dispose(true);
+      }
+      protected virtual void Dispose(bool disposing)
+      {
+         if (!disposing)
+         {
+            return;
+         }
+         sb = null;
+         GC.Collect();
+         GC.SuppressFinalize(this);
+      }
+   }
+            </code></pre>
+        <p>只有继承自IDispose接口，使用这个类时才能使用Using语句，在main方法中写如下代码：</p>
+        <pre><code>
+   class Program
+   {
+      static void Main(string[] args)
+      {
+         using(Factory f = new Factory())
+         {
+            f.MakeSomeGarbage();
+            Console.WriteLine("Total memory is {0} KBs.", GC.GetTotalMemory(false) / 1024);
+         }
+         Console.WriteLine("After GC total memory is {0} KBs.", GC.GetTotalMemory(false) / 1024);
+         
+         Console.Read();
+      }
+   }
+    </code></pre>
+    <p>运行结果如下，可以看到资源运行MakeSomeGarbage()函数后的内存占用为1796KB，释放后成了83Kb.</p>
+        <h5>代码运行机制：</h5>
+        <p>
+            我们写了Dispose方法，还写了析构函数，那么他们分别什么时候被调用呢？我们分别在两个方法上面下断点。调试运行，你会发现先走到了Dispose方法上面，知道程序运行完也没走析构函数，那是因为我们调用了GC.SuppressFinalize(this)方法，如果去掉这个方法后，你会发现先走Dispose方法，后面又走析构函数。所以，我们可以得知，如果我们调用Dispose方法，GC就会调用析构函数去销毁对象，从而释放资源。
+        </p>
+        <h3>什么时候该调用GC.Collect</h3>
+        <p>这里为了让大家看到效果，我显示调用的GC.Collect()方法，让GC立刻释放内存，但是频繁的调用GC.Collect()方法会降低程序的性能，除非我们程序中某些操作占用了大量内存需要马上释放，才可以显示调用。下面是官方文档中的说明：</p>
+        <p><em>垃圾回收 GC 类提供 GC.Collect 方法，您可以使用该方法让应用程序在一定程度上直接控制垃圾回收器。通常情况下，您应该避免调用任何回收方法，让垃圾回收器独立运行。在大多数情况下，垃圾回收器在确定执行回收的最佳时机方面更有优势。但是，在某些不常发生的情况下，强制回收可以提高应用程序的性能。当应用程序代码中某个确定的点上使用的内存量大量减少时，在这种情况下使用 GC.Collect 方法可能比较合适。例如，应用程序可能使用引用大量非托管资源的文档。当您的应用程序关闭该文档时，您完全知道已经不再需要文档曾使用的资源了。出于性能的原因，一次全部释放这些资源很有意义。有关更多信息，请参见 GC.Collect 方法。
+　　在垃圾回收器执行回收之前，它会挂起当前正在执行的所有线程。如果不必要地多次调用 GC.Collect，这可能会造成性能问题。您还应该注意不要将调用GC.Collect 的代码放置在程序中用户可以经常调用的点上。这可能会削弱垃圾回收器中优化引擎的作用，而垃圾回收器可以确定运行垃圾回收的最佳时间。</em></p>
+    </div>
+</body>
+</html>
+<script src="//libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/WebUI/Resource/Javascript/jquery.min.js"><\/script>');</script>
+<script type="text/javascript" src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript">
+    $(function () {      
+
+    })
+</script>
+
