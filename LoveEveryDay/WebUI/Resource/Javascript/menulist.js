@@ -113,12 +113,7 @@ var menuList = [{
                                "title": "C#平时总结",
                                "iconClass": "",
                                "url": "",
-                               "subMenuList": [
-                                   {
-                                       "title": "C#正则",
-                                       "iconClass": "",
-                                       "url": "WebUI/Content/总结/后端/CSharp/CSharp平时总结/CSharp正则表达式.html"
-                                   },
+                               "subMenuList": [                                  
                                    {
                                        "title": "Lambda表达式",
                                        "iconClass": "",
@@ -276,7 +271,25 @@ var menuList = [{
                        "iconClass": "",
                        "url": "WebUI/Content/总结/算法/排序算法.html",
                    }]
-        }]
+        },
+          {
+              "title": "正则表达式",
+              "iconClass": "",
+              "url": "",
+              "subMenuList": [
+                         {
+                             "title": "正则总结",
+                             "iconClass": "",
+                             "url": "WebUI/Content/总结/正则表达式/正则表达式.html"
+                         },
+                         {
+                             "title": "C#正则",
+                             "iconClass": "",
+                             "url": "WebUI/Content/总结/后端/CSharp/CSharp平时总结/CSharp正则表达式.html"
+                         },
+              ]
+          }
+    ]
 },
 {
     "title": "教程",
@@ -323,7 +336,7 @@ var menuList = [{
                                                      "title": "Git教程",
                                                      "iconClass": "",
                                                      "url": "http://gitbook.liuhui998.com/index.html",
-                                                 },]
+                                                 }, ]
                                },
                                {
                                    "title": "360教程导航",

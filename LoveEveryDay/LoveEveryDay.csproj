@@ -704,6 +704,7 @@
     <Content Include="WebUI\Content\总结\数据库\SQL数据库\Sql Server\sql知识小总结.html" />
     <Content Include="WebUI\Content\总结\数据库\SQL数据库\Sql Server\分区和分库.html" />
     <Content Include="WebUI\Content\总结\数据库\SQL数据库\Sql Server\sql连接查询.html" />
+    <Content Include="WebUI\Content\总结\正则表达式\正则表达式.html" />
     <Content Include="WebUI\Content\总结\算法\imgs\img_0.png" />
     <Content Include="WebUI\Content\总结\算法\imgs\img_1.png" />
     <Content Include="WebUI\Content\总结\算法\imgs\img_10.png" />
